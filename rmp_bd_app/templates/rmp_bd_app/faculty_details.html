@@ -1,0 +1,17 @@
+{% extends 'rmp_bd_app/base.html' %}
+{% block content %}
+
+<p> Details of {{ faculty.faculty }}:</p>
+
+<ul>
+    {% for comment in feedback %}
+      <li>
+        <!--p>{{ entry.date_added|date:'M d, Y H:i' }}</p-->
+        <p>{{ comment.feedback|linebreaks }}</p>
+      </li>
+    {% empty %}
+      <li>There are no entries for this topic yet.</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'rmp_bd_app:new_feedback'%}">Add a New Feedback for {{faculty.faculty}}</a>
+{% endblock content %}
