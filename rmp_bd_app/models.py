@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
 import datetime
 
 from django.db.models.deletion import CASCADE
@@ -125,6 +124,7 @@ class User(models.Model):
         (2, 'admin'),
     )
     
+    professor = models.ForeignKey(Professor, on_delete=models.SET_NULL, null=True, default=None)
     email = models.CharField(max_length=320)
     password = models.CharField(max_length=128)
     role = models.IntegerField(default=0, choices=ROLES)
@@ -172,24 +172,26 @@ class Review(models.Model):
     # if the course associated with the review is deleted the review has no associated course
     course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True)
     
+    university = models.ForeignKey(University, on_delete=CASCADE)
+    
     campus = models.ForeignKey(Campus, on_delete=CASCADE)
     # if the user associated with the review is deleted the review will be deleted as well
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     grade = models.CharField(max_length=15, choices=GRADES)
-    thumbs_up = models.IntegerField(default=0)
-    thumbs_down = models.IntegerField(default=0)
-    report_flags = models.IntegerField(default=0)
+    thumbs_up = models.PositiveIntegerField(default=0)
+    thumbs_down = models.PositiveIntegerField(default=0)
+    report_flags = models.PositiveIntegerField(default=0)
     mad_text = models.CharField(max_length=350)
     sad_text = models.CharField(max_length=350)
     glad_text = models.CharField(max_length=350)
     # for setting a range on difficulty_level and score https://stackoverflow.com/questions/33772947/django-set-range-for-integer-model-field-as-constraint
     difficulty_level = models.IntegerField(
         default=0,
-        validators=[MaxValueValidator(5), MinValueValidator(1)]
+        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
     )
     professor_score = models.IntegerField(
         default=0,
-        validators=[MaxValueValidator(5), MinValueValidator(1)]
+        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
     )
     semester = models.CharField(max_length=4, choices=SEMESTERS)
     year = models.IntegerField(choices=year_choices(), default=current_year())
