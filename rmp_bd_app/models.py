@@ -76,7 +76,7 @@ class Professor(models.Model):
 
 
     def __str__(self):
-        return self.honorific + " " + self.last_name
+        return self.honorific + " " + self.first_name + " " + self.last_name
 
 
 # Enables accessing past campuses a professors taught at
