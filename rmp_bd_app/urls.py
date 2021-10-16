@@ -4,7 +4,6 @@ from django.urls import path
 
 from . import views
 
-
 app_name = 'rmp_bd_app'
 urlpatterns = [
     # Home page
