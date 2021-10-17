@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import University, Department, Faculty, Feedback
+from .models import University, Department, Faculty, Feedback, Course
 
 
 class UniversityForm(forms.ModelForm):
@@ -28,4 +28,11 @@ class FeedbackForm(forms.ModelForm):
     class Meta:
         model = Feedback
         fields = ['faculty', 'feedback']
+        labels = {'text': ''}
+
+# Temporary form to create class
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ['course_number', 'course_title']
         labels = {'text': ''}

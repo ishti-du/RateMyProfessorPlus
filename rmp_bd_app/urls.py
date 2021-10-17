@@ -23,5 +23,7 @@ urlpatterns = [
     # Page for adding a new faculty
     path('new_faculty/', views.new_faculty, name='new_faculty'),
     # Page for adding a new feedback
-    path('new_feedback/', views.new_feedback, name='new_feedback')
+    path('new_feedback/', views.new_feedback, name='new_feedback'),
+    # Test page for adding a course
+    path('new_course/', views.new_course, name='new_course'),
     ]

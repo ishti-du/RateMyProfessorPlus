@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 
-from .models import University, Department, Faculty
-from .forms import UniversityForm, DepartmentForm, FacultyForm, FeedbackForm
+from .models import University, Department, Faculty, Course
+from .forms import UniversityForm, DepartmentForm, FacultyForm, FeedbackForm, CourseForm
 
 # Create your views here.
 def index(request):
@@ -83,9 +84,8 @@ def new_faculty(request):
     context  = {'form': form}
     return render(request, 'rmp_bd_app/new_faculty.html', context)
 
-
 def new_feedback(request):
-    """Add a new Faculty"""
+    """Add a new Feedback"""
     if request.method != 'POST':
         # no data submitted, create a blank forms
         form = FeedbackForm()
@@ -100,4 +100,31 @@ def new_feedback(request):
     context  = {'form': form}
     return render(request, 'rmp_bd_app/new_feedback.html', context)
 
-    
+def new_course(request):
+    """Add a new course"""
+    if request.method != 'POST':
+        courses = Course.objects.all
+        # no data submitted, create a blank form
+        form = CourseForm() 
+    else:
+        # POST data submitted; process date_added
+        # Redirects back to add course page
+        form = CourseForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('rmp_bd_app:new_course')
+            
+    # Display a blank or invalid form
+    context = {'form': form, 'courses': courses}
+    return render(request, 'rmp_bd_app/new_course.html', context)
+
+# /search/?course=
+def search_course(request):
+    course_number = request.GET.get('course')
+    course_numbers = []
+    if course_number:
+        courses = Course.objects.filter(course_number__icontains=course_number)
+        for course in courses:
+            course_numbers.append(course.course_title)
+
+    return JsonResponse({'status': 200, 'data' : course_numbers})
