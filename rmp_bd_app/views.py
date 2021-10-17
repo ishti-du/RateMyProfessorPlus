@@ -102,17 +102,16 @@ def new_feedback(request):
 
 def new_course(request):
     """Add a new course"""
-    if request.method != 'POST':
-        courses = Course.objects.all
-        # no data submitted, create a blank form
-        form = CourseForm() 
-    else:
+    form = CourseForm() 
+    courses = Course.objects.all
+    context = {'form': form, 'courses': courses}
+    if request.method == 'POST':
         # POST data submitted; process date_added
         # Redirects back to add course page
         form = CourseForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('rmp_bd_app:new_course')
+            return redirect('rmp_bd_app:new_course', context)
             
     # Display a blank or invalid form
     context = {'form': form, 'courses': courses}
@@ -125,6 +124,6 @@ def search_course(request):
     if course_number:
         courses = Course.objects.filter(course_number__icontains=course_number)
         for course in courses:
-            course_numbers.append(course.course_title)
+            course_numbers.append((course.course_number, course.course_title))
 
     return JsonResponse({'status': 200, 'data' : course_numbers})

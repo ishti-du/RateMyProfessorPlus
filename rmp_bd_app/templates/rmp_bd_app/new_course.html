@@ -52,7 +52,17 @@
           })
         })
       },
-      autoselect: true
+
+      onSubmit: result => {
+        var course_number = document.getElementById("id_course_number");
+        course_number.value = `${result[0]}`;
+        var course_title = document.getElementById("id_course_title");
+        course_title.value = `${result[1]}`;
+      },
+      
+      getResultValue: result => result[1],
+      autoSelect: true,
+
     })
   </script>
 {% endblock content %}
