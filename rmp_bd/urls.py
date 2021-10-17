@@ -21,6 +21,6 @@ from rmp_bd_app.views import search_course
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('rmp_bd_app.urls')),
-    # For course autocomplete 
+    # For course search autocomplete 
     path('search_course/', search_course),   
 ]

@@ -12,17 +12,16 @@
 </ul>
   
   <p>Add a new Course:</p>
-
   <form action="{% url 'rmp_bd_app:new_course' %}" method="post">
     {% csrf_token %}
     {{ form.non_field_errors }}
-    <div style="display:flex;" id="autocomplete" class="autocomplete">
+    <div style="display:flex;">
       <div class="fieldWrapper" style="padding:5px;">
         {{ form.course_number.errors }}
         <label for="{{ form.course_number.id_for_label }}">
           Course Number:
           <br>
-          <input type="text" id="id_course_number" name="course_number" maxlength="10" class="autocomplete-input" required />
+          <input type="text" id="id_course_number" name="course_number" maxlength="10" autocomplete="off" required />
         </label>
       </div>
       <div class="fieldWrapper" style="padding:5px;">
@@ -30,14 +29,35 @@
         <label for="{{ form.course_title.id_for_label }}">
           Course Title:
           <br>
-          <input type="text" id="id_course_title" name="course_title" required>
-          <ul class="autocomplete-result-list"></ul>
+          <input type="text" id="id_course_title" name="course_title" maxlength="100" autocomplete="off" required>
         </label>
       </div>
     </div>
     <button name="submit">Add Course</button>
   </form>
 
+  <!-- Autocomplete search stuff begins here -->
+  <p>Search for a Course:</p>
+  <div style="display:flex;" id="autocomplete" class="autocomplete">
+    <div class="fieldWrapper" style="padding:5px;">
+      {{ form.course_number.errors }}
+      <label for="{{ form.course_number.id_for_label }}">
+        Course Number:
+        <br>
+        <input type="text" id="search_course_number" name="search_course_number" maxlength="10" class="autocomplete-input" required />
+      </label>
+    </div>
+    <div class="fieldWrapper" style="padding:5px;">
+      {{ form.course_title.errors }}
+      <label for="{{ form.course_title.id_for_label }}">
+        Course Title:
+        <br>
+        <input type="text" id="search_course_title" name="search_course_title" maxlength="100" required>
+        <ul class="autocomplete-result-list"></ul>
+      </label>
+    </div>
+  </div>
+  
   <!-- Script for autocomplete -->
   <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
   <script>
@@ -54,9 +74,9 @@
       },
 
       onSubmit: result => {
-        var course_number = document.getElementById("id_course_number");
+        var course_number = document.getElementById("search_course_number");
         course_number.value = `${result[0]}`;
-        var course_title = document.getElementById("id_course_title");
+        var course_title = document.getElementById("search_course_title");
         course_title.value = `${result[1]}`;
       },
       
@@ -65,4 +85,5 @@
 
     })
   </script>
+  <!-- Autocomplete search stuff ends here -->
 {% endblock content %}

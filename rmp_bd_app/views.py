@@ -103,7 +103,10 @@ def new_feedback(request):
 def new_course(request):
     """Add a new course"""
     form = CourseForm() 
-    courses = Course.objects.all
+    course_query = Course.objects.all()
+    courses = []
+    for c in course_query:
+        courses.append((c.course_number, c.course_title))
     context = {'form': form, 'courses': courses}
     if request.method == 'POST':
         # POST data submitted; process date_added
@@ -114,7 +117,6 @@ def new_course(request):
             return redirect('rmp_bd_app:new_course', context)
             
     # Display a blank or invalid form
-    context = {'form': form, 'courses': courses}
     return render(request, 'rmp_bd_app/new_course.html', context)
 
 # /search/?course=
