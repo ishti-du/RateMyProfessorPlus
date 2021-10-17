@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3e28f640-af1b-4a1d-93c4-338be68e257c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/rmp_bd.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/rmp_bd.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rmp_bd_app/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/rmp_bd_app/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0002_entry.py" beforeDir="false" afterPath="$PROJECT_DIR$/rmp_bd_app/migrations/0002_entry.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0003_auto_20200404_1939.py" beforeDir="false" afterPath="$PROJECT_DIR$/rmp_bd_app/migrations/0003_auto_20200404_1939.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0004_auto_20211005_2013.py" beforeDir="false" afterPath="$PROJECT_DIR$/rmp_bd_app/migrations/0004_auto_20211005_2013.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0005_auto_20211006_1023.py" beforeDir="false" afterPath="$PROJECT_DIR$/rmp_bd_app/migrations/0005_auto_20211006_1023.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rmp_bd_app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/rmp_bd_app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rmp_bd_app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/rmp_bd_app/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rmp_bd_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/rmp_bd_app/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -147,7 +138,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1632856136417</updated>
-      <workItem from="1634417780782" duration="4025000" />
+      <workItem from="1634417780782" duration="5326000" />
+      <workItem from="1634504429214" duration="945000" />
     </task>
     <servers />
   </component>
@@ -186,6 +178,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/RateMyProfessorPlus$manage.coverage" NAME="manage Coverage Results" MODIFIED="1634417896280" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

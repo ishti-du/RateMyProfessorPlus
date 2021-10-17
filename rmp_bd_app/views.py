@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 
 from .forms import UniversityForm, DepartmentForm, FacultyForm, FeedbackForm
 from .models import University, Department, Faculty, User
-from django.db.models import Q
+from ipware import get_client_ip
 
 
 # Create your views here.
@@ -19,33 +19,24 @@ def index(request):
     Matt Coutts - 10/16/2021 
     Here we are going to find the 'user/site visitors IP address to flag them. 
     This can be used with the thumbs up/down limit and comment limit
+    Reference: https://www.youtube.com/watch?v=cbMLP3byKjk 
     '''
+    ip, is_routable = get_client_ip(request)
 
-    def get_ip(request):
-        address = request.META.get('HTTP_X_FORWARDED-FOR')
-        if address:
-            User.ip_address = address.split(',')[-1].strip()
-        else:
-            User.ip_address = request.META.get('REMOTE_ADDR')
-        return User.ip_address
-
-    User.ip_address = get_ip(request)
-
-    result = User.ip_address
-
-    #this determines if the IP address is repeated
-    if len(result) == 1:
-        print("user exists")
-    elif len(result) > 1:
-        print("duplicate IP user")
+    # if we can't get the IP then we check constraints here
+    if ip is None:
+        ip = "0.0.0.0" # set IP as 0.0.0.0 if we can't find it
     else:
-        User.ip_address.save()
-        print('user IP is unique')
+        # routable = True or False
+        if is_routable:
+            ipv = "Public" # if the ip returns true (not local)
+        else:
+            ipv = "Private" # if the ip returns false (local)
 
-    count=User.objects.all().count()
-    print("Total users are: ", count)
+    print(ip, ipv)
 
-    # return the base html and page
+
+
     return render(request, 'rmp_bd_app/index.html')
 
 
