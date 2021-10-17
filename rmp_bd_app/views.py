@@ -1,12 +1,17 @@
 from django.shortcuts import render, redirect
 
 from .models import University, Department, Faculty
-from .forms import UniversityForm, DepartmentForm, FacultyForm, FeedbackForm
+from .forms import UniversityForm, DepartmentForm, FacultyForm, FeedbackForm, StudentProfileForm
+
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+
 
 # Create your views here.
 def index(request):
     """The home page for RMP BD"""
     return render(request, 'rmp_bd_app/index.html')
+
 
 def universities(request):
     """The univeristy page for RMP BD"""
@@ -14,12 +19,14 @@ def universities(request):
     context = {'universities': universities}
     return render(request, 'rmp_bd_app/universities.html', context)
 
+
 def university(request, university_id):
     """Shows each individual university """
     university = University.objects.get(id=university_id)
     departments = university.department_set.order_by('-date_added')
-    context = {'university' : university, 'departments' : departments}
+    context = {'university': university, 'departments': departments}
     return render(request, 'rmp_bd_app/departments.html', context)
+
 
 def faculty(request, department_id):
     """Shows faculty members for a department"""
@@ -28,12 +35,14 @@ def faculty(request, department_id):
     context = {'department': department, 'faculties': faculties}
     return render(request, 'rmp_bd_app/faculties.html', context)
 
+
 def faculty_details(request, faculty_id):
     """Shows the students' feedback about a faculty"""
     faculty = Faculty.objects.get(id=faculty_id)
     feedback = faculty.feedback_set.order_by('-date_added')
     context = {'faculty': faculty, 'feedback': feedback}
     return render(request, 'rmp_bd_app/faculty_details.html', context)
+
 
 def new_university(request):
     """Add a new University"""
@@ -48,8 +57,9 @@ def new_university(request):
             return redirect('rmp_bd_app:universities')
 
     # Display a blank or invalid form
-    context  = {'form': form}
+    context = {'form': form}
     return render(request, 'rmp_bd_app/new_university.html', context)
+
 
 def new_department(request):
     """Add a new Department"""
@@ -64,8 +74,9 @@ def new_department(request):
             return redirect('rmp_bd_app:universities')
 
     # Display a blank or invalid form
-    context  = {'form': form}
+    context = {'form': form}
     return render(request, 'rmp_bd_app/new_department.html', context)
+
 
 def new_faculty(request):
     """Add a new Faculty"""
@@ -80,7 +91,7 @@ def new_faculty(request):
             return redirect('rmp_bd_app:universities')
 
     # Display a blank or invalid form
-    context  = {'form': form}
+    context = {'form': form}
     return render(request, 'rmp_bd_app/new_faculty.html', context)
 
 
@@ -97,7 +108,25 @@ def new_feedback(request):
             return redirect('rmp_bd_app:universities')
 
     # Display a blank or invalid form
-    context  = {'form': form}
+    context = {'form': form}
     return render(request, 'rmp_bd_app/new_feedback.html', context)
 
-    
+
+def signup_view(request):
+    user_form = UserCreationForm(request.POST)
+    student_form = StudentProfileForm(request.POST)
+    if request.method == "POST":
+        if user_form.is_valid() and student_form.is_valid():
+            user = user_form.save()
+            profile = student_form.save(commit=False)
+            profile.user = user
+            profile.save()
+    # form = UserCreationForm(request.POST)
+    # if form.is_valid():
+    #     form.save()
+            username = user_form.cleaned_data.get('username')
+            password = user_form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('rmp_bd_app/index')
+    return render(request, 'rmp_bd_app/signup.html', {'user_form': user_form, 'student_form': student_form})
