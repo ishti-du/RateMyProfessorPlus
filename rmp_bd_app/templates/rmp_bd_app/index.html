@@ -1,7 +1,9 @@
 {% extends "rmp_bd_app/base.html"%}
 
 {% block content %}
-
+{% if user.is_authenticated %}
+<h2>Welcome, {{user.username}}</h2>
+{% endif %}
 <p> RateMyProfessor-BD allows you to provide feedback for your university professors.</p>
 
 {% endblock content %}

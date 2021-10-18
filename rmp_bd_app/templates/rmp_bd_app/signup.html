@@ -1,3 +1,7 @@
+{% extends 'rmp_bd_app/base.html' %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
 <h2>Sign up Form</h2>
 <form method="post">
     {% csrf_token %}
@@ -5,6 +9,8 @@
     {{ student_form.as_p }}
     <input type="submit">
 </form>
+<p>Already have an account? <a href="{% url 'rmp_bd_app:signin' %}"> Sign In</a>
+{% endblock %}
 <!--<form method="post">-->
 <!--  {% csrf_token %}-->
 <!--  {% for field in form %}-->

@@ -5,6 +5,7 @@ from django.urls import path
 from . import views
 
 
+
 app_name = 'rmp_bd_app'
 urlpatterns = [
     # Home page
@@ -25,5 +26,9 @@ urlpatterns = [
     # Page for adding a new feedback
     path('new_feedback/', views.new_feedback, name='new_feedback'),
     # Page for sign up
-    path('signup/', views.signup_view, name="signup")
+    path('signup/', views.signup_view, name="signup"),
+    # Page for sign in
+    path('login/', views.signin_view, name="signin"),
+    # Page for sign out
+    path('logout/', views.signout_view, name="signout")
     ]
