@@ -3,6 +3,8 @@
 
 {% block content %}
 <h2>Sign up Form</h2>
+<button type="button" style="background-color: darkgreen; color: white" disabled>Student</button>
+<button type="button" onclick="location.href = '/professor_signup';">Professor</button>
 <form method="post">
     {% csrf_token %}
     {{ user_form.as_p }}

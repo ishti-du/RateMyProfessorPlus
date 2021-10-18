@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
 from .models import University, Department, Faculty
-from .forms import UniversityForm, DepartmentForm, FacultyForm, FeedbackForm, StudentProfileForm
+from .forms import UniversityForm, DepartmentForm, FacultyForm, FeedbackForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm
 
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -113,8 +113,8 @@ def new_feedback(request):
     return render(request, 'rmp_bd_app/new_feedback.html', context)
 
 
-def signup_view(request):
-    user_form = UserCreationForm(request.POST)
+def student_signup_view(request):
+    user_form = CreateUserForm(request.POST)
     student_form = StudentProfileForm(request.POST)
     if request.method == "POST":
         if user_form.is_valid() and student_form.is_valid():
@@ -122,15 +122,28 @@ def signup_view(request):
             profile = student_form.save(commit=False)
             profile.user = user
             profile.save()
-    # form = UserCreationForm(request.POST)
-    # if form.is_valid():
-    #     form.save()
             username = user_form.cleaned_data.get('username')
             password = user_form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
             return redirect('/')
-    return render(request, 'rmp_bd_app/signup.html', {'user_form': user_form, 'student_form': student_form})
+    return render(request, 'rmp_bd_app/student_signup.html', {'user_form': user_form, 'student_form': student_form})
+
+def professor_signup_view(request):
+    user_form = CreateUserForm(request.POST)
+    professor_form = ProfessorProfileForm(request.POST)
+    if request.method == "POST":
+        if user_form.is_valid() and professor_form.is_valid():
+            user = user_form.save()
+            profile = professor_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            username = user_form.cleaned_data.get('username')
+            password = user_form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('/')
+    return render(request, 'rmp_bd_app/professor_signup.html', {'user_form': user_form, 'professor_form': professor_form})
 
 def signin_view(request):
     if request.user.is_authenticated:
