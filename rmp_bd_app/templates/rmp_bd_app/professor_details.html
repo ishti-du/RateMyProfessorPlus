@@ -127,10 +127,9 @@
 
 <div id="stats">
 <div id="professor">
-    <a href="{% url 'rmp_bd_app:Professors' professor.id%}"> {{first_name}} {{last_name}}</a>
-    <a href="{% url 'rmp_bd_app:Professors' professor.id%}"> {{current_university}}</a>
-<a href = "campuspage.com"><p> {Campus.Campus_name}</p></a>
-<button>Rate Professor</button>
+    <a href=""><h1>{{professor.honorific}} {{professor.first_name}} {{professor.last_name}}</h1> </a>
+    <a href=> {{ professor.current_university }}</a><br>
+    <a href = "{% url 'rmp_bd_app:new_feedback' professor.id %}" ><button>Rate Professor</button></a>
 </div>
 <div id="scores">
   <div id= "scoretitle">
@@ -141,7 +140,7 @@
   <div><h1>{raing}</h1></div></div>
 </div><!-- scores -->
 </div><!-- stats -->
-<hr / style="margin-top: 30px;">
+<hr style="margin-top: 30px;">
 
 <div id="ratingheadings">
 <h2>Student Ratings:</h2>

@@ -161,26 +161,11 @@
       }
     </style>
 </head>
+{% extends "rmp_bd_app/base.html" %}
+
+{% block content %}
+
 <body>
- <div id="nav">
-   <div id="logo-and-universities">
-        <div id="logo">
-            <a href="/">
-        <img src="https://www.adazing.com/wp-content/uploads/2019/02/stacked-book-clipart-07.png" ,="" alt="logo">
-            </a>
-        </div>
-        <button><a href="/university/">View Universities </a></button>
-   </div>
-   <div id="searchbar">
-          <input type="text" id="searchbox" value="Search"><br>
-   </div>
-   <button id="loginbutton">Log In</button>
-   </div><!-- -- nav ---->
-
-
-
-
-
 <meta name="viewport" content="width=device-width; initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css?family=Antonio" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -200,7 +185,7 @@
   </div><!-- -- dododonts ---->
 </div>
 
-<h1> It's your turn to grade {{first_name}} {{last name}}</h1>
+<h1> It's your turn to grade {{professor.honorific}} {{professor.first_name}} {{professor.last_name}}</h1>
 
 <form id="professorrating">
     <label for="code">Course Code: </label><br>
@@ -280,3 +265,5 @@
 			--bg-image:linear-gradient(rgba(0,0,0,1),rgba(0,0,0,1));
 		}
 	</style></html>
+
+{% endblock content %}

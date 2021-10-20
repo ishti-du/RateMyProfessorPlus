@@ -5,7 +5,7 @@
 <ul>
   {% for university in universities %}
     <li>
-      <a href="{% url 'rmp_bd_app:university' university.id %}">{{ university }}</a>
+      <a href="{% url 'rmp_bd_app:departments' university.id %}">{{ university }}</a>
     </li>
   {% empty %}
     <li>No topics have been added yet.</li>
