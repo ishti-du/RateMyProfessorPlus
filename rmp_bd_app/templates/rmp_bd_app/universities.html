@@ -1,4 +1,5 @@
 {% extends "rmp_bd_app/base.html" %}
+
 {% block content %}
 <p>Universities</p>
 <ul>
@@ -11,4 +12,5 @@
   {% endfor %}
 </ul>
 <a href="{% url 'rmp_bd_app:new_university'%}">Add a new University</a>
+
 {% endblock content %}
