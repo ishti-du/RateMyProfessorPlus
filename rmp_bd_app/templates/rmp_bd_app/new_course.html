@@ -59,11 +59,11 @@ https://autocomplete.trevoreyre.com/#/javascript-component?id=styling-and-custom
   <div style="display:flex">
     <div class="fieldWrapper" style="padding:5px;">
       <label>Course Number:<br></label>
-      <input autocomplete="off" type="text" name="search_course_number" id="search_course_number" onformchange=""/>
+      <input autocomplete="off" type="text" name="search_course_number" id="search_course_number"/>
     </div>
     <div class="fieldWrapper" style="padding:5px;">
       <label>Course Title:<br></label>
-      <input autocomplete="off" type="text" name="search_course_title" id="search_course_title" onformchange=""/>
+      <input autocomplete="off" type="text" name="search_course_title" id="search_course_title"/>
       <div id="result"></div>
     </div>
   </div>
@@ -122,7 +122,7 @@ https://autocomplete.trevoreyre.com/#/javascript-component?id=styling-and-custom
       }
     })
     // Input triggers autocomplete
-    course_number_input.addEventListener("input", function(){showResults(course_number_input.value)});
+    course_number_input.addEventListener("input", debounce(function() {showResults(course_number_input.value)}, 250));
     // Exiting course number input clears filtered list
     course_number_input.addEventListener("blur", function()
     {
@@ -135,6 +135,21 @@ https://autocomplete.trevoreyre.com/#/javascript-component?id=styling-and-custom
       course_number_input.value = course.getAttribute("data-course-number");
       course_title_input.value = course.innerText;
     }
+
+    // Adds debouncing to a function
+    function debounce(func, timeout)
+    {
+      let timer;
+      return function(...args)
+      {
+        if(timer)
+        {
+          clearTimeout(timer);
+        }
+        timer = setTimeout(() => { func(this, args); }, timeout);
+      };
+    }
+
   </script>
   <!-- Autocomplete search stuff ends here -->
 {% endblock content %}
