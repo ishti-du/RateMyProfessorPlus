@@ -120,6 +120,8 @@ def new_course(request):
     return render(request, 'rmp_bd_app/new_course.html', context)
 
 # /search/?course=
+# Request made whenever input is made in course number
+# Filters courses based on course number
 def search_course(request):
     course_number = request.GET.get('course')
     course_numbers = []
@@ -127,5 +129,4 @@ def search_course(request):
         courses = Course.objects.filter(course_number__icontains=course_number)
         for course in courses:
             course_numbers.append((course.course_number, course.course_title))
-
     return JsonResponse({'status': 200, 'data' : course_numbers})
