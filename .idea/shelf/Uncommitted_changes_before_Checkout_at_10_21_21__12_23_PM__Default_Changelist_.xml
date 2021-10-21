@@ -1,0 +1,9 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_10_21_21,_12_23_PM_[Default_Changelist]" date="1634833404245" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_21_21,_12_23_PM_[Default_Changelist]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 10/21/21, 12:23 PM [Default Changelist]" />
+  <binary>
+    <option name="BEFORE_PATH" value="db.sqlite3" />
+    <option name="AFTER_PATH" value="db.sqlite3" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_21_21,_12_23_PM_[Default_Changelist]/db.sqlite3" />
+  </binary>
+</changelist>
