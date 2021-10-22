@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import University, Department, Faculty, Feedback
+from .models import University, Department, Feedback, Professor
 
 
 class UniversityForm(forms.ModelForm):
@@ -17,10 +17,10 @@ class DepartmentForm(forms.ModelForm):
         labels = {'text': ''}
 
 
-class FacultyForm(forms.ModelForm):
+class ProfessorForm(forms.ModelForm):
     class Meta:
-        model = Faculty
-        fields = ['department', 'faculty']
+        model = Professor
+        fields = ['current_university', 'campus', 'department', 'honorific', 'first_name', 'last_name']
         labels = {'text': ''}
 
 
