@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import University, Department, Feedback, Professor
+from .models import University, Department, Professor, Feedback
 
 
 class UniversityForm(forms.ModelForm):

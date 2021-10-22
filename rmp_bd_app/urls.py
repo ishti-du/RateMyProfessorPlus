@@ -19,7 +19,11 @@ urlpatterns = [
     path('professor_details/<int:professor_id>', views.professor_details, name='professor_details'),
     path('new_department/', views.new_department, name='new_department'),
     # Page for adding a new faculty
-    path('new_faculty/', views.new_faculty, name='new_faculty'),
+    path('new_faculty/', views.new_professor, name='new_professor'),
     # Page for adding a new feedback
-    path('new_feedback/<int:professor_id>', views.new_feedback, name='new_feedback')
+    path('new_feedback/<int:professor_id>', views.new_feedback, name='new_feedback'),
+
+    # professor search results
+    path('professor_results/global', views.professor_results, name='professor_search_results')
+
     ]

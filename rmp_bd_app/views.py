@@ -74,7 +74,7 @@ def new_department(request):
     context  = {'form': form}
     return render(request, 'rmp_bd_app/new_department.html', context)
 
-def new_faculty(request):
+def new_professor(request):
     """Add a new Faculty"""
     if request.method != 'POST':
         # no data submitted, create a blank forms
@@ -107,4 +107,12 @@ def new_feedback(request, professor_id):
     context = {'form': form, 'professor': professor}
     return render(request, 'rmp_bd_app/reviewform.html', context)
 
-    
+
+def professor_search(request, search_query):
+    professors = Professor.objects.filter(name__contains=search_query)
+    context = {'professors': professors}
+    return render(request, 'rmp_bd_app:professor_search_results', context) # not the correct url
+
+def professor_results(request, professors):
+    context = {'professors': professors}
+    return render(request, 'rmp_bd_app/Search_faculty.html', context) # not the correct url
