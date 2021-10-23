@@ -138,6 +138,14 @@ class User(models.Model):
         verbose_name_plural = 'users'
 
 
+class FlagManager(models.Manager):
+
+    def get_queryset(*args, **kwargs):
+        return super().get_queryset(*args, **kwargs).filter(
+            report_flags__gt=Review.maxflag
+        )
+
+
 class Review(models.Model):
     GRADES = (
         ('A+', 'A+'),
@@ -207,15 +215,11 @@ class Review(models.Model):
     # was the class online
     is_online = models.BooleanField()
     date_added = models.DateTimeField(auto_now_add=True)
-    objects = models.Manager()
     maxflag = models.PositiveIntegerField(default=10)
-
+    objects = FlagManager()
 
     class Meta:
         verbose_name_plural = 'reviews'
-
-
-Review.objects.filter(Review.report_flags >= Review.maxflag).delete()
 
 
 class Tag(models.Model):
