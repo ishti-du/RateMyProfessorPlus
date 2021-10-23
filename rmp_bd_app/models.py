@@ -22,6 +22,7 @@ class Country(models.Model):
         return self.country
 
 class University(models.Model):
+    objects = models.Manager()
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     university_name = models.CharField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -52,6 +53,7 @@ class Department(models.Model):
     university = models.ForeignKey(University, on_delete=models.CASCADE)
     department_name = models.CharField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
+    objects = models.Manager()
 
 
     class Meta:
@@ -70,6 +72,7 @@ class Professor(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     date_added = models.DateTimeField(auto_now_add=True)
+    objects = models.Manager()
     
     class Meta:
         verbose_name_plural = 'professors'
@@ -204,9 +207,15 @@ class Review(models.Model):
     # was the class online
     is_online = models.BooleanField()
     date_added = models.DateTimeField(auto_now_add=True)
-    
+    objects = models.Manager()
+    maxflag = models.PositiveIntegerField(default=10)
+
+
     class Meta:
         verbose_name_plural = 'reviews'
+
+
+Review.objects.filter(Review.report_flags >= Review.maxflag).delete()
 
 
 class Tag(models.Model):
