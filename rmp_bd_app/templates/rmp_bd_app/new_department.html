@@ -1,12 +1,12 @@
 {% extends  "rmp_bd_app/base.html" %}
 
 {% block content %}
-  <p>Add a new Department:</p>
+  <h1>Add a new Department:</h1>
 
   <form action="{% url 'rmp_bd_app:new_department' %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button name="submit">Add Department</button>
+    <button name="submit" id="addnewbutton">Add Department</button>
   </form>
 
 {% endblock content %}
