@@ -31,8 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # my apps
-    'rmp_bd_app',
+
+    # my app (Corrected the configuration of the app)
+    'rmp_bd_app.apps.RmpBdAppConfig',
 
     # Default django apps.
     'django.contrib.admin',

@@ -124,6 +124,8 @@ class User(models.Model):
         (2, 'admin'),
     )
     
+
+    # Why is there a professor instance in the User class? What if the user himself/herself is a professor?
     professor = models.ForeignKey(Professor, on_delete=models.SET_NULL, null=True, default=None)
     email = models.CharField(max_length=320)
     password = models.CharField(max_length=128)
@@ -135,7 +137,24 @@ class User(models.Model):
         verbose_name_plural = 'users'
 
 
+'''
+Creating a custom manager for sorting reviews based on mad sad glad type
+'''
+
+class madReviewManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().exclude(mad_text ='')
+
+class sadReviewManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().exclude(sad_text ='')
+
+class gladReviewManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().exclude(glad_text='')
+
 class Review(models.Model):
+
     GRADES = (
         ('A+', 'A+'),
         ('A', 'A'),
@@ -163,7 +182,7 @@ class Review(models.Model):
         ('SMR', 'Summer'),
         ('FALL', 'Fall'),
     )
-    
+
     
     
     # professor_course = models.ForeignKey(Professor_Course, default=None)
@@ -204,6 +223,13 @@ class Review(models.Model):
     # was the class online
     is_online = models.BooleanField()
     date_added = models.DateTimeField(auto_now_add=True)
+
+
+    objects = models.Manager()
+    mad_reviews = madReviewManager()
+    sad_reviews = sadReviewManager()
+    glad_reviews = gladReviewManager()
+
     
     class Meta:
         verbose_name_plural = 'reviews'
