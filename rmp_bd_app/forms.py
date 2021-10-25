@@ -1,7 +1,7 @@
 from django import forms
 
 
-from .models import University, Department, Faculty, Feedback, Student_Profile, Professor_Profile
+from .models import University, Department, Professor, Feedback, Student_Profile, Professor_Profile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
