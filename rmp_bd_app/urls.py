@@ -24,6 +24,6 @@ urlpatterns = [
     path('new_feedback/<int:professor_id>', views.new_feedback, name='new_feedback'),
 
     # professor search results
-    path('professor_results/global', views.professor_results, name='professor_search_results')
+    path('search/', views.SearchResultsView.as_view(), name='search_results')
 
-    ]
+]

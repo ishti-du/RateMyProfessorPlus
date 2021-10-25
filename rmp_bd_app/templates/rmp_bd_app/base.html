@@ -3,7 +3,7 @@
     <title>Rate My Professor</title>
     <style>
     #nav {
-      background-color: green;
+      background-color: gray;
       height: 4em;
       display: flex;
       justify-content : space-between;
@@ -12,7 +12,7 @@
     #searchbar{
     background-color: white;
     height: 2em;
-    width: 30em;
+    width: 20em;
     border-radius: 25px;
     display: flex;
     justify-content: left;
@@ -105,13 +105,16 @@
         <div id="logo"><a href="{% url 'rmp_bd_app:index' %}">
         <img src="https://www.adazing.com/wp-content/uploads/2019/02/stacked-book-clipart-07.png", alt="logo"></a>
         </div>
-        <a href="{% url 'rmp_bd_app:universities' %}"><button>View Universities</button></a>
+        <a href="{% url 'rmp_bd_app:universities' %}"><button>view universities</button></a>
    </div>
    <div id=searchbar>
-          <input type="text" id="searchbox" value="Search"><br>
-   </div>
-   <button id="loginbutton">Log In</button>
+        <form action="{% url 'rmp_bd_app:search_results' %}" method="get">
+             <input name="q" type="text" placeholder="Search...">
+         </form>   </div>
+<!--     <input type="checkbox" id="search" name="search globaly" value="search globaly">-->
+<!--     <label for="checkbox"> Search globaly</label><br>-->
+<!--   <button id="submit">submit</button>-->
    </div><! -- nav -->
 </body>
 
-{% block content %} {% endblock content%}
+{% block content %} {% endblock content %}

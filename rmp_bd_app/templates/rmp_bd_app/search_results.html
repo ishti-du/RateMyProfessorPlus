@@ -1,0 +1,13 @@
+{% extends 'rmp_bd_app/base.html' %}
+
+{% block content %}
+<h1>Search Results</h1>
+
+<ul>
+  {% for professor in object_list %}
+    <li>
+      {{ professor }}
+    </li>
+  {% endfor %}
+</ul>
+{% endblock content %}

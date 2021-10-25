@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 
 from .models import University, Department, Professor
 from .forms import UniversityForm, DepartmentForm, FeedbackForm, ProfessorForm
-
+# create for serch listview
+from django.views.generic.list import ListView
+from django.db.models import Q
 
 # Create your views here.
 def index(request):
@@ -108,11 +110,13 @@ def new_feedback(request, professor_id):
     return render(request, 'rmp_bd_app/reviewform.html', context)
 
 
-def professor_search(request, search_query):
-    professors = Professor.objects.filter(name__contains=search_query)
-    context = {'professors': professors}
-    return render(request, 'rmp_bd_app:professor_search_results', context) # not the correct url
+class SearchResultsView(ListView):
+    model = Professor
+    template_name = 'rmp_bd_app/search_results.html'
 
-def professor_results(request, professors):
-    context = {'professors': professors}
-    return render(request, 'rmp_bd_app/Search_faculty.html', context) # not the correct url
+    def get_queryset(self): # new
+        query = self.request.GET.get('q')
+        object_list = Professor.objects.filter(
+            Q(first_name__icontains = query) | Q(last_name__icontains = query)
+        )
+        return object_list
