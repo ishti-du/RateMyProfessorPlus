@@ -31,5 +31,7 @@ urlpatterns = [
     path('login/', views.signin_view, name="signin"),
     # Page for sign out
     path('logout/', views.signout_view, name="signout"),
-    path('new_feedback/<int:professor_id>', views.new_feedback, name='new_feedback')
+    path('new_feedback/<int:professor_id>', views.new_feedback, name='new_feedback'),
+
+    path('profile/', views.user_profile_view, name="profile")
     ]

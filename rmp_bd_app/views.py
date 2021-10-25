@@ -176,3 +176,7 @@ def signin_view(request):
 def signout_view(request):
     logout(request)
     return redirect('/login')
+
+
+def user_profile_view(request):
+    return render(request, 'rmp_bd_app/profile.html')
