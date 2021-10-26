@@ -1,14 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
-<<<<<<< HEAD
-from .models import University, Department, Faculty, Course
-from .forms import UniversityForm, DepartmentForm, FacultyForm, FeedbackForm, CourseForm
-=======
-from .models import University, Department, Professor
-from .forms import UniversityForm, DepartmentForm, FeedbackForm, ProfessorForm
-
->>>>>>> db31ddf2aac6fc385099bae7cfc960001ca6579c
+from .models import University, Department, Professor, Course
+from .forms import UniversityForm, DepartmentForm, ProfessorForm, FeedbackForm, CourseForm
 
 # Create your views here.
 def index(request):
@@ -96,14 +90,9 @@ def new_faculty(request):
     context  = {'form': form}
     return render(request, 'rmp_bd_app/new_faculty.html', context)
 
-<<<<<<< HEAD
-def new_feedback(request):
-    """Add a new Feedback"""
-=======
 
 def new_feedback(request, professor_id):
     professor = Professor.objects.get(id=professor_id)
->>>>>>> db31ddf2aac6fc385099bae7cfc960001ca6579c
     if request.method != 'POST':
         # no data submitted, create a blank forms
         form = FeedbackForm()

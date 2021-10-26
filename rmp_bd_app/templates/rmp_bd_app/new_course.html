@@ -1,36 +1,6 @@
-{% block content %}
-<!-- Inline CSS Begins Here-->
-<style>
-  /* CSS for DIY autocomplete */
-  #result ul {
-    border: 1px dotted #ccc;
-    padding: 3px;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  #result ul li {
-    padding: 5px 0;
-  }
-  #result ul li:hover {
-    background: #eee;
-  }
-</style>
-<!-- More on how to style the autocomplete / information on autocomplete here:
-https://autocomplete.trevoreyre.com/#/javascript-component?id=styling-and-customization-->
-<!-- Inline CSS Ends Here-->
+<!-- THIS IS A TEST PAGE -->
 
-  <p>Courses</p>
-<ul>
-  {% for course in courses %}
-    <li>
-      <p>{{ course }}</p>
-    </li>
-  {% empty %}
-    <li>No topics have been added yet.</li>
-  {% endfor %}
-</ul>
-  
+<!--
   <p>Add a new Course:</p>
   <form action="{% url 'rmp_bd_app:new_course' %}" method="post">
     {% csrf_token %}
@@ -55,101 +25,20 @@ https://autocomplete.trevoreyre.com/#/javascript-component?id=styling-and-custom
     </div>
     <button name="submit">Add Course</button>
   </form>
+-->
 
-  <div style="display:flex">
-    <div class="fieldWrapper" style="padding:5px;">
-      <label>Course Number:<br></label>
-      <input autocomplete="off" type="text" name="search_course_number" id="search_course_number"/>
-    </div>
-    <div class="fieldWrapper" style="padding:5px;">
-      <label>Course Title:<br></label>
-      <input autocomplete="off" type="text" name="search_course_title" id="search_course_title"/>
-      <div id="result"></div>
-    </div>
-  </div>
+{% block content %}
+  <p>Courses</p>
+  <ul>
+    {% for course in courses %}
+      <li>
+        <p>{{ course }}</p>
+      </li>
+    {% empty %}
+      <li>No topics have been added yet.</li>
+    {% endfor %}
+  </ul>
 
-  <!-- Autocomplete Script -->
-  <script>
-    var courses = [];
-    var course_number_input = document.getElementById("search_course_number");
-    var course_title_input = document.getElementById("search_course_title");
+  {% include 'rmp_bd_app/course_autocomplete.html' %}
 
-    // Gets filtered autocomplete results
-    function autocomplete(input)
-    {
-      const url = `/search_course/?course=${input}`;
-      return new Promise(resolve =>
-      {
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {resolve(data.data)})
-      })
-    }
-    
-    // Show filtered autocomplete
-    async function showResults(val)
-    {
-      res = document.getElementById("result");
-      if (val == '')
-      {
-        res.innerHTML = '';
-        return;
-      }
-      let list = '';
-      courses = await autocomplete(val);
-      for (i = 0; i < courses.length; i++)
-      {
-        list += '<li data-course-number="' + courses[i][0] + '" onmousedown="selectAutoComplete(this)">' + courses[i][1] + '</li>';
-      }
-      // Fills the result div with an unordered list of the autocomplete results
-      res.innerHTML = '<ul>' + list + '</ul>';
-    }
-
-    // Autocomplete with first suggestion
-    function selectFirst()
-    {
-      course_number_input.value = courses[0][0];
-      course_title_input.value = courses[0][1];
-    }
-
-    // Pressing Enter or Tab autocompletes with first suggestion
-    course_number_input.addEventListener("keydown", function(event)
-    {
-      if (event.key == 'Enter' || event.key == 'Tab')
-      {
-        selectFirst();
-        res.innerHTML = '';
-      }
-    })
-    // Input triggers autocomplete
-    course_number_input.addEventListener("input", debounce(function() {showResults(course_number_input.value)}, 250));
-    // Exiting course number input clears filtered list
-    course_number_input.addEventListener("blur", function()
-    {
-      res.innerHTML = '';
-    })
-
-    // Clicking on suggestion from list autocompletes text fields
-    function selectAutoComplete(course)
-    {
-      course_number_input.value = course.getAttribute("data-course-number");
-      course_title_input.value = course.innerText;
-    }
-
-    // Adds debouncing to a function
-    function debounce(func, timeout)
-    {
-      let timer;
-      return function(...args)
-      {
-        if(timer)
-        {
-          clearTimeout(timer);
-        }
-        timer = setTimeout(() => { func(this, args); }, timeout);
-      };
-    }
-
-  </script>
-  <!-- Autocomplete search stuff ends here -->
 {% endblock content %}

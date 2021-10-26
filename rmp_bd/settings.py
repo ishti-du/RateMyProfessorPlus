@@ -122,3 +122,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# To make static files work
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+# Used for production, not development
+PROJECT_DIR = os.path.dirname(__file__)
+if not DEBUG:
+    STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
