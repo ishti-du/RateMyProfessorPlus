@@ -3,10 +3,10 @@
 
 <p> Faculties of the {{ department }}:</p>
 <ul>
-  {% for faculty in faculties %}
+  {% for professor in professor %}
     <li>
       <!--p>{{ entry.date_added|date:'M d, Y H:i' }}</p-->
-      <a href="{% url 'rmp_bd_app:faculty_details' faculty.id %}">{{ faculty.faculty|linebreaks }}</a>
+      <a href="{% url 'rmp_bd_app:professor_details' professor.id %}">{{ professor.honorific }} {{ professor.first_name }} {{ professor.last_name }}</a>
     </li>
   {% empty %}
     <li>There are no entries for this topic yet.</li>

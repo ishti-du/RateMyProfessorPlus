@@ -10,10 +10,11 @@ from .models import Campus_Professor
 from .models import Course
 from .models import Prereq
 from .models import Professor_Course
-from .models import User
 from .models import Review
 from .models import Tag
 from .models import Review_Tag
+from .models import Student_Profile
+from .models import Professor_Profile
 
 # from .models import Faculty
 # from .models import Feedback
@@ -27,10 +28,11 @@ admin.site.register(Campus_Professor)
 admin.site.register(Course)
 admin.site.register(Prereq)
 admin.site.register(Professor_Course)
-admin.site.register(User)
 admin.site.register(Review)
 admin.site.register(Tag)
 admin.site.register(Review_Tag)
+admin.site.register(Student_Profile)
+admin.site.register(Professor_Profile)
 
 # admin.site.register(Faculty)
 # admin.site.register(Feedback)
