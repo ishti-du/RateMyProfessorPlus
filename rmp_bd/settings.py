@@ -123,6 +123,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'rmp_bd_app.processor_file_name.user',
+)
+
 # To make static files work
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),

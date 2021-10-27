@@ -5,6 +5,7 @@ from django.urls import path
 from . import views
 
 
+
 app_name = 'rmp_bd_app'
 urlpatterns = [
     # Home page
@@ -21,7 +22,18 @@ urlpatterns = [
     # Page for adding a new faculty
     path('new_faculty/', views.new_faculty, name='new_faculty'),
     # Page for adding a new feedback
+    path('new_feedback/', views.new_feedback, name='new_feedback'),
+    # Page for student sign up
+    path('student_signup/', views.student_signup_view, name="student_signup"),
+    # Page for professor sign up
+    path('professor_signup/', views.professor_signup_view, name="professor_signup"),
+    # Page for sign in
+    path('login/', views.signin_view, name="signin"),
+    # Page for sign out
+    path('logout/', views.signout_view, name="signout"),
     path('new_feedback/<int:professor_id>', views.new_feedback, name='new_feedback'),
+
+    path('profile/', views.user_profile_view, name="profile"),
     # Test page for adding a course
     path('new_course/', views.new_course, name='new_course'),
     ]

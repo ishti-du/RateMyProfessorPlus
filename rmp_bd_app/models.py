@@ -1,15 +1,20 @@
 from django.db import models
 import datetime
 
+from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 # for year in Review model https://stackoverflow.com/questions/49051017/year-field-in-django/54791915
 def year_choices():
-    return [(r,r) for r in range(1984, datetime.date.today().year+1)]
+    return [(r, r) for r in range(1984, datetime.date.today().year + 1)]
+
 
 def current_year():
     return datetime.date.today().year
+
 
 class Country(models.Model):
     country = models.CharField(max_length=200)
@@ -17,19 +22,18 @@ class Country(models.Model):
 
     class Meta:
         verbose_name_plural = 'countries'
-    
+
     def __str__(self):
         return self.country
+
 
 class University(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     university_name = models.CharField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
 
-
     class Meta:
         verbose_name_plural = 'universities'
-
 
     def __str__(self):
         return self.university_name
@@ -39,10 +43,9 @@ class Campus(models.Model):
     university = models.ForeignKey(University, on_delete=models.CASCADE)
     campus_name = models.CharField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         verbose_name_plural = 'campuses'
-
 
     def __str__(self):
         return self.campus_name
@@ -53,10 +56,8 @@ class Department(models.Model):
     department_name = models.CharField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
 
-
     class Meta:
         verbose_name_plural = 'departments'
-
 
     def __str__(self):
         return self.department_name
@@ -70,10 +71,9 @@ class Professor(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     date_added = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         verbose_name_plural = 'professors'
-
 
     def __str__(self):
         return self.honorific + " " + self.first_name + " " + self.last_name
@@ -90,10 +90,9 @@ class Course(models.Model):
     course_number = models.CharField(max_length=10)
     course_title = models.CharField(max_length=100)
     date_added = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         verbose_name_plural = 'courses'
-
 
     def __str__(self):
         return self.course_title
@@ -102,7 +101,7 @@ class Course(models.Model):
 class Prereq(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_id')
     prereq = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='prereq_id')
-    
+
     class Meta:
         verbose_name_plural = 'prerequisites'
 
@@ -117,22 +116,51 @@ class Professor_Course(models.Model):
 
 
 # storing ip address https://stackoverflow.com/questions/1038950/what-is-the-most-appropriate-data-type-for-storing-an-ip-address-in-sql-server
-class User(models.Model):
-    ROLES = (
-        (0, 'student'),
-        (1, 'professor'),
-        (2, 'admin'),
-    )
-    
-    professor = models.ForeignKey(Professor, on_delete=models.SET_NULL, null=True, default=None)
-    email = models.CharField(max_length=320)
-    password = models.CharField(max_length=128)
-    role = models.IntegerField(default=0, choices=ROLES)
+class Student_Profile(models.Model):
+    # ROLES = (
+    #     (0, 'student'),
+    #     (1, 'professor'),
+    #     (2, 'admin'),
+    # )
+
+    # professor = models.ForeignKey(Professor, on_delete=models.SET_NULL, null=True, default=None)
+    # email = models.CharField(max_length=320)
+    # password = models.CharField(max_length=128)
+    # role = models.IntegerField(default=0, choices=ROLES)
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="student_profile")
+    school_name = models.CharField(max_length=255, blank=True)
     ip_address = models.CharField(max_length=15)
     date_added = models.DateTimeField(auto_now_add=True)
-    
-    class Meta:
-        verbose_name_plural = 'users'
+
+
+# @receiver(post_save, sender=User)
+# def update_profile_signal(sender, instance, created, **kwargs):
+#     if not instance.is_superuser:
+#         if created:
+#             Student_Profile.objects.create(user=instance)
+#         print('@@@@@@#@')
+#         print(vars(instance))
+#         instance.student_profile.save()
+
+
+class Professor_Profile(models.Model):
+    # ROLES = (
+    #     (0, 'student'),
+    #     (1, 'professor'),
+    #     (2, 'admin'),
+    # )
+
+    # professor = models.ForeignKey(Professor, on_delete=models.SET_NULL, null=True, default=None)
+    # email = models.CharField(max_length=320)
+    # password = models.CharField(max_length=128)
+    # role = models.IntegerField(default=0, choices=ROLES)
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    faculty_directory_url = models.CharField(max_length=255, blank=True)
+    faculty_phone_number = models.CharField(max_length=255, blank=True)
+    ip_address = models.CharField(max_length=15)
+    date_added = models.DateTimeField(auto_now_add=True)
 
 
 class Review(models.Model):
@@ -156,24 +184,22 @@ class Review(models.Model):
         ('Rather not say', 'Rather not say'),
         ('Audit/No Grade', 'Audit/No Grade'),
     )
-    
+
     SEMESTERS = (
         ('WNTR', 'Winter'),
         ('SPR', 'Spring'),
         ('SMR', 'Summer'),
         ('FALL', 'Fall'),
     )
-    
-    
-    
+
     # professor_course = models.ForeignKey(Professor_Course, default=None)
     # if the professor associated with the review is deleted the review will be deleted as well
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
     # if the course associated with the review is deleted the review has no associated course
     course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True)
-    
+
     university = models.ForeignKey(University, on_delete=CASCADE)
-    
+
     campus = models.ForeignKey(Campus, on_delete=CASCADE)
     # if the user associated with the review is deleted the review will be deleted as well
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -204,7 +230,7 @@ class Review(models.Model):
     # was the class online
     is_online = models.BooleanField()
     date_added = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         verbose_name_plural = 'reviews'
 
@@ -212,10 +238,9 @@ class Review(models.Model):
 class Tag(models.Model):
     text = models.CharField(max_length=100)
     date_added = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         verbose_name_plural = 'tags'
-
 
     def __str__(self):
         return self.text
@@ -227,15 +252,14 @@ class Review_Tag(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
 
+
 class Faculty(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     faculty = models.CharField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
 
-
     class Meta:
         verbose_name_plural = 'faculties'
-
 
     def __str__(self):
         return self.faculty
@@ -246,11 +270,8 @@ class Feedback(models.Model):
     feedback = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
 
-
     class Meta:
         verbose_name_plural = 'feedbacks'
 
-
     def __str__(self):
         return f"{self.feedback[:20]}..."
-    
