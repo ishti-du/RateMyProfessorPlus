@@ -1,0 +1,31 @@
+{% extends 'rmp_bd_app/base.html' %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<h2>Sign up Form</h2>
+<button type="button" style="background-color: darkgreen; color: white" disabled>Student</button>
+<button type="button" onclick="location.href = '/professor_signup';">Professor</button>
+<form method="post">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {{ student_form.as_p }}
+    <input type="submit">
+</form>
+<p>Already have an account? <a href="{% url 'rmp_bd_app:signin' %}"> Sign In</a>
+{% endblock %}
+<!--<form method="post">-->
+<!--  {% csrf_token %}-->
+<!--  {% for field in form %}-->
+<!--    <p>-->
+<!--      {{ field.label_tag }}<br>-->
+<!--      {{ field }}-->
+<!--      {% if field.help_text %}-->
+<!--        <small style="color: grey">{{ field.help_text }}</small>-->
+<!--      {% endif %}-->
+<!--      {% for error in field.errors %}-->
+<!--        <p style="color: red">{{ error }}</p>-->
+<!--      {% endfor %}-->
+<!--    </p>-->
+<!--  {% endfor %}-->
+<!--  <button type="submit">Sign up</button>-->
+<!--</form>-->
