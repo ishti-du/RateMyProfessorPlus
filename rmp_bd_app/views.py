@@ -1,31 +1,14 @@
 from django.shortcuts import render, redirect
-
-<<<<<<< HEAD
 from .models import University, Department, Faculty
 from .forms import UniversityForm, DepartmentForm, FacultyForm, FeedbackForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm
-
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-=======
-from .forms import UniversityForm, DepartmentForm, FacultyForm, FeedbackForm
-from .models import University, Department, Faculty, User
 from ipware import get_client_ip
->>>>>>> b4681ab27aa28cca18d0aeea0ac4d298e4bd1a30
-
 
 # Create your views here.
 def index(request):
     """The home page for RMP BD"""
-<<<<<<< HEAD
     print("is authenticated", request.user.is_authenticated, request.user)
-    return render(request, 'rmp_bd_app/index.html', {"user": request.user})
-
-=======
-
-    ''' # Matt Coutts 10/18 --> import users to flag if student, prof, etc (later feature) '''
-    student = User.ROLES[0]
-    professor = User.ROLES[1]  # this is our professor user
-    admin = User.ROLES[2]  # this is our admin user
 
     '''
     ~~~~~~~~~
@@ -51,7 +34,9 @@ def index(request):
 
 
     return render(request, 'rmp_bd_app/index.html')
->>>>>>> b4681ab27aa28cca18d0aeea0ac4d298e4bd1a30
+
+    return render(request, 'rmp_bd_app/index.html', {"user": request.user})
+
 
 
 def universities(request):
@@ -151,7 +136,6 @@ def new_feedback(request):
     # Display a blank or invalid form
     context = {'form': form}
     return render(request, 'rmp_bd_app/new_feedback.html', context)
-<<<<<<< HEAD
 
 
 def student_signup_view(request):
@@ -213,5 +197,3 @@ def signin_view(request):
 def signout_view(request):
     logout(request)
     return redirect('/login')
-=======
->>>>>>> b4681ab27aa28cca18d0aeea0ac4d298e4bd1a30

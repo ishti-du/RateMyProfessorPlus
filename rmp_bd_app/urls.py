@@ -4,11 +4,8 @@ from django.urls import path
 
 from . import views
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> b4681ab27aa28cca18d0aeea0ac4d298e4bd1a30
 app_name = 'rmp_bd_app'
 urlpatterns = [
     # Home page

@@ -13,14 +13,8 @@ from .models import Professor
 from .models import Professor_Course
 from .models import Review
 from .models import Review_Tag
-<<<<<<< HEAD
 from .models import Student_Profile
 from .models import Professor_Profile
-=======
-from .models import Tag
-from .models import University
-from .models import User
->>>>>>> b4681ab27aa28cca18d0aeea0ac4d298e4bd1a30
 
 # from .models import Faculty
 # from .models import Feedback
