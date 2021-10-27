@@ -1,20 +1,26 @@
+
+
 from django.contrib import admin
 
+from .models import Campus
+from .models import Campus_Professor
 # Register your models here.
 from .models import Country
-from .models import University
-from .models import Campus
-from .models import Department
-from .models import Professor
-from .models import Campus_Professor
 from .models import Course
+from .models import Department
 from .models import Prereq
+from .models import Professor
 from .models import Professor_Course
 from .models import Review
-from .models import Tag
 from .models import Review_Tag
+<<<<<<< HEAD
 from .models import Student_Profile
 from .models import Professor_Profile
+=======
+from .models import Tag
+from .models import University
+from .models import User
+>>>>>>> b4681ab27aa28cca18d0aeea0ac4d298e4bd1a30
 
 # from .models import Faculty
 # from .models import Feedback
@@ -33,6 +39,7 @@ admin.site.register(Tag)
 admin.site.register(Review_Tag)
 admin.site.register(Student_Profile)
 admin.site.register(Professor_Profile)
+
 
 # admin.site.register(Faculty)
 # admin.site.register(Feedback)

@@ -1,17 +1,57 @@
 from django.shortcuts import render, redirect
 
+<<<<<<< HEAD
 from .models import University, Department, Faculty
 from .forms import UniversityForm, DepartmentForm, FacultyForm, FeedbackForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm
 
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+=======
+from .forms import UniversityForm, DepartmentForm, FacultyForm, FeedbackForm
+from .models import University, Department, Faculty, User
+from ipware import get_client_ip
+>>>>>>> b4681ab27aa28cca18d0aeea0ac4d298e4bd1a30
 
 
 # Create your views here.
 def index(request):
     """The home page for RMP BD"""
+<<<<<<< HEAD
     print("is authenticated", request.user.is_authenticated, request.user)
     return render(request, 'rmp_bd_app/index.html', {"user": request.user})
+
+=======
+
+    ''' # Matt Coutts 10/18 --> import users to flag if student, prof, etc (later feature) '''
+    student = User.ROLES[0]
+    professor = User.ROLES[1]  # this is our professor user
+    admin = User.ROLES[2]  # this is our admin user
+
+    '''
+    ~~~~~~~~~
+    Matt Coutts - 10/16/2021 
+    Here we are going to find the 'user/site visitors IP address to flag them. 
+    This can be used with the thumbs up/down limit and comment limit
+    Reference: https://www.youtube.com/watch?v=cbMLP3byKjk 
+    '''
+    ip, is_routable = get_client_ip(request)
+
+    # if we can't get the IP then we check constraints here
+    if ip is None:
+        ip = "0.0.0.0" # set IP as 0.0.0.0 if we can't find it
+    else:
+        # routable = True or False
+        if is_routable:
+            ipv = "Public" # if the ip returns true (not local)
+        else:
+            ipv = "Private" # if the ip returns false (local)
+
+    print(ip, ipv)
+
+
+
+    return render(request, 'rmp_bd_app/index.html')
+>>>>>>> b4681ab27aa28cca18d0aeea0ac4d298e4bd1a30
 
 
 def universities(request):
@@ -111,6 +151,7 @@ def new_feedback(request):
     # Display a blank or invalid form
     context = {'form': form}
     return render(request, 'rmp_bd_app/new_feedback.html', context)
+<<<<<<< HEAD
 
 
 def student_signup_view(request):
@@ -172,3 +213,5 @@ def signin_view(request):
 def signout_view(request):
     logout(request)
     return redirect('/login')
+=======
+>>>>>>> b4681ab27aa28cca18d0aeea0ac4d298e4bd1a30
