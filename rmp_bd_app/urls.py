@@ -21,5 +21,5 @@ urlpatterns = [
     # Page for adding a new faculty
     path('new_faculty/', views.new_faculty, name='new_faculty'),
     # Page for adding a new feedback
-    path('new_feedback/<int:professor_id>', views.new_feedback, name='new_feedback')
+    path('new_feedback/<int:professor_id>', views.new_feedback, name='new_feedback'),
     ]

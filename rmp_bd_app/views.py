@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
 from .models import University, Department, Professor
-from .forms import UniversityForm, DepartmentForm, FeedbackForm, ProfessorForm
+from .forms import UniversityForm, DepartmentForm, FeedbackForm, ProfessorForm, ReviewForm
 
 
 # Create your views here.
@@ -95,13 +95,24 @@ def new_feedback(request, professor_id):
     professor = Professor.objects.get(id=professor_id)
     if request.method != 'POST':
         # no data submitted, create a blank forms
-        form = FeedbackForm()
+        form = ReviewForm()
     else:
         # POST data submitted; process date_added
-        form = FeedbackForm(data=request.POST)
+        form = ReviewForm(data=request.POST)
         if form.is_valid():
             form.save()
             return redirect('rmp_bd_app:universities')
+
+    # Display a blank or invalid form
+    context = {'form': form, 'professor': professor}
+    return render(request, 'rmp_bd_app/reviewform.html', context)
+
+def new_feedback1(request, professor_id):
+    professor = Professor.objects.get(id=professor_id)
+    if request.method == 'POST':
+        code = request.POST['code']
+        ctite = request.POST['ctitle']
+
 
     # Display a blank or invalid form
     context = {'form': form, 'professor': professor}
