@@ -28,7 +28,22 @@ class Country(models.Model):
 
 
 class University(models.Model):
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    COUNTRIES = (
+        ('Argentina', 'Argentina'),
+        ('Bangladesh', 'Bangladesh'),
+        ('Canada', 'Canada'),
+        ('China', 'China'),
+        ('France', 'France'),
+        ('India', 'India'),
+        ('Indonesia', 'Indonesia'),
+        ('Japan', 'Japan'),
+        ('Mexico', 'Mexico'),
+        ('Russia', 'Russia'),
+        ('Spain', 'Spain'),
+        ('United States', 'United States'),
+    )
+
+    country = models.CharField(max_length=50, choices=COUNTRIES)
     university_name = models.CharField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
 
