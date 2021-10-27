@@ -8,6 +8,8 @@ from django.dispatch import receiver
 
 from django_countries.fields import CountryField
 
+from django_countries.fields import CountryField
+
 
 # for year in Review model https://stackoverflow.com/questions/49051017/year-field-in-django/54791915
 def year_choices():
@@ -19,7 +21,7 @@ def current_year():
 
 
 class University(models.Model):
-    country = CountryField()
+    country = CountryField(blank_label='(Select a Country)')
     university_name = models.CharField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -67,8 +69,10 @@ class Professor(models.Model):
         verbose_name_plural = 'professors'
 
     def __str__(self):
-        # return self.honorific + " " + self.first_name + " " + self.last_name
-        return self.first_name + " " + self.last_name
+        if self.honorific:
+            return self.honorific + " " + self.first_name + " " + self.last_name
+        else:
+            return self.first_name + " " + self.last_name
 
 
 # Enables accessing past universities (campuses and campuses if provided) a professors taught at
