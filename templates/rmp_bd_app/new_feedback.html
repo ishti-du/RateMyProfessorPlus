@@ -1,0 +1,12 @@
+{% extends  "rmp_bd_app/base.html" %}
+
+{% block content %}
+  <p>Add a new Feedback:</p>
+
+  <form action="{% url 'rmp_bd_app:new_feedback' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit">Add Feedback</button>
+  </form>
+
+{% endblock content %}

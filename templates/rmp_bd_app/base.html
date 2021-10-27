@@ -1,0 +1,136 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Rate My Professor</title>
+    <style>
+    #nav {
+      background-color: green;
+      height: 4em;
+      display: flex;
+      justify-content : space-between;
+      align-items: center;
+    }
+    #searchbar{
+    background-color: white;
+    height: 2em;
+    width: 30em;
+    border-radius: 25px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    }
+    #searchbox{
+    border: none;
+    margin-left: 1em;
+    height: 1.5em;
+    width: 34em;
+    }
+    #logo-and-universities{
+      display:flex;
+      width: 10em;
+    }
+
+    button, #logo, img {
+      height: 2.5em;
+      font-family: Antonio;
+      font-size: 1.2em;
+      color:white;
+    }
+    .auth-button {
+        margin-top: 1em;
+        margin-right: 1em;
+        text-decoration: none;
+        color: white;
+        height: 2.5em;
+        font-family: Antonio;
+        font-size: 1.2em;
+    }
+    button{
+      margin-top: 1em;
+      background-color:green;
+      border: none;
+      margin-bottom: 1.2em;
+    }
+    #logo{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+    }
+
+    button, #logo{
+      width: 10em;
+      height: 2.5em;
+      font-family: Antonio;
+      font-size: 1.2em;
+      color:white;
+    }
+    button{
+      margin-top: 1em;
+      background-color:green;
+      border: none;
+      margin-bottom: 1.2em;
+    }
+    #logo{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1.2em;
+    }
+    @media only screen
+    and (min-device-width : 320px)
+    and (max-device-width : 480px) {
+    /* Here you should set what size you want your div to be
+    when viewed on smartphone */
+    /* Styles */
+    }
+
+    /* iPads (portrait and landscape) ----------- */
+    @media only screen
+    and (min-device-width : 768px)
+    and (max-device-width : 1024px) {
+    /* Styles */
+    }
+
+    /* Desktops and laptops ----------- */
+    @media only screen
+    and (min-width : 1224px) {
+    /* Styles */
+    }
+    </style>
+
+</head>
+
+<link href=
+'https://fonts.googleapis.com/css?family=Antonio'
+          rel='stylesheet' />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0">
+<link href=
+'https://fonts.googleapis.com/css?family=Antonio'
+          rel='stylesheet' />
+<body>
+ <div id=nav>
+   <div id="logo-and-universities">
+        <div id="logo"><a href="{% url 'rmp_bd_app:index' %}">
+        <img src="https://www.adazing.com/wp-content/uploads/2019/02/stacked-book-clipart-07.png", alt="logo"></a>
+        </div>
+        <a href="{% url 'rmp_bd_app:universities' %}"><button>View Universities</button></a>
+   </div>
+   <div id=searchbar>
+          <input type="text" id="searchbox" value="Search"><br>
+   </div>
+
+   <div>
+     {% if user.is_authenticated %}
+     <a class="auth-button" href="/profile">My Account</a>
+     <a class="auth-button" href="{% url 'rmp_bd_app:signout'%}">Log Out</a>
+     {% else %}
+     <a class="auth-button" href="/login">Log In</a>
+     <a class="auth-button" href="/student_signup">Sign Up</a>
+     {% endif %}
+   </div>
+
+ </div><! -- nav -->
+</body>
+
+
+{% block content %} {% endblock content%}
