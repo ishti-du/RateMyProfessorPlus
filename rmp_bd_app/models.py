@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from multiselectfield import MultiSelectField
 
 
 # for year in Review model https://stackoverflow.com/questions/49051017/year-field-in-django/54791915
@@ -162,7 +163,8 @@ class Professor_Profile(models.Model):
     ip_address = models.CharField(max_length=15)
     date_added = models.DateTimeField(auto_now_add=True)
 
-
+class MY_CHOICES(models.Model):
+    choice = models.CharField(max_length=154, unique=True)
 class Review(models.Model):
     GRADES = (
         ('A+', 'A+'),
@@ -192,21 +194,37 @@ class Review(models.Model):
         ('FALL', 'Fall'),
     )
 
+    TAGS = (
+        ('Gives Good Feedback', 'Gives Good Feedback'),
+        ('Lots of Homework', 'Lots of Homework'),
+        ('Accessible Outside of Class', 'Accessible Outside of Class'),
+        ('Attendance Mandatory', 'Attendance Mandatory'),
+        ('Inspirational', 'Inspirational'),
+        ('Test Heavy', 'Test Heavy'),
+        ('Lecture Heavy', 'Lecture Heavy'),
+        ('Extra Credit', 'Extra Credit'),
+        ('Clear Grading Criteria', 'Clear Grading Criteria'),
+        ('Pop Quizzes', 'Pop Quizzes'),
+        ('Caring', 'Caring')
+        )
+
     # professor_course = models.ForeignKey(Professor_Course, default=None)
     # if the professor associated with the review is deleted the review will be deleted as well
-    professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    #professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
     # if the course associated with the review is deleted the review has no associated course
     course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True)
 
-    university = models.ForeignKey(University, on_delete=CASCADE)
+    #university = models.ForeignKey(University, on_delete=CASCADE)
 
-    campus = models.ForeignKey(Campus, on_delete=CASCADE)
+    #campus = models.ForeignKey(Campus, on_delete=CASCADE)
     # if the user associated with the review is deleted the review will be deleted as well
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    #user = models.ForeignKey(User, on_delete=models.CASCADE)
     grade = models.CharField(max_length=15, choices=GRADES)
-    thumbs_up = models.PositiveIntegerField(default=0)
-    thumbs_down = models.PositiveIntegerField(default=0)
-    report_flags = models.PositiveIntegerField(default=0)
+    tags = MultiSelectField(choices=TAGS, null=True)
+    #tags = models.ManyToManyField(MY_CHOICES)
+    #thumbs_up = models.PositiveIntegerField(default=0)
+    #thumbs_down = models.PositiveIntegerField(default=0)
+    #report_flags = models.PositiveIntegerField(default=0)
     mad_text = models.CharField(max_length=350)
     sad_text = models.CharField(max_length=350)
     glad_text = models.CharField(max_length=350)
@@ -224,7 +242,7 @@ class Review(models.Model):
     # was a textbook used
     is_textbook = models.BooleanField()
     # was attendance mandatory
-    is_attendance = models.BooleanField()
+    #is_attendance = models.BooleanField()
     # was the class taken for credit
     is_credit = models.BooleanField()
     # was the class online
