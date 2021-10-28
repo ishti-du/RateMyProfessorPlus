@@ -6,7 +6,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 
-
 class UniversityForm(forms.ModelForm):
     class Meta:
         model = University
@@ -58,9 +57,9 @@ class ReviewForm(forms.ModelForm):
     #tags = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=Review.objects.all())
     class Meta:
         model = Review
-        fields = ['tags', 'course',
+        fields = ['course',
                   'grade', 'semester', 'year',
-                  'mad_text', 'sad_text', 'glad_text',
+                  'mad_text', 'sad_text', 'glad_text', 'tags',
                   'difficulty_level', 'professor_score', 'is_online', 'is_textbook',
                   'is_credit',]
         labels = {
@@ -84,4 +83,5 @@ class ReviewForm(forms.ModelForm):
             #'grade': forms.TextInput(attrs={'class':'form-control'}),
             #'mad_text': forms.Textarea(),
             #'tags': forms.CheckboxSelectMultiple()
+            #slider!!!!! 'professor_score': forms.NumberInput(attrs={'type': 'range',  'min': '1', 'max': '5', 'value': '3', 'id': 'id_name'})
         }
