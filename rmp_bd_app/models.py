@@ -225,9 +225,9 @@ class Review(models.Model):
     #thumbs_up = models.PositiveIntegerField(default=0)
     #thumbs_down = models.PositiveIntegerField(default=0)
     #report_flags = models.PositiveIntegerField(default=0)
-    mad_text = models.CharField(max_length=350)
-    sad_text = models.CharField(max_length=350)
-    glad_text = models.CharField(max_length=350)
+    mad_text = models.TextField(max_length=350)
+    sad_text = models.TextField(max_length=350)
+    glad_text = models.TextField(max_length=350)
     # for setting a range on difficulty_level and score https://stackoverflow.com/questions/33772947/django-set-range-for-integer-model-field-as-constraint
     difficulty_level = models.IntegerField(
         default=0,
