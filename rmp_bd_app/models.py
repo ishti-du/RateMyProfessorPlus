@@ -210,7 +210,7 @@ class Review(models.Model):
 
     # professor_course = models.ForeignKey(Professor_Course, default=None)
     # if the professor associated with the review is deleted the review will be deleted as well
-    #professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    professor = models.ForeignKey(Professor, on_delete=models.CASCADE, null=True)
     # if the course associated with the review is deleted the review has no associated course
     course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True)
 
