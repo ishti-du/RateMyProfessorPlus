@@ -33,5 +33,7 @@ urlpatterns = [
     path('logout/', views.signout_view, name="signout"),
     path('new_feedback/<int:professor_id>', views.new_feedback, name='new_feedback'),
 
-    path('profile/', views.user_profile_view, name="profile")
+    path('profile/', views.user_profile_view, name="profile"),
+    # Test page for adding a course
+    path('new_course/', views.new_course, name='new_course'),
     ]
