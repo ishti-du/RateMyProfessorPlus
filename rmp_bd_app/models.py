@@ -242,7 +242,7 @@ class Review(models.Model):
     # was a textbook used
     is_textbook = models.BooleanField()
     # was attendance mandatory
-    #is_attendance = models.BooleanField()
+    is_attendance = models.BooleanField(null=True)######################333
     # was the class taken for credit
     is_credit = models.BooleanField()
     # was the class online
