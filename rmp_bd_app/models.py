@@ -221,7 +221,7 @@ class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)##############333
     grade = models.CharField(max_length=15, choices=GRADES)
     tags = MultiSelectField(choices=TAGS, null=True)
-    tags = models.ManyToManyField(MY_CHOICES)#################333
+    #tags = models.ManyToManyField(MY_CHOICES)
     thumbs_up = models.PositiveIntegerField(default=0)######################333
     thumbs_down = models.PositiveIntegerField(default=0)#####################33
     report_flags = models.PositiveIntegerField(default=0)#################33333
@@ -242,7 +242,7 @@ class Review(models.Model):
     # was a textbook used
     is_textbook = models.BooleanField()
     # was attendance mandatory
-    is_attendance = models.BooleanField(null=True)######################333
+    #is_attendance = models.BooleanField()
     # was the class taken for credit
     is_credit = models.BooleanField()
     # was the class online
