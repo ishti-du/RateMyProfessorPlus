@@ -222,7 +222,7 @@ class Review(models.Model):
     grade = models.CharField(max_length=15, choices=GRADES)
     tags = MultiSelectField(choices=TAGS, null=True)
     #tags = models.ManyToManyField(MY_CHOICES)
-    thumbs_up = models.PositiveIntegerField(default=0)######################333
+    thumbs_up = models.PositiveIntegerField(default=0)#####################333
     thumbs_down = models.PositiveIntegerField(default=0)#####################33
     report_flags = models.PositiveIntegerField(default=0)#################33333
     mad_text = models.TextField(max_length=350)
