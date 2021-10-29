@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 
-from .models import University, Department, Professor
-from .forms import UniversityForm, DepartmentForm, ProfessorForm, FeedbackForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm
+from .models import University, Department, Professor, Course
+from .forms import UniversityForm, DepartmentForm, ProfessorForm, FeedbackForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm
 
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -116,6 +117,36 @@ def new_feedback(request, professor_id):
     context = {'form': form, 'professor': professor}
     return render(request, 'rmp_bd_app/reviewform.html', context)
 
+def new_course(request):
+    """Add a new course"""
+    form = CourseForm() 
+    course_query = Course.objects.all()
+    courses = []
+    for c in course_query:
+        courses.append((c.course_number, c.course_title))
+    context = {'form': form, 'courses': courses}
+    if request.method == 'POST':
+        # POST data submitted; process date_added
+        # Redirects back to add course page
+        form = CourseForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('rmp_bd_app:new_course', context)
+            
+    # Display a blank or invalid form
+    return render(request, 'rmp_bd_app/new_course.html', context)
+
+# /search/?course=
+# Request made whenever input is made in course number
+# Filters courses based on course number
+def search_course(request):
+    course_number = request.GET.get('course')
+    course_numbers = []
+    if course_number:
+        courses = Course.objects.filter(course_number__icontains=course_number)
+        for course in courses:
+            course_numbers.append((course.course_number, course.course_title))
+    return JsonResponse({'status': 200, 'data' : course_numbers})
 
 def student_signup_view(request):
     user_form = CreateUserForm(request.POST)

@@ -1,10 +1,8 @@
 from django import forms
 
-
-from .models import University, Department, Professor, Feedback, Student_Profile, Professor_Profile
+from .models import University, Department, Professor, Feedback, Student_Profile, Professor_Profile, Course
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
 
 
 class UniversityForm(forms.ModelForm):
@@ -34,7 +32,6 @@ class FeedbackForm(forms.ModelForm):
         fields = ['faculty', 'feedback']
         labels = {'text': ''}
 
-
 class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
@@ -53,3 +50,10 @@ class ProfessorProfileForm(forms.ModelForm):
     class Meta:
         model = Professor_Profile
         fields = ['faculty_directory_url', 'faculty_phone_number']
+
+# Temporary form to create class
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ['course_number', 'course_title']
+        labels = {'text': ''}
