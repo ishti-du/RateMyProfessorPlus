@@ -210,21 +210,21 @@ class Review(models.Model):
 
     # professor_course = models.ForeignKey(Professor_Course, default=None)
     # if the professor associated with the review is deleted the review will be deleted as well
-    professor = models.ForeignKey(Professor, on_delete=models.CASCADE, null=True)
+    professor = models.ForeignKey(Professor, on_delete=models.CASCADE, null=True)###################333
     # if the course associated with the review is deleted the review has no associated course
     course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True)
 
-    #university = models.ForeignKey(University, on_delete=CASCADE)
+    university = models.ForeignKey(University, on_delete=CASCADE, null=True)#######################33
 
-    #campus = models.ForeignKey(Campus, on_delete=CASCADE)
+    campus = models.ForeignKey(Campus, on_delete=CASCADE, null=True)######################33
     # if the user associated with the review is deleted the review will be deleted as well
-    #user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)##############333
     grade = models.CharField(max_length=15, choices=GRADES)
     tags = MultiSelectField(choices=TAGS, null=True)
-    #tags = models.ManyToManyField(MY_CHOICES)
-    #thumbs_up = models.PositiveIntegerField(default=0)
-    #thumbs_down = models.PositiveIntegerField(default=0)
-    #report_flags = models.PositiveIntegerField(default=0)
+    tags = models.ManyToManyField(MY_CHOICES)#################333
+    thumbs_up = models.PositiveIntegerField(default=0)######################333
+    thumbs_down = models.PositiveIntegerField(default=0)#####################33
+    report_flags = models.PositiveIntegerField(default=0)#################33333
     mad_text = models.TextField(max_length=350)
     sad_text = models.TextField(max_length=350)
     glad_text = models.TextField(max_length=350)
