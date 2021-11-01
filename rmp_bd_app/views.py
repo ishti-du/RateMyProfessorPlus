@@ -1,6 +1,13 @@
 from django.shortcuts import render, redirect
+<<<<<<< HEAD
 from .models import University, Department, Faculty
 from .forms import UniversityForm, DepartmentForm, FacultyForm, FeedbackForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm
+=======
+
+from .models import University, Department, Professor
+from .forms import UniversityForm, DepartmentForm, ProfessorForm, FeedbackForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm
+
+>>>>>>> master
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from ipware import get_client_ip
@@ -45,29 +52,33 @@ def universities(request):
     context = {'universities': universities}
     return render(request, 'rmp_bd_app/universities.html', context)
 
+def departments(request, university_id):
+    university = University.objects.get(id=university_id)
+    departments = Department.objects.filter(university=University.objects.get(id=university_id)).order_by('date_added')
+    context = {'departments': departments, 'university': university}
+    return render(request, 'rmp_bd_app/departments.html', context)
 
 def university(request, university_id):
     """Shows each individual university """
     university = University.objects.get(id=university_id)
     departments = university.department_set.order_by('-date_added')
-    context = {'university': university, 'departments': departments}
-    return render(request, 'rmp_bd_app/departments.html', context)
+    context = {'university' : university, 'departments' : departments}
+    return render(request, 'rmp_bd_app/universities.html', context)
 
-
-def faculty(request, department_id):
+def professor(request, department_id):
     """Shows faculty members for a department"""
     department = Department.objects.get(id=department_id)
-    faculties = department.faculty_set.order_by('-date_added')
-    context = {'department': department, 'faculties': faculties}
-    return render(request, 'rmp_bd_app/faculties.html', context)
+    professor = Professor.objects.filter(department=Department.objects.get(id=department_id)).order_by('date_added')
+    context = {'department': department, 'professor': professor}
+    return render(request, 'rmp_bd_app/professors.html', context)
 
 
-def faculty_details(request, faculty_id):
+def professor_details(request, professor_id):
     """Shows the students' feedback about a faculty"""
-    faculty = Faculty.objects.get(id=faculty_id)
-    feedback = faculty.feedback_set.order_by('-date_added')
-    context = {'faculty': faculty, 'feedback': feedback}
-    return render(request, 'rmp_bd_app/faculty_details.html', context)
+    professor = Professor.objects.get(id=professor_id)
+    #feedback = faculty.feedback_set.order_by('-date_added')
+    context = {'professor': professor}
+    return render(request, 'rmp_bd_app/professor_details.html', context)
 
 
 def new_university(request):
@@ -108,10 +119,10 @@ def new_faculty(request):
     """Add a new Faculty"""
     if request.method != 'POST':
         # no data submitted, create a blank forms
-        form = FacultyForm()
+        form = ProfessorForm()
     else:
         # POST data submitted; process date_added
-        form = FacultyForm(data=request.POST)
+        form = ProfessorForm(data=request.POST)
         if form.is_valid():
             form.save()
             return redirect('rmp_bd_app:universities')
@@ -121,8 +132,8 @@ def new_faculty(request):
     return render(request, 'rmp_bd_app/new_faculty.html', context)
 
 
-def new_feedback(request):
-    """Add a new Faculty"""
+def new_feedback(request, professor_id):
+    professor = Professor.objects.get(id=professor_id)
     if request.method != 'POST':
         # no data submitted, create a blank forms
         form = FeedbackForm()
@@ -134,8 +145,8 @@ def new_feedback(request):
             return redirect('rmp_bd_app:universities')
 
     # Display a blank or invalid form
-    context = {'form': form}
-    return render(request, 'rmp_bd_app/new_feedback.html', context)
+    context = {'form': form, 'professor': professor}
+    return render(request, 'rmp_bd_app/reviewform.html', context)
 
 
 def student_signup_view(request):
@@ -197,3 +208,10 @@ def signin_view(request):
 def signout_view(request):
     logout(request)
     return redirect('/login')
+<<<<<<< HEAD
+=======
+
+
+def user_profile_view(request):
+    return render(request, 'rmp_bd_app/profile.html')
+>>>>>>> master
