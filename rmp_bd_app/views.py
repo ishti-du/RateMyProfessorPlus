@@ -1,13 +1,8 @@
 from django.shortcuts import render, redirect
-<<<<<<< HEAD
-from .models import University, Department, Faculty
-from .forms import UniversityForm, DepartmentForm, FacultyForm, FeedbackForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm
-=======
 
 from .models import University, Department, Professor
 from .forms import UniversityForm, DepartmentForm, ProfessorForm, FeedbackForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm
 
->>>>>>> master
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from ipware import get_client_ip
@@ -208,10 +203,7 @@ def signin_view(request):
 def signout_view(request):
     logout(request)
     return redirect('/login')
-<<<<<<< HEAD
-=======
 
 
 def user_profile_view(request):
     return render(request, 'rmp_bd_app/profile.html')
->>>>>>> master

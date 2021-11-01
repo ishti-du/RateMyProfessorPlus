@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from .models import Campus
+from .models import Campus, Tag, University
 from .models import Campus_Professor
 # Register your models here.
 from .models import Country
