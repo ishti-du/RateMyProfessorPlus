@@ -1,7 +1,7 @@
 {% extends 'rmp_bd_app/base.html' %}
 {% block content %}
 
-<p> Faculties of the {{ department }}:</p>
+<p> Professors in the {{ department }} department:</p>
 <ul>
   {% for professor in professor %}
     <li>
@@ -12,5 +12,5 @@
     <li>There are no entries for this topic yet.</li>
   {% endfor %}
 </ul>
-<a href="{% url 'rmp_bd_app:new_faculty'%}">Add a new Faculty</a>
+<a href="{% url 'rmp_bd_app:new_professor'%}">Add a new Professor</a>
 {% endblock content %}
