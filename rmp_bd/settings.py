@@ -41,7 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis.geoip2',
 ]
+
+GEOIP_PATH = 'django.contrib.gis.geoip2.base.py'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -72,7 +75,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'rmp_bd.wsgi.application'
-
+# GEOIP_PATH = 'django.contrib.gis.geoip2'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

@@ -22,7 +22,8 @@
     border: none;
     margin-left: 1em;
     height: 1.5em;
-    width: 34em;
+    width: 30em;
+
     }
     #logo-and-universities{
       display:flex;
@@ -113,11 +114,12 @@
         <div id="logo"><a href="{% url 'rmp_bd_app:index' %}">
         <img src="https://www.adazing.com/wp-content/uploads/2019/02/stacked-book-clipart-07.png", alt="logo"></a>
         </div>
-        <a href="{% url 'rmp_bd_app:universities' %}"><button>View Universities</button></a>
+        <a href="{% url 'rmp_bd_app:universities' %}"><button>View Professor</button></a>
    </div>
-   <div id=searchbar>
+   <div id=searchbox>
         <form action="{% url 'rmp_bd_app:search_results' %}" method="get">
-             <input name="q" type="text" placeholder="Search...">
+             <input name="q" type="text" placeholder="Search..."><br> Search Globally
+                <input type="checkbox" id="Search" name="search globally" value="search globally">
          </form>
    </div>
 
