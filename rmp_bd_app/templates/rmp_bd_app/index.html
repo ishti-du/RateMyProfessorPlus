@@ -44,15 +44,16 @@
     </style>
 </head>
 {% block content %}
-
 <link href=
 'https://fonts.googleapis.com/css?family=Antonio'
           rel='stylesheet' />
 <body>
   <center>
 <div id="logo"><img src="https://www.adazing.com/wp-content/uploads/2019/02/stacked-book-clipart-07.png", alt="logo"></div>
-        <div id=searchbar>
-          <input type="text" id="searchbox" value="Search"><br>
+        <div id=search>
+           <form action="{% url 'rmp_bd_app:search_results' %}" method="get">
+                 <input name="q" type="text" placeholder="Search...">
+           </form>
         </div>
       <a href="{% url 'rmp_bd_app:universities' %}"><button>List of Universities</button></a>
   </center>

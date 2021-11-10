@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-
+from django.views.generic.list import ListView
 from .models import University, Department, Professor, Course
 from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm
-
+from django.db.models import Q
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -205,7 +205,16 @@ def signin_view(request):
 def signout_view(request):
     logout(request)
     return redirect('/login')
-
-
 def user_profile_view(request):
     return render(request, 'rmp_bd_app/profile.html')
+
+class SearchResultsView(ListView):
+    model = Professor
+    template_name = 'rmp_bd_app/search_results.html'
+
+    def get_queryset(self): # new
+        query = self.request.GET.get('q')
+        object_list = Professor.objects.filter(
+            Q(first_name__icontains = query) | Q(last_name__icontains = query))
+            #& Q(department__university__in=University.objects.filter(country=1)))
+        return object_list

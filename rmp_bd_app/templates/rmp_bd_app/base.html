@@ -116,7 +116,9 @@
         <a href="{% url 'rmp_bd_app:universities' %}"><button>View Universities</button></a>
    </div>
    <div id=searchbar>
-          <input type="text" id="searchbox" value="Search"><br>
+        <form action="{% url 'rmp_bd_app:search_results' %}" method="get">
+             <input name="q" type="text" placeholder="Search...">
+         </form>
    </div>
 
    <div>
