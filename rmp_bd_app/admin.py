@@ -1,12 +1,11 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Country
 from .models import University
 from .models import Campus
 from .models import Department
 from .models import Professor
-from .models import Campus_Professor
+from .models import UniversityProfessor
 from .models import Course
 from .models import Prereq
 from .models import Professor_Course
@@ -16,15 +15,12 @@ from .models import Review_Tag
 from .models import Student_Profile
 from .models import Professor_Profile
 
-# from .models import Faculty
-# from .models import Feedback
 
-admin.site.register(Country)
 admin.site.register(University)
 admin.site.register(Campus)
 admin.site.register(Department)
 admin.site.register(Professor)
-admin.site.register(Campus_Professor)
+admin.site.register(UniversityProfessor)
 admin.site.register(Course)
 admin.site.register(Prereq)
 admin.site.register(Professor_Course)

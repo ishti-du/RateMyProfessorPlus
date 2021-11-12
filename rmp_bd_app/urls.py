@@ -19,10 +19,11 @@ urlpatterns = [
     path('professor/<int:department_id>', views.professor, name='professor'),
     path('professor_details/<int:professor_id>', views.professor_details, name='professor_details'),
     path('new_department/', views.new_department, name='new_department'),
-    # Page for adding a new faculty
-    path('new_faculty/', views.new_faculty, name='new_faculty'),
-    # Page for adding a new feedback
-    path('new_feedback/', views.new_feedback, name='new_feedback'),
+    
+    # Page for adding a new professor
+    path('new_professor/', views.new_professor, name='new_professor'),
+    # Page for adding a new review
+    path('new_review/<int:professor_id>', views.new_review, name='new_review'),
     # Page for student sign up
     path('student_signup/', views.student_signup_view, name="student_signup"),
     # Page for professor sign up
@@ -31,7 +32,8 @@ urlpatterns = [
     path('login/', views.signin_view, name="signin"),
     # Page for sign out
     path('logout/', views.signout_view, name="signout"),
-    path('new_feedback/<int:professor_id>', views.new_feedback, name='new_feedback'),
 
-    path('profile/', views.user_profile_view, name="profile")
+    path('profile/', views.user_profile_view, name="profile"),
+    # Test page for adding a course
+    path('new_course/', views.new_course, name='new_course'),
     ]
