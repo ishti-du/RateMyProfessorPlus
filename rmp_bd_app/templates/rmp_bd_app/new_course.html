@@ -1,0 +1,44 @@
+<!-- THIS IS A TEST PAGE -->
+
+<!--
+  <p>Add a new Course:</p>
+  <form action="{% url 'rmp_bd_app:new_course' %}" method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div style="display:flex;">
+      <div class="fieldWrapper" style="padding:5px;">
+        {{ form.course_number.errors }}
+        <label for="{{ form.course_number.id_for_label }}">
+          Course Number:
+          <br>
+          <input type="text" id="id_course_number" name="course_number" maxlength="10" autocomplete="off" required />
+        </label>
+      </div>
+      <div class="fieldWrapper" style="padding:5px;">
+        {{ form.course_title.errors }}
+        <label for="{{ form.course_title.id_for_label }}">
+          Course Title:
+          <br>
+          <input type="text" id="id_course_title" name="course_title" maxlength="100" autocomplete="off" required>
+        </label>
+      </div>
+    </div>
+    <button name="submit">Add Course</button>
+  </form>
+-->
+
+{% block content %}
+  <p>Courses</p>
+  <ul>
+    {% for course in courses %}
+      <li>
+        <p>{{ course }}</p>
+      </li>
+    {% empty %}
+      <li>No topics have been added yet.</li>
+    {% endfor %}
+  </ul>
+
+  {% include 'rmp_bd_app/course_autocomplete.html' %}
+
+{% endblock content %}

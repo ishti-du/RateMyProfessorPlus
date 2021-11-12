@@ -64,7 +64,6 @@
         justify-content: center;
       }
 
-      }
       p{
           font-family: Roboto;
         }
@@ -188,11 +187,8 @@
 <h1> It's your turn to grade {{professor.honorific}} {{professor.first_name}} {{professor.last_name}}</h1>
 
 <form id="professorrating">
-    <label for="code">Course Code: </label><br>
-  <input type="text" id="code" name="code"><br>
-  <label for="ctitle">Course Title: </label><br>
-  <input type="text" id="ctitle" name="ctitle"><br>
-   <label for="onlineswitch">Online Class: </label>
+  {% include "rmp_bd_app/course_autocomplete.html" %}
+  <label for="onlineswitch">Online Class: </label>
   <label class="switch">
   <input type="checkbox">
   <span class="slider round"></span>

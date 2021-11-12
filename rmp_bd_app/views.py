@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 
-from .models import University, Department, Professor
-from .forms import UniversityForm, DepartmentForm, ProfessorForm, FeedbackForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm
+from .models import University, Department, Professor, Course
+from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm
 
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -34,7 +35,7 @@ def university(request, university_id):
     return render(request, 'rmp_bd_app/universities.html', context)
 
 def professor(request, department_id):
-    """Shows faculty members for a department"""
+    """Shows professors for a department"""
     department = Department.objects.get(id=department_id)
     professor = Professor.objects.filter(department=Department.objects.get(id=department_id)).order_by('date_added')
     context = {'department': department, 'professor': professor}
@@ -42,9 +43,8 @@ def professor(request, department_id):
 
 
 def professor_details(request, professor_id):
-    """Shows the students' feedback about a faculty"""
+    """Shows the students' reviews about a professor"""
     professor = Professor.objects.get(id=professor_id)
-    #feedback = faculty.feedback_set.order_by('-date_added')
     context = {'professor': professor}
     return render(request, 'rmp_bd_app/professor_details.html', context)
 
@@ -82,9 +82,8 @@ def new_department(request):
     context = {'form': form}
     return render(request, 'rmp_bd_app/new_department.html', context)
 
-
-def new_faculty(request):
-    """Add a new Faculty"""
+def new_professor(request):
+    """Add a new Professor"""
     if request.method != 'POST':
         # no data submitted, create a blank forms
         form = ProfessorForm()
@@ -97,17 +96,17 @@ def new_faculty(request):
 
     # Display a blank or invalid form
     context = {'form': form}
-    return render(request, 'rmp_bd_app/new_faculty.html', context)
+    return render(request, 'rmp_bd_app/new_professor.html', context)
 
 
-def new_feedback(request, professor_id):
+def new_review(request, professor_id):
     professor = Professor.objects.get(id=professor_id)
     if request.method != 'POST':
         # no data submitted, create a blank forms
-        form = FeedbackForm()
+        form = ReviewForm()
     else:
         # POST data submitted; process date_added
-        form = FeedbackForm(data=request.POST)
+        form = ReviewForm(data=request.POST)
         if form.is_valid():
             form.save()
             return redirect('rmp_bd_app:universities')
@@ -116,6 +115,36 @@ def new_feedback(request, professor_id):
     context = {'form': form, 'professor': professor}
     return render(request, 'rmp_bd_app/reviewform.html', context)
 
+def new_course(request):
+    """Add a new course"""
+    form = CourseForm() 
+    course_query = Course.objects.all()
+    courses = []
+    for c in course_query:
+        courses.append((c.course_number, c.course_title))
+    context = {'form': form, 'courses': courses}
+    if request.method == 'POST':
+        # POST data submitted; process date_added
+        # Redirects back to add course page
+        form = CourseForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('rmp_bd_app:new_course', context)
+            
+    # Display a blank or invalid form
+    return render(request, 'rmp_bd_app/new_course.html', context)
+
+# /search/?course=
+# Request made whenever input is made in course number
+# Filters courses based on course number
+def search_course(request):
+    course_number = request.GET.get('course')
+    course_numbers = []
+    if course_number:
+        courses = Course.objects.filter(course_number__icontains=course_number)
+        for course in courses:
+            course_numbers.append((course.course_number, course.course_title))
+    return JsonResponse({'status': 200, 'data' : course_numbers})
 
 def student_signup_view(request):
     user_form = CreateUserForm(request.POST)
