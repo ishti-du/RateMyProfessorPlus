@@ -15,7 +15,7 @@
       })
     }
     
-    // Show filtered autocomplete
+    // Show filtered autocomplete. Autofills course title
     async function showResults(val)
     {
       var res = document.getElementById("result");
@@ -34,11 +34,14 @@
         }
         // Fills the result div with an unordered list of the autocomplete results
         res.innerHTML = '<ul>' + list + '</ul>';
+        // Autofill course title if there is one
         course_title_input.value = courses[0][1];
       }
       else
       {
         res.innerHTML = '';
+        // Clear course_title field if 
+        course_title_input.value = previous_course_title;
       }
     }
 
@@ -62,25 +65,29 @@
         {
           selectFirst();
         }
+        // Clears autocomplete results
         if (this.res)
         {
           this.res.innerHTML = '';
         }
       }
     })
+    
     // Input triggers autocomplete
-    course_number_input.addEventListener("input", debounce(function() {showResults(course_number_input.value)}, 250));
+    course_number_input.addEventListener("input", debounce(function() 
+    {showResults(course_number_input.value)}, 250));
+    
     // Exiting course number input clears filtered list
     course_number_input.addEventListener("blur", function()
     {
       var res = document.getElementById("result");
       res.innerHTML = '';
     })
+    
     // Remembers previous course title entered
-    course_number_input.addEventListener("onfocus", function()
+    course_number_input.addEventListener("focus", function()
     {
       previous_course_title = course_title_input.value;
-      
     })
 
     // Clicking on suggestion from list autocompletes text fields
