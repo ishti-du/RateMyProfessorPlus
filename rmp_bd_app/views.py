@@ -9,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from ipware import get_client_ip
 from django.contrib.gis.geoip2 import GeoIP2
 import geoip2.database
+# from django.contrib.gis.geoip2 import geoip2.webservice
 # Create your views here.
 def index(request):
     """The home page for RMP BD"""
@@ -237,24 +238,31 @@ class SearchResultsView(ListView):
     model = Professor
     template_name = 'rmp_bd_app/search_results.html'
 
-
     def get_queryset(self):
         query = self.request.GET.get('q')
         search_globally = self.request.GET.getlist('search globally')
 
-        if 'search globally' not in search_globally:
+        if 'search globally' in search_globally:
+            object_list = Professor.objects.filter(
+                Q(first_name__icontains=query)|Q(last_name__icontains = query))
+
+        else:
             current_user = User.objects.get(id=self.request.user.id)
             if current_user.is_authenticated:
                 user_profile = StudentProfile.objects.get(user_id=current_user.id)
                 user_ip = user_profile.ip_address
                 print(user_ip)
-                #g = GeoIP2()
-                #country = g.country_code(user_ip)
-                #print(country)
+                g = GeoIP2()
+                country = g.country_code(user_ip)
 
-        object_list = Professor.objects.filter(
-            Q(first_name__icontains = query)
-            #| Q(last_name__icontains = query)
-            #& Q(department__university__in=query)
-            & Q(department__university__in=University.objects.filter(country__icontains="IN")))
+                object_list = Professor.objects.filter(
+                    (Q(first_name__icontains = query) | Q(last_name__icontains = query)),
+                    current_university__country=country
+                )
+
+            else:
+                object_list = Professor.objects.filter(
+                    Q(first_name__icontains=query) | Q(last_name__icontains=query))
+
         return object_list
+
