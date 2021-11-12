@@ -230,10 +230,15 @@ def signout_view(request):
 def user_profile_view(request):
     return render(request, 'rmp_bd_app/profile.html')
 
-# /search/?q=Professor name
-# Request made whenever User will search any professor name
-# Filters Professor name based on IP address
-# Filter Professor name globally
+''' 
+Creator: Mis Champa        Brench: Multicountry 2
+/search/?q=Professor name
+ Request made whenever User will search any professor name
+collect countyry database from maxmind company. Here is the link bellow
+https://www.maxmind.com/en/geoip2-country-database
+ '''
+
+# Create SearchResultView function to filter Professor name based on IP address
 class SearchResultsView(ListView):
     model = Professor
     template_name = 'rmp_bd_app/search_results.html'
@@ -242,10 +247,12 @@ class SearchResultsView(ListView):
         query = self.request.GET.get('q')
         search_globally = self.request.GET.getlist('search globally')
 
+        # if user click checkbox, engine will search professor first and last name by globally
         if 'search globally' in search_globally:
             object_list = Professor.objects.filter(
                 Q(first_name__icontains=query)|Q(last_name__icontains = query))
-
+        # if user do not click checkbox, by default engine will search professor first and last name locally
+        # and if user logged in rateMyProfessorPlus website
         else:
             current_user = User.objects.get(id=self.request.user.id)
             if current_user.is_authenticated:
@@ -259,7 +266,8 @@ class SearchResultsView(ListView):
                     (Q(first_name__icontains = query) | Q(last_name__icontains = query)),
                     current_university__country=country
                 )
-
+            # and if user not logged in rateMyProfessorPlus website, still it will search professor
+                # first and last name locally
             else:
                 object_list = Professor.objects.filter(
                     Q(first_name__icontains=query) | Q(last_name__icontains=query))
