@@ -31,8 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # my apps
-    'rmp_bd_app',
+
+    # my app (Corrected the configuration of the app)
+    'rmp_bd_app.apps.RmpBdAppConfig',
 
     # Default django apps.
     'django.contrib.admin',
@@ -126,13 +127,3 @@ STATIC_URL = '/static/'
 TEMPLATE_CONTEXT_PROCESSORS = (
     'rmp_bd_app.processor_file_name.user',
 )
-
-# To make static files work
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-
-# Used for production, not development
-PROJECT_DIR = os.path.dirname(__file__)
-if not DEBUG:
-    STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')

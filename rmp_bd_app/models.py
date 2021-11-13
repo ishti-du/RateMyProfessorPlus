@@ -20,6 +20,7 @@ def current_year():
     return datetime.date.today().year
 
 
+
 class University(models.Model):
     country = CountryField(blank_label='(Select a Country)')
     university_name = models.CharField(max_length=200)
@@ -128,7 +129,24 @@ class ProfessorProfile(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
 
+'''
+Creating a custom manager for sorting reviews based on mad sad glad type
+'''
+
+class madReviewManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().exclude(mad_text ='')
+
+class sadReviewManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().exclude(sad_text ='')
+
+class gladReviewManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().exclude(glad_text='')
+
 class Review(models.Model):
+
     GRADES = (
         ('A+', 'A+'),
         ('A', 'A'),
@@ -194,6 +212,13 @@ class Review(models.Model):
     is_online = models.BooleanField()
     date_added = models.DateTimeField(auto_now_add=True)
 
+
+    objects = models.Manager()
+    mad_reviews = madReviewManager()
+    sad_reviews = sadReviewManager()
+    glad_reviews = gladReviewManager()
+
+    
     class Meta:
         verbose_name_plural = 'reviews'
 

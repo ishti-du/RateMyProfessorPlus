@@ -29,3 +29,6 @@ admin.site.register(Tag)
 admin.site.register(ReviewTag)
 admin.site.register(StudentProfile)
 admin.site.register(ProfessorProfile)
+
+# admin.site.register(Faculty)
+# admin.site.register(Feedback)
