@@ -1,16 +1,54 @@
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.http import JsonResponse, request
+from django.shortcuts import redirect, render
+from ipware import get_client_ip  # this package retrieves the clients IP
 
-from .models import University, Department, Professor, Course
-from .forms import UniversityForm, DepartmentForm, ProfessorForm, FeedbackForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm
+from .forms import (CourseForm, CreateUserForm, DepartmentForm, FeedbackForm,
+                    ProfessorForm, ProfessorProfileForm, StudentProfileForm,
+                    UniversityForm)
+from .models import Course, Department, Professor, University
 
-from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+''' Func that retrieves the IP address at the start of the website '''
+def retrieveIP(request): 
+    '''
+    ~~~~~
+    Matt Coutts - 11/01/2021 
+    Here we are going to find the 'user/site visitors IP address to flag them. 
+    This can be used with the thumbs up/down limit and comment limit
+    Reference: https://www.youtube.com/watch?v=cbMLP3byKjk 
+    '''
+    ip, is_routable = get_client_ip(request)
 
+    # if we can't get the IP then we check constraints here
+    if ip is None:
+        ip = "0.0.0.0" # set IP as 0.0.0.0 if we can't find it
+    else:
+        # routable = True or False
+        if is_routable:
+            ipv = "Public" # if the ip returns true (not local)
+        else:
+            ipv = "Private" # if the ip returns false (local)
+
+    # if user is signed in: 
+
+        # update ip address to that assigned user 
+    
+        # else: 
+            # dont save ip address 
+
+    # filter the ip address based on company 
+
+        print(ip, ipv)
 
 # Create your views here.
 def index(request):
     """The home page for RMP BD"""
+
+    retrieveIP(request) # retrieving the IP
+    print(retrieveIP(request))
+
+
     print("is authenticated", request.user.is_authenticated, request.user)
     return render(request, 'rmp_bd_app/index.html', {"user": request.user})
 
@@ -192,6 +230,7 @@ def signin_view(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
+            
             if user is not None:
                 print(user)
                 login(request, user)
@@ -211,3 +250,8 @@ def signout_view(request):
 
 def user_profile_view(request):
     return render(request, 'rmp_bd_app/profile.html')
+
+def signedIn():
+    user = authenticate(True)
+    if user is not None: 
+        return 

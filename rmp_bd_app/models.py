@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.http import request
+
+from rmp_bd_app.views import retrieveIP
 
 
 # for year in Review model https://stackoverflow.com/questions/49051017/year-field-in-django/54791915
@@ -131,6 +134,7 @@ class Student_Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="student_profile")
     school_name = models.CharField(max_length=255, blank=True)
     ip_address = models.CharField(max_length=15)
+    #ip_address = retrieveIP(request) #hopefully this auto fills the request --> Matt 11/01/2021
     date_added = models.DateTimeField(auto_now_add=True)
 
 
@@ -275,3 +279,4 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f"{self.feedback[:20]}..."
+
