@@ -187,13 +187,14 @@
 <h1> It's your turn to grade {{professor.honorific}} {{professor.first_name}} {{professor.last_name}}</h1>
 
 <form id="professorrating" method="POST"> {% csrf_token %}
-  {% include "rmp_bd_app/course_autocomplete.html" %}
-  {{ form.as_p }}
+  <table border="1">
+    {% include "rmp_bd_app/course_autocomplete.html" %}
+    {{ form }}
+  </table>
     <h1>Would you like to sign in?</h1>
   <p>Signing in allows you easier access to your reviews while staying anonymous.</p>
   <button id="login">Log In</button><br>
-<input type="submit" value="Save" />
-<button id="submitbutton"><a href="/">Submit</a></button>
+<button class="btn btn-primary" type="submit" value="Save">Submit</button>
 </form>
 </body><style type="text/css" id="dark-mode-custom-color">
 		:root{

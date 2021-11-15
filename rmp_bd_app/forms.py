@@ -1,6 +1,7 @@
 from django import forms
 
-from .models import University, Department, Professor, Feedback, Student_Profile, Professor_Profile, Course, Review
+
+from .models import University, Department, Professor, StudentProfile, ProfessorProfile, Review, Course, ReviewTag
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -26,12 +27,6 @@ class ProfessorForm(forms.ModelForm):
         labels = {'text': ''}
 
 
-class FeedbackForm(forms.ModelForm):
-    class Meta:
-        model = Feedback
-        fields = ['faculty', 'feedback']
-        labels = {'text': ''}
-
 class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
@@ -41,14 +36,14 @@ class CreateUserForm(UserCreationForm):
 class StudentProfileForm(forms.ModelForm):
 
     class Meta:
-        model = Student_Profile
-        fields = ['school_name']
+        model = StudentProfile
+        fields = ['university']
 
 
 class ProfessorProfileForm(forms.ModelForm):
 
     class Meta:
-        model = Professor_Profile
+        model = ProfessorProfile
         fields = ['faculty_directory_url', 'faculty_phone_number']
 
 # Temporary form to create class
@@ -56,20 +51,19 @@ class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = ['course_number', 'course_title']
-        labels = {'text': ''}
 
 class ReviewForm(forms.ModelForm):
-    #tags = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=Review.objects.all())
+    # tags = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=Review.objects.all())
     class Meta:
-        model = Review#, CourseForm
-        fields = ['tags', #'course_number', 'course_title',
+        model = Review
+        fields = ['tags',  # 'course_number', 'course_title',
                   'grade', 'semester', 'year',
                   'mad_text', 'sad_text', 'glad_text',
                   'difficulty_level', 'professor_score', 'is_online', 'is_textbook',
-                  'is_credit']
+                  'is_credit', 'addTag']
         labels = {
-            #'course_title': 'Course Title',
-            #'course_number': 'Course Code',
+            # 'course_title': 'Course Title',
+            # 'course_number': 'Course Code',
             'grade': 'Grade Received',
             'semester': 'Semester Taken',
             'year': 'Year Taken',
@@ -83,10 +77,10 @@ class ReviewForm(forms.ModelForm):
             'is_online': 'Did you take this class online?',
             'is_textbook': 'Did you use the textbook(s) for this class?',
             'is_credit': 'Did you take this class for credit?',
+            'addTag': 'Suggest New Tags'
         }
-        widgets = {
-            #'course': forms.TextInput(attrs={'class':'form-control'}),
-            #'grade': forms.TextInput(attrs={'class':'form-control'}),
-            #'mad_text': forms.Textarea(),
-            #'tags': forms.CheckboxSelectMultiple()
-        }
+
+        def __init__(self, *args, **kwargs):
+            super(ReviewForm, self).__init__(*args, **kwargs)
+            self.fields['addTag'].required = False
+
