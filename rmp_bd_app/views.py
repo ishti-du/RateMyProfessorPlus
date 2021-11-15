@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.db.models.fields import PositiveBigIntegerField
 from django.http import JsonResponse, request
 from django.shortcuts import redirect, render
 from ipware import get_client_ip  # this package retrieves the clients IP
@@ -7,7 +8,7 @@ from ipware import get_client_ip  # this package retrieves the clients IP
 from .forms import (CourseForm, CreateUserForm, DepartmentForm, FeedbackForm,
                     ProfessorForm, ProfessorProfileForm, StudentProfileForm,
                     UniversityForm)
-from .models import Course, Department, Professor, University
+from .models import Course, Department, Professor, Professor_Profile, Student_Profile, University
 
 ''' Func that retrieves the IP address at the start of the website '''
 def retrieveIP(request): 
@@ -30,26 +31,29 @@ def retrieveIP(request):
         else:
             ipv = "Private" # if the ip returns false (local)
 
-    # if user is signed in: 
+    try:
+        Student_Profile.ip_address = ip
+        
+    except: 
+        print("Error in models.py IPProfile Capture") 
 
-        # update ip address to that assigned user 
-    
-        # else: 
-            # dont save ip address 
+        print(ip)
+        return(ip)
 
-    # filter the ip address based on company 
 
-        print(ip, ipv)
+# this function adds the IP to the speocific profile based on the type of profile signed in, i hope 
+def IPProfileCapture(request):
+    pass
 
 # Create your views here.
 def index(request):
     """The home page for RMP BD"""
 
-    retrieveIP(request) # retrieving the IP
-    print(retrieveIP(request))
-
-
+    ip = retrieveIP(request) # retrieving the IP
+    
     print("is authenticated", request.user.is_authenticated, request.user)
+    Student_Profile.ip_address = ip
+    Professor_Profile.ip_address = ip
     return render(request, 'rmp_bd_app/index.html', {"user": request.user})
 
 
@@ -194,6 +198,7 @@ def student_signup_view(request):
             user = user_form.save()
             profile = student_form.save(commit=False)
             profile.user = user
+            profile.ipaddress = "0.0.0.0"
             profile.save()
             username = user_form.cleaned_data.get('username')
             password = user_form.cleaned_data.get('password1')
@@ -254,4 +259,4 @@ def user_profile_view(request):
 def signedIn():
     user = authenticate(True)
     if user is not None: 
-        return 
+        return user
