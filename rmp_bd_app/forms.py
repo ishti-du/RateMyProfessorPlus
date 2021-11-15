@@ -56,9 +56,9 @@ class ReviewForm(forms.ModelForm):
     # tags = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=Review.objects.all())
     class Meta:
         model = Review
-        fields = ['tags',  # 'course_number', 'course_title',
+        fields = [#'tags',  # 'course_number', 'course_title',
                   'grade', 'semester', 'year',
-                  'mad_text', 'sad_text', 'glad_text',
+                  'mad_text', 'sad_text', 'glad_text', 'tags',
                   'difficulty_level', 'professor_score', 'is_online', 'is_textbook',
                   'is_credit', 'addTag']
         labels = {
