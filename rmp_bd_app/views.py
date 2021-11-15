@@ -3,7 +3,8 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.db.models.fields import PositiveBigIntegerField
 from django.http import JsonResponse, request
 from django.shortcuts import redirect, render
-from ipware import get_client_ip  # this package retrieves the clients IP
+from ipware import get_client_ip
+import ipware  # this package retrieves the clients IP
 
 from .forms import (CourseForm, CreateUserForm, DepartmentForm, FeedbackForm,
                     ProfessorForm, ProfessorProfileForm, StudentProfileForm,
@@ -31,29 +32,18 @@ def retrieveIP(request):
         else:
             ipv = "Private" # if the ip returns false (local)
 
-    try:
-        Student_Profile.ip_address = ip
-        
-    except: 
-        print("Error in models.py IPProfile Capture") 
+    print(ip)
+    return(ip)
 
-        print(ip)
-        return(ip)
-
-
-# this function adds the IP to the speocific profile based on the type of profile signed in, i hope 
-def IPProfileCapture(request):
-    pass
 
 # Create your views here.
 def index(request):
     """The home page for RMP BD"""
 
-    ip = retrieveIP(request) # retrieving the IP
+    
     
     print("is authenticated", request.user.is_authenticated, request.user)
-    Student_Profile.ip_address = ip
-    Professor_Profile.ip_address = ip
+    
     return render(request, 'rmp_bd_app/index.html', {"user": request.user})
 
 
@@ -195,10 +185,12 @@ def student_signup_view(request):
     student_form = StudentProfileForm(request.POST)
     if request.method == "POST":
         if user_form.is_valid() and student_form.is_valid():
+            ip = retrieveIP(request) # Matt - retrieves the IP as an int
+            ip2 = str(ip) # Matt - converts the IP to a string to be added to the profile
             user = user_form.save()
             profile = student_form.save(commit=False)
             profile.user = user
-            profile.ipaddress = "0.0.0.0"
+            profile.ip_address = ip2 # Matt -  adds the IP to the profile created 
             profile.save()
             username = user_form.cleaned_data.get('username')
             password = user_form.cleaned_data.get('password1')
@@ -212,9 +204,12 @@ def professor_signup_view(request):
     professor_form = ProfessorProfileForm(request.POST)
     if request.method == "POST":
         if user_form.is_valid() and professor_form.is_valid():
+            ip = retrieveIP(request) # Matt - retrieves the IP as an int
+            ip2 = str(ip) # Matt - converts the IP to a string to be added to the profile
             user = user_form.save()
             profile = professor_form.save(commit=False)
             profile.user = user
+            profile.ip_address = ip2 # Matt - adds the IP to the profile created 
             profile.save()
             username = user_form.cleaned_data.get('username')
             password = user_form.cleaned_data.get('password1')
