@@ -8,8 +8,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from ipware import get_client_ip
 from django.contrib.gis.geoip2 import GeoIP2
-import geoip2.database
-# from django.contrib.gis.geoip2 import geoip2.webservice
+
 # Create your views here.
 def index(request):
     """The home page for RMP BD"""
@@ -231,13 +230,12 @@ def user_profile_view(request):
     return render(request, 'rmp_bd_app/profile.html')
 
 ''' 
-Creator: Mis Champa        Brench: Multicountry 2
+Creator: Mis Champa        Branch: Multicountry 2
 /search/?q=Professor name
- Request made whenever User will search any professor name
+Request made whenever User will search any professor name
 collect countyry database from maxmind company. Here is the link bellow
 https://www.maxmind.com/en/geoip2-country-database
  '''
-
 # Create SearchResultView function to filter Professor name based on IP address
 class SearchResultsView(ListView):
     model = Professor

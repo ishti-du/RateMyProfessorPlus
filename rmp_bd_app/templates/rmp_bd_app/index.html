@@ -50,9 +50,11 @@
 <body>
   <center>
 <div id="logo"><img src="https://www.adazing.com/wp-content/uploads/2019/02/stacked-book-clipart-07.png", alt="logo"></div>
-        <div id=search>
+        <div id=searchbox>
            <form action="{% url 'rmp_bd_app:search_results' %}" method="get">
-                 <input name="q" type="text" placeholder="Search...">
+                 <input name="q" type="text" placeholder="Search..."><br>
+                    <label for="Search"> Search Globally</label>
+                    <input type="checkbox" id="Search" name="search globally" value="search globally">
            </form>
         </div>
       <a href="{% url 'rmp_bd_app:universities' %}"><button>List of Universities</button></a>
