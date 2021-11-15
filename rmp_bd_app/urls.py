@@ -36,4 +36,5 @@ urlpatterns = [
     path('profile/', views.user_profile_view, name="profile"),
     # Test page for adding a course
     path('new_course/', views.new_course, name='new_course'),
+    path('profile_update/', views.user_profile_update_view, name="profile_update")
     ]

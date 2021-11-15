@@ -2,10 +2,12 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
 from .models import University, Department, Professor, Course
-from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm
+from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm, UpdateUserForm
 
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+
+
 
 
 # Create your views here.
@@ -209,3 +211,14 @@ def signout_view(request):
 
 def user_profile_view(request):
     return render(request, 'rmp_bd_app/profile.html')
+
+def user_profile_update_view(request):
+    if request.method == 'POST':
+        user_update_form = UpdateUserForm(request.POST, instance=request.user)
+        if user_update_form.is_valid():
+            user_update_form.save()
+            return redirect('/profile')
+    else:
+        user_update_form = UpdateUserForm(instance=request.user)
+
+    return render(request, 'rmp_bd_app/profile_update.html', {'user_update_form': user_update_form})
