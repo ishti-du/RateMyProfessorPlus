@@ -128,6 +128,7 @@ class ProfessorProfile(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
 
+
 class Review(models.Model):
     GRADES = (
         ('A+', 'A+'),
@@ -193,6 +194,36 @@ class Review(models.Model):
     # was the class online
     is_online = models.BooleanField()
     date_added = models.DateTimeField(auto_now_add=True)
+
+
+    # function: returns a dictionary of sorted reviews based on mad, sad, glad, or all category
+    @staticmethod
+    def mad_reviews():
+        review_dict = {}
+        for r in Review.objects.exclude(mad_text=' '):
+            review_dict[r.user] = r.mad_text
+        return review_dict
+    
+    @staticmethod
+    def sad_reviews():
+        review_dict = {}
+        for r in Review.objects.exclude(sad_text=' '):
+            review_dict[r.user] = r.sad_text
+        return review_dict
+    
+    @staticmethod
+    def glad_reviews():
+        review_dict = {}
+        for r in Review.objects.exclude(glad_text=' '):
+            review_dict[r.user] = r.glad_text
+        return review_dict
+
+    @staticmethod
+    def all_reviews():
+        review_dict = {}
+        for r in Review.objects.all():
+            review_dict[r.user] = r.glad_text + " " + r.sad_text + " " + r.mad_text
+        return review_dict
 
     class Meta:
         verbose_name_plural = 'reviews'
