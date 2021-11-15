@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
 from .models import University, Department, Professor, Course
-from .forms import UniversityForm, DepartmentForm, ProfessorForm, FeedbackForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm
+from .forms import UniversityForm, DepartmentForm, ProfessorForm, FeedbackForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm, ReviewForm
 
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -105,10 +105,10 @@ def new_feedback(request, professor_id):
     professor = Professor.objects.get(id=professor_id)
     if request.method != 'POST':
         # no data submitted, create a blank forms
-        form = FeedbackForm()
+        form = ReviewForm()
     else:
         # POST data submitted; process date_added
-        form = FeedbackForm(data=request.POST)
+        form = ReviewForm(data=request.POST)
         if form.is_valid():
             form.save()
             return redirect('rmp_bd_app:universities')
