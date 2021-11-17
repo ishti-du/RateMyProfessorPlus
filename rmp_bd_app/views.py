@@ -258,18 +258,21 @@ class SearchProfessorsResultsView(ListView):
         query = self.request.GET.get('q')
         search_globally = self.request.GET.getlist('search globally')
 
+        # if user click checkbox, engine will search professor first and last name by globally
         if 'search globally' in search_globally:
             professor_list = Professor.objects.filter(
                     Q(first_name__icontains=query)|Q(last_name__icontains = query))
+        # checks if the user is authenticated
         elif self.request.user.is_authenticated:
-
             current_user = User.objects.get(id=self.request.user.id)
             user_profile = StudentProfile.objects.get(user_id=current_user.id)
+            #getting user ip address
             user_ip = user_profile.ip_address
+            # if user ip address is "0.0.0.0" ----> search by first or last name
             if user_ip == "0.0.0.0":
                 professor_list = Professor.objects.filter(
                     Q(first_name__icontains=query)|Q(last_name__icontains = query))
-
+            # if user ip address is not "0.0.0.0" ----> search by first or last name in the associated country
             else:
                 g = GeoIP2()
                 country = g.country_code(user_ip)
