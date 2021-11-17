@@ -19,7 +19,7 @@ urlpatterns = [
     path('professor/<int:department_id>', views.professor, name='professor'),
     path('professor_details/<int:professor_id>', views.professor_details, name='professor_details'),
     path('new_department/', views.new_department, name='new_department'),
-    
+
     # Page for adding a new professor
     path('new_professor/', views.new_professor, name='new_professor'),
     # Page for adding a new review
@@ -36,5 +36,8 @@ urlpatterns = [
     path('profile/', views.user_profile_view, name="profile"),
     # Test page for adding a course
     path('new_course/', views.new_course, name='new_course'),
-    path('profile_update/', views.user_profile_update_view, name="profile_update")
-    ]
+    path('profile_update/', views.user_profile_update_view, name="profile_update"),
+    # professor search results
+    path('search/', views.SearchResultsView.as_view(), name='search_results')
+]
+
