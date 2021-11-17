@@ -8,7 +8,7 @@ var university = getUniversity();
 // Gets filtered autocomplete results
 function autocomplete(input)
 {
-  const url = `/search_course/?course=${input}`;
+  const url = `/search_course/?university=${university}&course=${input}`;
   return new Promise(resolve =>
   {
     fetch(url)

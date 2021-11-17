@@ -86,6 +86,7 @@ class UniversityProfessor(models.Model):
 class Course(models.Model):
     course_number = models.CharField(max_length=10)
     course_title = models.CharField(max_length=100)
+    course_university = models.ForeignKey(University, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
