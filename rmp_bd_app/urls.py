@@ -38,6 +38,6 @@ urlpatterns = [
     path('new_course/', views.new_course, name='new_course'),
     path('profile_update/', views.user_profile_update_view, name="profile_update"),
     # professor search results
-    path('search/', views.SearchResultsView.as_view(), name='search_results')
+    path('search/', views.SearchProfessorsResultsView.as_view(), name='search_results')
 ]
 

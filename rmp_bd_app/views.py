@@ -250,7 +250,7 @@ collect countyry database from maxmind company. Here is the link bellow
 https://www.maxmind.com/en/geoip2-country-database
  '''
 # Create SearchResultView function to filter Professor name based on IP address
-class SearchResultsView(ListView):
+class SearchProfessorsResultsView(ListView):
     model = Professor
     template_name = 'rmp_bd_app/search_results.html'
 
@@ -258,30 +258,27 @@ class SearchResultsView(ListView):
         query = self.request.GET.get('q')
         search_globally = self.request.GET.getlist('search globally')
 
-        # if user click checkbox, engine will search professor first and last name by globally
         if 'search globally' in search_globally:
-            object_list = Professor.objects.filter(
-                Q(first_name__icontains=query)|Q(last_name__icontains = query))
-        # if user do not click checkbox, by default engine will search professor first and last name locally
-        # and if user logged in rateMyProfessorPlus website
-        else:
+            professor_list = Professor.objects.filter(
+                    Q(first_name__icontains=query)|Q(last_name__icontains = query))
+        elif self.request.user.is_authenticated:
+
             current_user = User.objects.get(id=self.request.user.id)
-            if current_user.is_authenticated:
-                user_profile = StudentProfile.objects.get(user_id=current_user.id)
-                user_ip = user_profile.ip_address
-                print(user_ip)
+            user_profile = StudentProfile.objects.get(user_id=current_user.id)
+            user_ip = user_profile.ip_address
+            if user_ip == "0.0.0.0":
+                professor_list = Professor.objects.filter(
+                    Q(first_name__icontains=query)|Q(last_name__icontains = query))
+
+            else:
                 g = GeoIP2()
                 country = g.country_code(user_ip)
+                professor_list = Professor.objects.filter(
+                                (Q(first_name__icontains = query) | Q(last_name__icontains = query)),
+                                current_university__country=country
+                            )
+        else:
+            professor_list = Professor.objects.filter(
+                Q(first_name__icontains=query) | Q(last_name__icontains=query))
 
-                object_list = Professor.objects.filter(
-                    (Q(first_name__icontains = query) | Q(last_name__icontains = query)),
-                    current_university__country=country
-                )
-            # and if user not logged in rateMyProfessorPlus website, still it will search professor
-                # first and last name locally
-            else:
-                object_list = Professor.objects.filter(
-                    Q(first_name__icontains=query) | Q(last_name__icontains=query))
-
-        return object_list
-
+        return professor_list
