@@ -6,7 +6,7 @@ from django.db.models.deletion import CASCADE
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from django_countries.fields import CountryField
+#from django_countries.fields import CountryField
 
 from django_countries.fields import CountryField
 

@@ -19,7 +19,7 @@
     }
     #searchbox{
     border: none;
-    margin-left: 1em;
+    margin-left: 2em;
     height: 1.5em;
     width: 34em;
     }
@@ -44,16 +44,21 @@
     </style>
 </head>
 {% block content %}
-
 <link href=
 'https://fonts.googleapis.com/css?family=Antonio'
           rel='stylesheet' />
 <body>
   <center>
 <div id="logo"><img src="https://www.adazing.com/wp-content/uploads/2019/02/stacked-book-clipart-07.png", alt="logo"></div>
-        <div id=searchbar>
-          <input type="text" id="searchbox" value="Search"><br>
-        </div>
+
+           <form action="{% url 'rmp_bd_app:search_results' %}" method="get">
+               <div id=searchbox>
+                 <input name="q" id = "searchbar" type="text" placeholder="Search..."><br>
+                   </div>
+                 <label for="searchbox"> Search Globally</label>
+                 <input type="checkbox" id="Search" name="search globally" value="search globally">
+           </form>
+
       <a href="{% url 'rmp_bd_app:universities' %}"><button>List of Universities</button></a>
   </center>
 </body>
