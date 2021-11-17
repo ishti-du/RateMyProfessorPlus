@@ -228,7 +228,13 @@ class Review(models.Model):
     class Meta:
         verbose_name_plural = 'reviews'
 
+class FlagManager(models.Manager):
 
+    def get_queryset(*args, **kwargs):
+        return Review.objects.get(
+            report_flags=10
+        )
+    
 class Tag(models.Model):
     text = models.CharField(max_length=100)
     date_added = models.DateTimeField(auto_now_add=True)
