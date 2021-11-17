@@ -198,31 +198,35 @@ class Review(models.Model):
     #https://stackoverflow.com/questions/1372016/django-models-custom-functions
     # function: returns a dictionary of sorted reviews based on mad, sad, glad, or all category
     @staticmethod
-    def mad_reviews():
+    def mad_reviews(curr_professor):
         review_dict = {}
         for r in Review.objects.exclude(mad_text=' '):
-            review_dict[(r.user, r.professor)] = r.mad_text
+            if(r.professor == curr_professor):
+                review_dict[(r.user, r.professor)] = r.mad_text
         return review_dict
     
     @staticmethod
-    def sad_reviews():
+    def sad_reviews(curr_professor):
         review_dict = {}
         for r in Review.objects.exclude(sad_text=' '):
-            review_dict[(r.user, r.professor)] = r.sad_text
+            if(r.professor == curr_professor):
+                review_dict[(r.user, r.professor)] = r.sad_text
         return review_dict
     
     @staticmethod
-    def glad_reviews():
+    def glad_reviews(curr_professor):
         review_dict = {}
         for r in Review.objects.exclude(glad_text=' '):
-            review_dict[(r.user, r.professor)] = r.glad_text
+            if(r.professor == curr_professor):
+                review_dict[(r.user, r.professor)] = r.glad_text
         return review_dict
 
     @staticmethod
-    def all_reviews():
+    def all_reviews(curr_professor):
         review_dict = {}
         for r in Review.objects.all():
-            review_dict[(r.user, r.professor)] = r.glad_text + " " + r.sad_text + " " + r.mad_text
+            if(r.professor == curr_professor):
+                review_dict[(r.user, r.professor)] = r.glad_text + " " + r.sad_text + " " + r.mad_text
         return review_dict
 
     class Meta:
