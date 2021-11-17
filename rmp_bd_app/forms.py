@@ -18,6 +18,7 @@ class CampusForm(forms.ModelForm):
         fields = ['university', 'campus_name']
         labels = {'text': ''}
 
+
 class DepartmentForm(forms.ModelForm):
     class Meta:
         model = Department
@@ -37,9 +38,15 @@ class CreateUserForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name']
 
+class UpdateUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name']
+
+    username = forms.CharField(disabled=True)
+
 
 class StudentProfileForm(forms.ModelForm):
-
     class Meta:
         model = StudentProfile
         fields = ['university']
