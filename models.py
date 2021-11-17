@@ -163,14 +163,6 @@ class Professor_Profile(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
 
-class FlagManager(models.Manager):
-
-    def get_queryset(*args, **kwargs):
-        return super().get_queryset(*args, **kwargs).filter(
-            report_flags__gt=Review.maxflag
-        )
-
-
 class Review(models.Model):
     GRADES = (
         ('A+', 'A+'),
@@ -215,6 +207,7 @@ class Review(models.Model):
     thumbs_up = models.PositiveIntegerField(default=0)
     thumbs_down = models.PositiveIntegerField(default=0)
     report_flags = models.PositiveIntegerField(default=0)
+
     mad_text = models.CharField(max_length=350)
     sad_text = models.CharField(max_length=350)
     glad_text = models.CharField(max_length=350)
@@ -238,7 +231,60 @@ class Review(models.Model):
     # was the class online
     is_online = models.BooleanField()
     date_added = models.DateTimeField(auto_now_add=True)
-    maxflag = models.PositiveIntegerField(default=10)
+
+
+
+    class Meta:
+        verbose_name_plural = 'reviews'
+
+
+class FlagManager(models.Manager):
+
+    def get_queryset(*args, **kwargs):
+        return Review.objects.get(
+            report_flags=10
+        )
+
+    # professor_course = models.ForeignKey(Professor_Course, default=None)
+    # if the professor associated with the review is deleted the review will be deleted as well
+    professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    # if the course associated with the review is deleted the review has no associated course
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True)
+
+    university = models.ForeignKey(University, on_delete=CASCADE)
+
+    campus = models.ForeignKey(Campus, on_delete=CASCADE)
+    # if the user associated with the review is deleted the review will be deleted as well
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    grade = models.CharField(max_length=15, choices=GRADES)
+    thumbs_up = models.PositiveIntegerField(default=0)
+    thumbs_down = models.PositiveIntegerField(default=0)
+    report_flags = models.PositiveIntegerField(default=0)
+    mad_text = models.CharField(max_length=350)
+    sad_text = models.CharField(max_length=350)
+    glad_text = models.CharField(max_length=350)
+    # for setting a range on difficulty_level and score https://stackoverflow.com/questions/33772947/django-set-range-for-integer-model-field-as-constraint
+    difficulty_level = models.IntegerField(
+        default=0,
+        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+    )
+    professor_score = models.IntegerField(
+        default=0,
+        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+    )
+    semester = models.CharField(max_length=4, choices=SEMESTERS)
+    year = models.IntegerField(choices=year_choices(), default=current_year())
+    # was a textbook used
+    is_textbook = models.BooleanField()
+    # was attendance mandatory
+    is_attendance = models.BooleanField()
+    # was the class taken for credit
+    is_credit = models.BooleanField()
+    # was the class online
+    is_online = models.BooleanField()
+    date_added = models.DateTimeField(auto_now_add=True)
+    FlagManager.get_queryset()
+
 
     class Meta:
         verbose_name_plural = 'reviews'

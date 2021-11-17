@@ -46,11 +46,13 @@ class ProfessorProfileForm(forms.ModelForm):
         model = ProfessorProfile
         fields = ['faculty_directory_url', 'faculty_phone_number']
 
+
 # Temporary form to create class
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = ['course_number', 'course_title']
+
 
 class ReviewForm(forms.ModelForm):
     class Meta:
