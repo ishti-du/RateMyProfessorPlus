@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -41,7 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis.geoip2',
 ]
+GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')
+#GEOIP_PATH =ROOT_PATH + '/geoip'
+                        #'django.contrib.gis.geoip2.base.py'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -72,7 +76,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'rmp_bd.wsgi.application'
-
+# GEOIP_PATH = 'django.contrib.gis.geoip2'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -126,3 +130,13 @@ STATIC_URL = '/static/'
 TEMPLATE_CONTEXT_PROCESSORS = (
     'rmp_bd_app.processor_file_name.user',
 )
+
+# To make static files work
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+# Used for production, not development
+PROJECT_DIR = os.path.dirname(__file__)
+if not DEBUG:
+    STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')

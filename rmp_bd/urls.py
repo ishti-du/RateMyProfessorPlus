@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rmp_bd_app.views import search_course
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('rmp_bd_app.urls')),    
+    path('', include('rmp_bd_app.urls')),
 ]

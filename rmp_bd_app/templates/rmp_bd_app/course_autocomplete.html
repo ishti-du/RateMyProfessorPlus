@@ -1,0 +1,41 @@
+{% block course_search %}
+  <!-- Inline CSS Begins Here-->
+  <style>
+    /* CSS for DIY autocomplete */
+    #result ul {
+      border: 1px solid #ccc;
+      list-style-type: none;
+      padding: 0px;
+      margin: 0px;
+      position:absolute;
+    }
+    #result ul li {
+      padding: 0px 5px;
+      background: #fff;
+    }
+    #result ul li:hover {
+      background: #eee;
+    }
+    #ctitle, #code {
+      position:relative;
+    }
+  </style>
+  <!-- Inline CSS Ends Here-->
+
+  <div style="display:flex">
+    <div class="fieldWrapper" style="padding:5px;">
+      <label for="code">Course Code:</label><br>
+      <input autocomplete="off" type="text" name="code" id="code"/>
+    </div>
+    <div class="fieldWrapper" style="padding:5px;">
+      <label for="ctitle">Course Title:</label><br>
+      <input autocomplete="off" type="text" name="ctitle" id="ctitle"/>
+      <div id="result"></div>
+    </div>
+  </div>
+
+  {% load static %}
+  <!-- Autocomplete Script -->
+  <script src="{% static 'rmp_bd_app\js\course_autocomplete.js' %}">
+  </script>
+{% endblock %}
