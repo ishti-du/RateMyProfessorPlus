@@ -7,6 +7,7 @@
   {% for professor in object_list %}
     <li>
         <a href="{% url 'rmp_bd_app:professor_details' professor.id %}"> {{ professor }}</a>
+
     </li>
   {% endfor %}
 </ul>

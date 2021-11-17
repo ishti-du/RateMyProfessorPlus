@@ -116,12 +116,12 @@
         </div>
         <a href="{% url 'rmp_bd_app:universities' %}"><button>View Professor</button></a>
    </div>
-   <div id=searchbox>
         <form action="{% url 'rmp_bd_app:search_results' %}" method="get">
-             <input name="q" type="text" placeholder="Search..."><br>
+            <div id=searchbar>
+                <input id="searchbox" name="q" type="text" placeholder="Search..."><br>
                 <label for="Search"> Search Globally</label>
-                <input type="checkbox" id="Search" name="search globally" value="search globally">
-         </form>
+                <input type="checkbox" id="search" name="search globally" value="search globally">
+        </form>
    </div>
 
    <div>
