@@ -4,20 +4,22 @@
 </head>
 
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'rmp_bd/indexstyle.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'rmp_bd/style.css' %}">
 
 {% block content %}
 
 <link href=
 'https://fonts.googleapis.com/css?family=Antonio'
           rel='stylesheet' />
-<body>
+<body style = "background-color:green;">
+<div class="indexbody">
   <center>
-<div id="logo"><img src="https://www.adazing.com/wp-content/uploads/2019/02/stacked-book-clipart-07.png", alt="logo"></div>
+<div id="indexlogo"><img src="https://www.adazing.com/wp-content/uploads/2019/02/stacked-book-clipart-07.png", alt="logo", class = "indeximage"></div>
         <div id=searchbar>
           <input type="text" id="searchbox" value="Search"><br>
         </div>
       <a href="{% url 'rmp_bd_app:universities' %}"><button>List of Universities</button></a>
   </center>
+</div>
 </body>
 {% endblock content%}

@@ -1,0 +1,20 @@
+{% extends 'rmp_bd_app/base.html' %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'rmp_bd/style.css' %}">
+
+{% block content %}
+
+<h1> Campuses of the {{ university }}:</h1>
+<ul>
+  {% for entry in campuses %}
+    <li>
+      <!--p>{{ entry.date_added|date:'M d, Y H:i' }}</p-->
+      <a href="{% url 'rmp_bd_app:departments' university.id %}">{{ entry.campus_name}}</a>
+    </li>
+  {% empty %}
+    <li>There are no entries for this topic yet.</li>
+  {% endfor %}
+</ul>
+<button id="addnewbutton"><a href="{% url 'rmp_bd_app:new_campus'%}">Add a New Campus</a></button>
+{% endblock content %}

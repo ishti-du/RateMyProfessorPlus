@@ -5,7 +5,11 @@
 
   <form action="{% url 'rmp_bd_app:new_university' %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <table>
+      {% for field in form %}
+        <tr><td>{{ field.label }}</td><td>{{ field }}</td></tr>
+      {% endfor %}
+      </table>
     <button name="submit" id="addnewbutton">Add University</button>
   </form>
 
