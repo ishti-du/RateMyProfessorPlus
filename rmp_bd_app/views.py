@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
-from .models import University, Department, Professor, Course
+from .models import University, Department, Professor, Course, FlagManager
 from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm
 
 from django.contrib.auth import login, authenticate, logout
@@ -108,6 +108,8 @@ def new_review(request, professor_id):
         # POST data submitted; process date_added
         form = ReviewForm(data=request.POST)
         if form.is_valid():
+            dele = FlagManager.get_queryset()
+            dele.delete()
             form.save()
             return redirect('rmp_bd_app:universities')
 
