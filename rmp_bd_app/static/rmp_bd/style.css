@@ -114,11 +114,14 @@
       #dododont{
         display: flex;
         justify-content : space-between;
-        margin: 1em;
+        margin-left: 2em;
+        margin-right: 2em;
       }
       #doy{
+        width: 14em;
         color: green;
-        justify-content: center;
+        text-align: justify;
+        text-justify: inter-word;
       }
       form{
         line-height: 3em;
@@ -132,7 +135,7 @@
         display: inline-block;
         width: 60px;
         height: 34px;
-        top: .5em;
+        bottom: 20px
       }
 
       /* Hide default HTML checkbox */
