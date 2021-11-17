@@ -128,7 +128,6 @@ class ProfessorProfile(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
 
-
 class Review(models.Model):
     GRADES = (
         ('A+', 'A+'),
@@ -162,15 +161,18 @@ class Review(models.Model):
     # if the professor associated with the review is deleted the review will be deleted as well
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
     # if the course associated with the review is deleted the review has no associated course
-    course = models.ForeignKey(Course, on_delete=models.SET_NULL, blank=True, null=True)
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True)
+
     university = models.ForeignKey(University, on_delete=CASCADE)
-    campus = models.ForeignKey(Campus, on_delete=CASCADE, blank=True, null=True)
+
+    campus = models.ForeignKey(Campus, on_delete=CASCADE)
     # if the user associated with the review is deleted the review will be deleted as well
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     grade = models.CharField(max_length=15, choices=GRADES)
     thumbs_up = models.PositiveIntegerField(default=0)
     thumbs_down = models.PositiveIntegerField(default=0)
     report_flags = models.PositiveIntegerField(default=0)
+
     mad_text = models.CharField(max_length=350)
     sad_text = models.CharField(max_length=350)
     glad_text = models.CharField(max_length=350)
@@ -196,37 +198,10 @@ class Review(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
 
-    # function: returns a dictionary of sorted reviews based on mad, sad, glad, or all category
-    @staticmethod
-    def mad_reviews():
-        review_dict = {}
-        for r in Review.objects.exclude(mad_text=' '):
-            review_dict[r.user] = r.mad_text
-        return review_dict
-    
-    @staticmethod
-    def sad_reviews():
-        review_dict = {}
-        for r in Review.objects.exclude(sad_text=' '):
-            review_dict[r.user] = r.sad_text
-        return review_dict
-    
-    @staticmethod
-    def glad_reviews():
-        review_dict = {}
-        for r in Review.objects.exclude(glad_text=' '):
-            review_dict[r.user] = r.glad_text
-        return review_dict
-
-    @staticmethod
-    def all_reviews():
-        review_dict = {}
-        for r in Review.objects.all():
-            review_dict[r.user] = r.glad_text + " " + r.sad_text + " " + r.mad_text
-        return review_dict
 
     class Meta:
         verbose_name_plural = 'reviews'
+
 
 class FlagManager(models.Manager):
 
@@ -234,7 +209,8 @@ class FlagManager(models.Manager):
         return Review.objects.get(
             report_flags=10
         )
-    
+
+
 class Tag(models.Model):
     text = models.CharField(max_length=100)
     date_added = models.DateTimeField(auto_now_add=True)
