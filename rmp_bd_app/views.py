@@ -1,18 +1,39 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-
-from .models import University, Department, Professor, Course
+from django.views.generic.list import ListView
+from .models import University, Department, Professor, Course, User, StudentProfile
 from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm
-
+from django.db.models import Q
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-
+from ipware import get_client_ip
+from django.contrib.gis.geoip2 import GeoIP2
 
 # Create your views here.
 def index(request):
     """The home page for RMP BD"""
     print("is authenticated", request.user.is_authenticated, request.user)
     return render(request, 'rmp_bd_app/index.html', {"user": request.user})
+    '''
+    ~~~~~~~~~
+    Matt Coutts - 10/16/2021 
+    Here we are going to find the 'user/site visitors IP address to flag them. 
+    This can be used with the thumbs up/down limit and comment limit
+    Reference: https://www.youtube.com/watch?v=cbMLP3byKjk 
+    '''
+    ip, is_routable = get_client_ip(request)
+
+    # if we can't get the IP then we check constraints here
+    if ip is None:
+        ip = "0.0.0.0" # set IP as 0.0.0.0 if we can't find it
+    else:
+        # routable = True or False
+        if is_routable:
+            ipv = "Public" # if the ip returns true (not local)
+        else:
+            ipv = "Private" # if the ip returns false (local)
+
+    print(ip, ipv)
 
 
 def universities(request):
@@ -205,7 +226,49 @@ def signin_view(request):
 def signout_view(request):
     logout(request)
     return redirect('/login')
-
-
 def user_profile_view(request):
     return render(request, 'rmp_bd_app/profile.html')
+
+''' 
+Creator: Mis Champa        Branch: Multicountry 2
+/search/?q=Professor name
+Request made whenever User will search any professor name
+collect countyry database from maxmind company. Here is the link bellow
+https://www.maxmind.com/en/geoip2-country-database
+ '''
+# Create SearchResultView function to filter Professor name based on IP address
+class SearchResultsView(ListView):
+    model = Professor
+    template_name = 'rmp_bd_app/search_results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        search_globally = self.request.GET.getlist('search globally')
+
+        # if user click checkbox, engine will search professor first and last name by globally
+        if 'search globally' in search_globally:
+            object_list = Professor.objects.filter(
+                Q(first_name__icontains=query)|Q(last_name__icontains = query))
+        # if user do not click checkbox, by default engine will search professor first and last name locally
+        # and if user logged in rateMyProfessorPlus website
+        else:
+            current_user = User.objects.get(id=self.request.user.id)
+            if current_user.is_authenticated:
+                user_profile = StudentProfile.objects.get(user_id=current_user.id)
+                user_ip = user_profile.ip_address
+                print(user_ip)
+                g = GeoIP2()
+                country = g.country_code(user_ip)
+
+                object_list = Professor.objects.filter(
+                    (Q(first_name__icontains = query) | Q(last_name__icontains = query)),
+                    current_university__country=country
+                )
+            # and if user not logged in rateMyProfessorPlus website, still it will search professor
+                # first and last name locally
+            else:
+                object_list = Professor.objects.filter(
+                    Q(first_name__icontains=query) | Q(last_name__icontains=query))
+
+        return object_list
+
