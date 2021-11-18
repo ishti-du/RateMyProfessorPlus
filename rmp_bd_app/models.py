@@ -199,35 +199,19 @@ class Review(models.Model):
     # function: returns a dictionary of sorted reviews based on mad, sad, glad, or all category
     @staticmethod
     def mad_reviews(curr_professor):
-        review_dict = {}
-        for r in Review.objects.exclude(mad_text=' '):
-            if(r.professor == curr_professor):
-                review_dict[(r.user, r.professor)] = r.mad_text
-        return review_dict
+        return [r.mad_text for r in Review.objects.filter(professor = curr_professor, mad_text__isnull = False)]
     
     @staticmethod
     def sad_reviews(curr_professor):
-        review_dict = {}
-        for r in Review.objects.exclude(sad_text=' '):
-            if(r.professor == curr_professor):
-                review_dict[(r.user, r.professor)] = r.sad_text
-        return review_dict
+        return [r.sad_text for r in Review.objects.filter(professor = curr_professor, sad_text__isnull = False)]
     
     @staticmethod
     def glad_reviews(curr_professor):
-        review_dict = {}
-        for r in Review.objects.exclude(glad_text=' '):
-            if(r.professor == curr_professor):
-                review_dict[(r.user, r.professor)] = r.glad_text
-        return review_dict
+        return [r.glad_text for r in Review.objects.filter(professor = curr_professor, glad_text__isnull = False)]
 
     @staticmethod
     def all_reviews(curr_professor):
-        review_dict = {}
-        for r in Review.objects.all():
-            if(r.professor == curr_professor):
-                review_dict[(r.user, r.professor)] = r.glad_text + " " + r.sad_text + " " + r.mad_text
-        return review_dict
+        return [r.glad_text + " " + r.sad_text + " " + r.mad_text for r in Review.objects.all()]
 
     class Meta:
         verbose_name_plural = 'reviews'
