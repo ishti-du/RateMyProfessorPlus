@@ -36,5 +36,8 @@ urlpatterns = [
     path('profile/', views.user_profile_view, name="profile"),
     # Test page for adding a course
     path('new_course/', views.new_course, name='new_course'),
-    path('new_tag/', views.new_tag, name='new_tag')
-    ]
+    path('new_tag/', views.new_tag, name='new_tag'),
+    path('profile_update/', views.user_profile_update_view, name="profile_update"),
+    # professor search results
+    path('search/', views.SearchProfessorsResultsView.as_view(), name='search_results')
+]
