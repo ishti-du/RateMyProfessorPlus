@@ -1,10 +1,8 @@
 from django import forms
 
-
-from .models import University, Department, Professor, StudentProfile, ProfessorProfile, Review, Course
+from .models import University, Department, Professor, StudentProfile, ProfessorProfile, Review, Course, Tag
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
 
 class UniversityForm(forms.ModelForm):
     class Meta:
@@ -57,3 +55,8 @@ class ReviewForm(forms.ModelForm):
         model = Review
         fields = ['professor']
         labels = {'text': ''}
+
+class TagForm(forms.ModelForm):
+    class Meta:
+        model = Tag
+        fields= ['new_tag']

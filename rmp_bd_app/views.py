@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
 from .models import University, Department, Professor, Course
-from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm
+from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm, TagForm
 
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -117,7 +117,7 @@ def new_review(request, professor_id):
 
 def new_course(request):
     """Add a new course"""
-    form = CourseForm() 
+    form = CourseForm()
     course_query = Course.objects.all()
     courses = []
     for c in course_query:
@@ -130,7 +130,7 @@ def new_course(request):
         if form.is_valid():
             form.save()
             return redirect('rmp_bd_app:new_course', context)
-            
+
     # Display a blank or invalid form
     return render(request, 'rmp_bd_app/new_course.html', context)
 
@@ -209,3 +209,20 @@ def signout_view(request):
 
 def user_profile_view(request):
     return render(request, 'rmp_bd_app/profile.html')
+
+def new_tag(request):
+    if request.method != 'POST':
+        # no data submitted, create a blank forms
+        form = TagForm()
+        return render(request, 'rmp_bd_app/new_tag.html', {'form': form})
+    else:
+        # POST data submitted;
+        form = TagForm(data=request.POST)
+        #form = form.TagForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('rmp_bd_app:universities')
+
+    # Display a blank or invalid form
+    context  = {'form': form}
+    return render(request, 'rmp_bd_app/new_tag.html')

@@ -199,14 +199,13 @@ class Review(models.Model):
 
 
 class Tag(models.Model):
-    text = models.CharField(max_length=100)
-    date_added = models.DateTimeField(auto_now_add=True)
+    new_tag = models.CharField(max_length=30, null=True, unique=True)
 
     class Meta:
         verbose_name_plural = 'tags'
 
     def __str__(self):
-        return self.text
+        return self.new_tag
 
 
 # tag and review junction table

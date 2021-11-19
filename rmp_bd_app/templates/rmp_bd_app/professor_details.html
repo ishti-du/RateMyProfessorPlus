@@ -129,7 +129,8 @@
 <div id="professor">
     <a href=""><h1>{{professor.honorific}} {{professor.first_name}} {{professor.last_name}}</h1> </a>
     <a href=> {{ professor.current_university }}</a><br>
-    <a href = "{% url 'rmp_bd_app:new_review' professor.id %}" ><button>Rate Professor</button></a>
+    <a href = "{% url 'rmp_bd_app:new_feedback' professor.id %}" ><button>Rate Professor</button></a>
+    <div style= "margin-left: 0px; margin-right: 0px;"><h1>{{professor.first_name}} {{professor.last_name}}'s top tags</h1></div>
 </div>
 <div id="scores">
   <div id= "scoretitle">
@@ -137,7 +138,7 @@
     <div style= "margin-left: 70px; margin-right: 70px;"><h1>Level of Difficulty</h1></div>    </div>
   <div id="scorevalues" style = "margin-left: 100px;">
   <div ><h1>{rating}</h1></div>
-  <div><h1>{raing}</h1></div></div>
+  <div><h1>{rating}</h1></div></div>
 </div><!-- scores -->
 </div><!-- stats -->
 <hr style="margin-top: 30px;">

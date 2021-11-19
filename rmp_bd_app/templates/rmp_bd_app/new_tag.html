@@ -1,0 +1,12 @@
+{% extends  "rmp_bd_app/base.html" %}
+
+{% block content %}
+  <h3>Add a new tag:</h3>
+
+  <form action="{% url 'rmp_bd_app:new_tag' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button name="submit">Add new tag</button>
+  </form>
+
+{% endblock content %}

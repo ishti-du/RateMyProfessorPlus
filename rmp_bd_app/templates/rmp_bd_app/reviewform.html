@@ -64,6 +64,7 @@
         justify-content: center;
       }
 
+      }
       p{
           font-family: Roboto;
         }
@@ -187,8 +188,11 @@
 <h1> It's your turn to grade {{professor.honorific}} {{professor.first_name}} {{professor.last_name}}</h1>
 
 <form id="professorrating">
-  {% include "rmp_bd_app/course_autocomplete.html" %}
-  <label for="onlineswitch">Online Class: </label>
+    <label for="code">Course Code: </label><br>
+  <input type="text" id="code" name="code"><br>
+  <label for="ctitle">Course Title: </label><br>
+  <input type="text" id="ctitle" name="ctitle"><br>
+   <label for="onlineswitch">Online Class: </label>
   <label class="switch">
   <input type="checkbox">
   <span class="slider round"></span>
@@ -240,7 +244,7 @@
     <input type="checkbox">Pop Quizzes <input type="checkbox">Amazing Lectures <br>
     <input type="checkbox">Caring <input type="checkbox">So Many Papers
   </div>
-<label for="newtag">Suggest New Tag: </label><input type="text" id="newtag" name="newtag"><br>
+<label for="newtag">Suggest New Tag: </label><input type="text" id="new_tag" name="newtag"><br>
 
   <h1>Would you like to sign in?</h1>
   <p>Signing in allows you easier access to your reviews while staying anonymous.</p>
