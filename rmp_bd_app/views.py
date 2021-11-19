@@ -255,3 +255,16 @@ def signedIn():
     user = authenticate(True)
     if user is not None: 
         return user
+
+def thumbsUpDownIP(request, buttonPress):
+    # Matt - psuedo code for the button action for like and dislike button
+    # if the button is pressed and user is signed in  --> retrieve the IP
+    if buttonPress:
+        if signedIn():
+            retrieveIP(request)
+
+
+        # if the ip is none --> attempt to recall the function to retrieve the IP
+        elif retrieveIP(request) is None:
+            thumbsUpDownIP(request, buttonPress)
+
