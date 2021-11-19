@@ -1,11 +1,15 @@
 {% extends  "rmp_bd_app/base.html" %}
 
 {% block content %}
-  <p>Add a new Professor:</p>
+  <h1>Add a new Professor:</h1>
 
   <form action="{% url 'rmp_bd_app:new_professor' %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <table>
+      {% for field in form %}
+        <tr><td>{{ field.label }}</td><td>{{ field }}</td></tr>
+      {% endfor %}
+      </table>
     <button name="submit">Add Professor</button>
   </form>
 
