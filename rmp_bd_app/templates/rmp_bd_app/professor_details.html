@@ -3,119 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Professor Details</title>
-    <style>
-    #nav {
-      background-color: green;
-      height: 4em;
-      display: flex;
-      justify-content : space-between;
-      align-items: center;
-    }
-    #searchbar{
-    background-color: white;
-    height: 2em;
-    width: 30em;
-    border-radius: 25px;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    }
-    #searchbox{
-    border: none;
-    margin-left: 1em;
-    height: 1.5em;
-    width: 34em;
-    }
-    p{
-        font-family: Roboto;
-        text-decoration-color: black;
-      }
-    h1, h2{
-      font-family: Antonio;
-      color: green;
-      text-decoration-color: green;
-    }
-    h2{
-      font-size: 1.2em;
-    }
-    button, #logo{
-      width: 10em;
-      height: 2.5em;
-      font-family: Antonio;
-      font-size: 1.2em;
-      color:white;
-    }
-    button{
-      margin-top: 1em;
-      background-color:green;
-      border: none;
-      margin-bottom: 1.2em;
-    }
-    #logo{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    a{
-      color: inherit;
-      text-decoration-color: currentColor;
-    }
-    #stats{
-      display:flex;
-    }
-    #scores{
-      margin-left: 15em;
-      margin-top: 2em;
-      background-color: #ddd;
-    }
-    #scoretitle{
-      display:flex;
-      justify-content: center;
-    }
-    #scorevalues{
-      display: flex;
-      justify-content: space-between;
-      width: 22.5em;
-    }
-    #ratingheadings{
-      margin-right: 3em;
-      display:flex;
-      justify-content: space-between;
-    }
-
-    #ratingsorts{
-      display: flex;
-      align-items: center;
-    }
-    select{
-    height: 1.5em;
-    }
-
-    @media only screen
-    and (min-device-width : 320px)
-    and (max-device-width : 480px) {
-    /* Here you should set what size you want your div to be
-    when viewed on smartphone */
-    /* Styles */
-    }
-
-    /* iPads (portrait and landscape) ----------- */
-    @media only screen
-    and (min-device-width : 768px)
-    and (max-device-width : 1024px) {
-    /* Styles */
-    }
-
-    /* Desktops and laptops ----------- */
-    @media only screen
-    and (min-width : 1224px) {
-    /* Styles */
-    }
-    }
-    </style>
 </head>
 {% extends 'rmp_bd_app/base.html' %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'rmp_bd/style.css' %}">
+
 {% block content %}
 <meta name="viewport" content="width=device-width; initial-scale=1.0">
 <link href=
@@ -128,7 +21,12 @@
 <div id="stats">
 <div id="professor">
     <a href=""><h1>{{professor.honorific}} {{professor.first_name}} {{professor.last_name}}</h1> </a>
-    <a href=> {{ professor.current_university }}</a><br>
+
+    {{professor.department}},
+    {{ professor.current_university }},
+    {{professor.current_university.country.name}}
+<br>
+
     <a href = "{% url 'rmp_bd_app:new_review' professor.id %}" ><button>Rate Professor</button></a>
 </div>
 <div id="scores">
@@ -151,4 +49,7 @@
   <select name="Sortby" id="Sortby"></select>
 </div>
 </div><!-- rating headings -->
+
+
+<p>{review.text}</p>
 {% endblock content %}

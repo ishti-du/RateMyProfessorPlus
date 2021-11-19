@@ -12,5 +12,7 @@
     <li>There are no entries for this topic yet.</li>
   {% endfor %}
 </ul>
-<a href="{% url 'rmp_bd_app:new_professor'%}">Add a new Professor</a>
+
+<button id="addnewbutton"><a href="{% url 'rmp_bd_app:new_professor'%}">Add a New Professor</a></button>
+
 {% endblock content %}
