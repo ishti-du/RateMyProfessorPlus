@@ -5,8 +5,8 @@ from .models import University, Department, Professor, Course, FlagManager
 from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm
 
 from django.views.generic.list import ListView
-from .models import University, Department, Professor, Course, User, StudentProfile
-from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm, UpdateUserForm
+from .models import University, Department, Professor, Course, User, StudentProfile, Campus
+from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm, CampusForm, UpdateUserForm
 from django.db.models import Q
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -53,6 +53,12 @@ def departments(request, university_id):
     departments = Department.objects.filter(university=University.objects.get(id=university_id)).order_by('date_added')
     context = {'departments': departments, 'university': university}
     return render(request, 'rmp_bd_app/departments.html', context)
+
+def campuses(request, university_id):
+    university = University.objects.get(id=university_id)
+    campuses = Campus.objects.filter(university=University.objects.get(id=university_id)).order_by('date_added')
+    context = {'campuses': campuses, 'university': university}
+    return render(request, 'rmp_bd_app/campuses.html', context)
 
 def university(request, university_id):
     """Shows each individual university """
@@ -109,6 +115,22 @@ def new_department(request):
     context = {'form': form}
     return render(request, 'rmp_bd_app/new_department.html', context)
 
+def new_campus(request):
+    """Add a new Department"""
+    if request.method != 'POST':
+        # no data submitted, create a blank forms
+        form = CampusForm()
+    else:
+        # POST data submitted; process date_added
+        form = CampusForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('rmp_bd_app:universities')
+
+    # Display a blank or invalid form
+    context = {'form': form}
+    return render(request, 'rmp_bd_app/new_campus.html', context)
+
 def new_professor(request):
     """Add a new Professor"""
     if request.method != 'POST':
@@ -119,7 +141,9 @@ def new_professor(request):
         form = ProfessorForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('rmp_bd_app:universities')
+            professor = Professor.objects.latest('id')
+            context = {'professor': professor}
+            return render(request, 'rmp_bd_app/professor_details.html', context)
 
     # Display a blank or invalid form
     context = {'form': form}
@@ -138,7 +162,7 @@ def new_review(request, professor_id):
             dele = FlagManager.get_queryset()
             dele.delete()
             form.save()
-            return redirect('rmp_bd_app:universities')
+            return redirect('rmp_bd_app:professor_details.html')
 
     # Display a blank or invalid form
     context = {'form': form, 'professor': professor}

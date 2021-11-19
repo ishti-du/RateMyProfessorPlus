@@ -14,6 +14,9 @@ from .models import Tag
 from .models import ReviewTag
 from .models import StudentProfile
 from .models import ProfessorProfile
+from .models import ThumbUp
+from .models import ThumbDown
+from .models import ReportFlag
 
 
 admin.site.register(University)
@@ -29,4 +32,7 @@ admin.site.register(Tag)
 admin.site.register(ReviewTag)
 admin.site.register(StudentProfile)
 admin.site.register(ProfessorProfile)
+admin.site.register(ThumbUp)
+admin.site.register(ThumbDown)
+admin.site.register(ReportFlag)
 
