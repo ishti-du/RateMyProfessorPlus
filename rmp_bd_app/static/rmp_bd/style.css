@@ -11,6 +11,9 @@
       justify-content : space-between;
       align-items: center;
     }
+    .reviewform{
+    line-height: 3em;
+    }
     #searchbar{
     background-color: white;
     height: 2em;
@@ -20,11 +23,20 @@
     justify-content: left;
     align-items: center;
     }
+        .auth-button {
+        margin-top: 1em;
+        margin-right: 1em;
+        text-decoration: none;
+        color: white;
+        height: 2.5em;
+        font-family: Antonio;
+        font-size: 1.2em;
+    }
     #searchbox{
     border: none;
     margin-left: 1em;
     height: 1.5em;
-    width: 34em;
+    width: 30em;
     }
     #logo-and-universities{
       display:flex;
@@ -73,6 +85,15 @@
       font-family: Antonio;
       font-size: 1.2em;
       color:white;
+    }
+    .auth-button {
+        margin-top: 1em;
+        margin-right: 1em;
+        text-decoration: none;
+        color: white;
+        height: 2.5em;
+        font-family: Antonio;
+        font-size: 1.2em;
     }
     #addnewbutton{
         width:10em;
@@ -136,9 +157,7 @@
         text-align: justify;
         text-justify: inter-word;
       }
-      form{
-        line-height: 3em;
-      }
+
     select{
     height: 1.5em;
     }
