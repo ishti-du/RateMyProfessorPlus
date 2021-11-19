@@ -5,10 +5,8 @@ from django.http import JsonResponse, request
 from django.shortcuts import redirect, render
 from ipware import get_client_ip
 import ipware  # this package retrieves the clients IP
-
-from .forms import (CourseForm, CreateUserForm, DepartmentForm, FeedbackForm,
-                    ProfessorForm, ProfessorProfileForm, StudentProfileForm,
-                    UniversityForm)
+from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, \
+    ProfessorProfileForm, CreateUserForm, CourseForm, UpdateUserForm
 from .models import Course, Department, Professor, Professor_Profile, Student_Profile, University
 
 ''' Func that retrieves the IP address at the start of the website '''
