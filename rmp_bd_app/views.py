@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-
-from .models import University, Department, Professor, Course
-from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm
-
+from django.views.generic.list import ListView
+from .models import University, Department, Professor, Course, User, StudentProfile
+from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm, UpdateUserForm
+from django.db.models import Q
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from ipware import get_client_ip
+from django.contrib.gis.geoip2 import GeoIP2
+
 
 
 # Create your views here.
@@ -13,6 +16,26 @@ def index(request):
     """The home page for RMP BD"""
     print("is authenticated", request.user.is_authenticated, request.user)
     return render(request, 'rmp_bd_app/index.html', {"user": request.user})
+    '''
+    ~~~~~~~~~
+    Matt Coutts - 10/16/2021 
+    Here we are going to find the 'user/site visitors IP address to flag them. 
+    This can be used with the thumbs up/down limit and comment limit
+    Reference: https://www.youtube.com/watch?v=cbMLP3byKjk 
+    '''
+    ip, is_routable = get_client_ip(request)
+
+    # if we can't get the IP then we check constraints here
+    if ip is None:
+        ip = "0.0.0.0" # set IP as 0.0.0.0 if we can't find it
+    else:
+        # routable = True or False
+        if is_routable:
+            ipv = "Public" # if the ip returns true (not local)
+        else:
+            ipv = "Private" # if the ip returns false (local)
+
+    print(ip, ipv)
 
 
 def universities(request):
@@ -205,7 +228,60 @@ def signin_view(request):
 def signout_view(request):
     logout(request)
     return redirect('/login')
-
-
 def user_profile_view(request):
     return render(request, 'rmp_bd_app/profile.html')
+
+def user_profile_update_view(request):
+    if request.method == 'POST':
+        user_update_form = UpdateUserForm(request.POST, instance=request.user)
+        if user_update_form.is_valid():
+            user_update_form.save()
+            return redirect('/profile')
+    else:
+        user_update_form = UpdateUserForm(instance=request.user)
+
+    return render(request, 'rmp_bd_app/profile_update.html', {'user_update_form': user_update_form})
+
+''' 
+Creator: Mis Champa        Branch: Multicountry 2
+/search/?q=Professor name
+Request made whenever User will search any professor name
+collect countyry database from maxmind company. Here is the link bellow
+https://www.maxmind.com/en/geoip2-country-database
+ '''
+# Create SearchResultView function to filter Professor name based on IP address
+class SearchProfessorsResultsView(ListView):
+    model = Professor
+    template_name = 'rmp_bd_app/search_results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        search_globally = self.request.GET.getlist('search globally')
+
+        # if user click checkbox, engine will search professor first and last name by globally
+        if 'search globally' in search_globally:
+            professor_list = Professor.objects.filter(
+                    Q(first_name__icontains=query)|Q(last_name__icontains = query))
+        # checks if the user is authenticated
+        elif self.request.user.is_authenticated:
+            current_user = User.objects.get(id=self.request.user.id)
+            user_profile = StudentProfile.objects.get(user_id=current_user.id)
+            #getting user ip address
+            user_ip = user_profile.ip_address
+            # if user ip address is "0.0.0.0" ----> search by first or last name
+            if user_ip == "0.0.0.0":
+                professor_list = Professor.objects.filter(
+                    Q(first_name__icontains=query)|Q(last_name__icontains = query))
+            # if user ip address is not "0.0.0.0" ----> search by first or last name in the associated country
+            else:
+                g = GeoIP2()
+                country = g.country_code(user_ip)
+                professor_list = Professor.objects.filter(
+                                (Q(first_name__icontains = query) | Q(last_name__icontains = query)),
+                                current_university__country=country
+                            )
+        else:
+            professor_list = Professor.objects.filter(
+                Q(first_name__icontains=query) | Q(last_name__icontains=query))
+
+        return professor_list

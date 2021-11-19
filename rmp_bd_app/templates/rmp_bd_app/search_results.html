@@ -1,0 +1,14 @@
+{% extends 'rmp_bd_app/base.html' %}
+
+{% block content %}
+<h1>Search Results</h1>
+
+<ul>
+  {% for professor in professor_list %}
+    <li>
+        <a href="{% url 'rmp_bd_app:professor_details' professor.id %}"> {{ professor }}</a>
+
+    </li>
+  {% endfor %}
+</ul>
+{% endblock content %}
