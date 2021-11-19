@@ -166,14 +166,12 @@ class Review(models.Model):
     university = models.ForeignKey(University, on_delete=CASCADE)
     campus = models.ForeignKey(Campus, on_delete=CASCADE, blank=True, null=True)
     # if the user associated with the review is deleted the review will be deleted as well
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    ip_address = models.CharField(max_length=15)    
     grade = models.CharField(max_length=15, choices=GRADES)
-    thumbs_up = models.PositiveIntegerField(default=0)
-    thumbs_down = models.PositiveIntegerField(default=0)
-    report_flags = models.PositiveIntegerField(default=0)
-    mad_text = models.CharField(max_length=350)
-    sad_text = models.CharField(max_length=350)
-    glad_text = models.CharField(max_length=350)
+    mad_text = models.CharField(max_length=350, null=True, blank=True)
+    sad_text = models.CharField(max_length=350, null=True, blank=True)
+    glad_text = models.CharField(max_length=350, null=True, blank=True)
     # for setting a range on difficulty_level and score https://stackoverflow.com/questions/33772947/django-set-range-for-integer-model-field-as-constraint
     difficulty_level = models.IntegerField(
         default=0,
@@ -194,6 +192,9 @@ class Review(models.Model):
     # was the class online
     is_online = models.BooleanField()
     date_added = models.DateTimeField(auto_now_add=True)
+    
+    
+
 
 
     # function: returns a dictionary of sorted reviews based on mad, sad, glad, or all category
@@ -245,3 +246,38 @@ class ReviewTag(models.Model):
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
+
+class ThumbUp(models.Model):
+    ''' Review Thumb Up '''
+
+    review = models.OneToOneField(Review, related_name="thumb_ups", on_delete=models.CASCADE)
+    users = models.ManyToManyField(User, related_name='thumb_ups')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.comment.comment)[:30]
+
+
+class ThumbDown(models.Model):
+    ''' Review Thumb Down '''
+
+    review = models.OneToOneField(Review, related_name="thumb_downs", on_delete=models.CASCADE)
+    users = models.ManyToManyField(User, related_name='thumb_downs')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.comment.comment)[:30]
+
+
+class ReportFlag(models.Model):
+    ''' Review Report Flags '''
+
+    review = models.OneToOneField(Review, related_name="report_flags", on_delete=models.CASCADE)
+    users = models.ManyToManyField(User, related_name='report_flags')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.comment.comment)[:30]
