@@ -2,10 +2,10 @@
     .indexbody
     {
       margin-top: 4em;
-      background-color: green;
+      background-color: #03539a;
     }
     #nav {
-      background-color: green;
+      background-color: #03539a;
       height: 4em;
       display: flex;
       justify-content : space-between;
@@ -48,8 +48,8 @@
       }
     h1, h2{
       font-family: Antonio;
-      color: green;
-      text-decoration-color: green;
+      color: #03539a;
+      text-decoration-color: #03539a;
     }
     h2{
       font-size: 1.2em;
@@ -69,7 +69,7 @@
     }
     button{
       margin-top: 1em;
-      background-color:green;
+      background-color:#03539a;
       border: none;
       margin-bottom: 1.2em;
     }
@@ -104,7 +104,7 @@
     }
     ul li::before {
       content: "\2022";
-      color: green;
+      color: #03539a;
       font-weight: bold;
       width: 1em;
       margin-left: -1em;
@@ -153,7 +153,7 @@
       }
       #doy{
         width: 14em;
-        color: green;
+        color: #03539a;
         text-align: justify;
         text-justify: inter-word;
       }
@@ -203,7 +203,7 @@
       }
 
       input:checked + .slider {
-        background-color: green;
+        background-color: #03539a;
       }
 
       input:focus + .slider {
