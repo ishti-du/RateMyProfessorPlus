@@ -15,8 +15,14 @@
 <div class="indexbody">
   <center>
 <div id="indexlogo"><img src="static/rmp_bd/rmplogoblue.png", alt="logo", class = "indeximage"></div>
-        <div id=searchbar>
-          <input type="text" id="searchbox" value="Search"><br>
+        <div>
+        <form action="{% url 'rmp_bd_app:search_results' %}" method="get">
+            <div id=searchbar>
+                <input id="searchbox" name="q" type="text" placeholder="Search..."><br>
+                <label for="Search"> Search Globally</label>
+                <input type="checkbox" id="search" name="search globally" value="search globally">
+            </div>
+        </form>
         </div>
       <a href="{% url 'rmp_bd_app:universities' %}"><button>List of Universities</button></a>
   </center>
