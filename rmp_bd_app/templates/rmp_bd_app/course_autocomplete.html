@@ -34,6 +34,22 @@
     </div>
   </div>
 
+  <!-- Check if there is a professor object and get their university -->
+  <script>
+    function getUniversity()
+    {
+      try
+      {
+        var univ = "{{professor.current_university}}";
+      }
+      catch
+      {
+        var univ = "";
+      }
+      return univ;
+    }
+  </script>
+
   {% load static %}
   <!-- Autocomplete Script -->
   <script src="{% static 'rmp_bd_app\js\course_autocomplete.js' %}">

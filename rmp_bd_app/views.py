@@ -181,14 +181,19 @@ def new_course(request):
     # Display a blank or invalid form
     return render(request, 'rmp_bd_app/new_course.html', context)
 
-# /search/?course=
+# /search/?university=&?course=
 # Request made whenever input is made in course number
-# Filters courses based on course number
 def search_course(request):
-    course_number = request.GET.get('course')
+    request_dict = request.GET
+    course_number = request_dict.get('course')
+    university = request_dict.get('university')
     course_numbers = []
     if course_number:
-        courses = Course.objects.filter(course_number__icontains=course_number)
+        courses = Course.objects.filter(
+            course_number__icontains=course_number
+        ).filter(
+            course_university__university_name=university
+        )
         for course in courses:
             course_numbers.append((course.course_number, course.course_title))
     return JsonResponse({'status': 200, 'data' : course_numbers})
