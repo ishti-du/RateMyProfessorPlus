@@ -58,6 +58,7 @@ class ProfessorProfileForm(forms.ModelForm):
         model = ProfessorProfile
         fields = ['faculty_directory_url', 'faculty_phone_number']
 
+# Temporary form to test course creation
 
 # Temporary form to create class
 class CourseForm(forms.ModelForm):

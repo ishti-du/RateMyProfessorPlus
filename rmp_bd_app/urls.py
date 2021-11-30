@@ -38,6 +38,9 @@ urlpatterns = [
     path('profile/', views.user_profile_view, name="profile"),
     # Test page for adding a course
     path('new_course/', views.new_course, name='new_course'),
+    # Course search autocomplete
+    path('search_course/', views.search_course),
+    # Profile update
     path('profile_update/', views.user_profile_update_view, name="profile_update"),
     # professor search results
     path('search/', views.SearchProfessorsResultsView.as_view(), name='search_results')
