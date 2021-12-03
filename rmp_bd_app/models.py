@@ -218,11 +218,18 @@ class Review(models.Model):
             review_dict[r.user] = r.glad_text
         return review_dict
 
+    '''Function to create professor link'''
+    @staticmethod
+    def ProfessorLink_reviews():
+        review_dict = {}
+        for r in Review.objects.exclude(professorlink_text=' '):
+            review_dict[r.user] = r.professorlink_text
+        return review_dict
     @staticmethod
     def all_reviews():
         review_dict = {}
         for r in Review.objects.all():
-            review_dict[r.user] = r.glad_text + " " + r.sad_text + " " + r.mad_text
+            review_dict[r.user] = r.glad_text + " " + r.sad_text + " " + r.mad_text+ r.professorlink_text + " "
         return review_dict
 
     class Meta:
