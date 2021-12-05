@@ -1,9 +1,0 @@
-{% extends "rmp_bd_app/base.html" %}
-{% block content %}
-<h3>My account</h3>
-<p>Hello {{ user.username}}</p>
-<p>First Name: {{ user.first_name}}</p>
-<p>Last Name: {{ user.last_name}}</p>
-<p>Email: {{ user.email}}</p>
-<button type="button" onclick="location.href = '/profile_update';">Update Information</button>
-{% endblock content %}
