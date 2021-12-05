@@ -1,0 +1,17 @@
+<!-- THIS IS A TEST PAGE -->
+
+{% block content %}
+  <p>Courses</p>
+  <ul>
+    {% for course in courses %}
+      <li>
+        <p>{{ course }}</p>
+      </li>
+    {% empty %}
+      <li>No topics have been added yet.</li>
+    {% endfor %}
+  </ul>
+
+  {% include 'rmp_bd_app/course_autocomplete.html' %}
+
+{% endblock content %}
