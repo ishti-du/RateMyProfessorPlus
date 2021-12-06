@@ -5,7 +5,7 @@ from .models import University, Department, Professor, Course, User, StudentProf
 from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm, CampusForm, UpdateUserForm, UpdateStudentProfileForm, UpdateProfessorProfileForm
 from django.db.models import Q
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from ipware import get_client_ip
 from django.contrib.gis.geoip2 import GeoIP2
 
@@ -295,6 +295,16 @@ def user_profile_update_view(request):
 
     return render(request, 'rmp_bd_app/profile_update.html', {'user_update_form': user_update_form,
                                                               'profile_update_form': profile_update_form})
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            return redirect('/login')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'rmp_bd_app/change_password.html', {'form': form})
 
 ''' 
 Creator: Mis Champa        Branch: Multicountry 2
