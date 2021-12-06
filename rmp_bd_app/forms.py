@@ -29,7 +29,7 @@ class DepartmentForm(forms.ModelForm):
 class ProfessorForm(forms.ModelForm):
     class Meta:
         model = Professor
-        fields = ['current_university', 'campus', 'department', 'honorific', 'first_name', 'last_name']
+        fields = ['current_university', 'campus', 'department', 'title', 'first_name', 'last_name']
         labels = {'text': ''}
 
 
