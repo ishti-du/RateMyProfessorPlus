@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.generic.list import ListView
 from .models import University, Department, Professor, Course, User, StudentProfile, Campus
-from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm, CampusForm, UpdateUserForm
+from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, CreateUserForm, CourseForm, CampusForm, UpdateUserForm, UpdateStudentProfileForm, UpdateProfessorProfileForm
 from django.db.models import Q
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -257,19 +257,44 @@ def signin_view(request):
 def signout_view(request):
     logout(request)
     return redirect('/login')
+
 def user_profile_view(request):
-    return render(request, 'rmp_bd_app/profile.html')
+    return render(request, 'rmp_bd_app/profile.html', {"is_student": hasattr(request.user, 'student_profile'),
+                                                       "is_professor": hasattr(request.user, 'professor_profile')})
+
 
 def user_profile_update_view(request):
+    if hasattr(request.user, 'student_profile'):
+        ProfileForm = UpdateStudentProfileForm
+        profile = request.user.student_profile
+    elif hasattr(request.user, 'professor_profile'):
+        ProfileForm = UpdateProfessorProfileForm
+        profile = request.user.professor_profile
+    else:
+        ProfileForm = None
+        profile = None
+    profile_update_form = None
+
     if request.method == 'POST':
+        print('###', request)
         user_update_form = UpdateUserForm(request.POST, instance=request.user)
         if user_update_form.is_valid():
-            user_update_form.save()
+            if ProfileForm is not None:
+                profile_update_form = ProfileForm(request.POST, instance=profile)
+                if profile_update_form.is_valid():
+                    print("I AM HERE")
+                    profile_update_form.save()
+                    user_update_form.save()
+            else:
+                user_update_form.save()
             return redirect('/profile')
     else:
         user_update_form = UpdateUserForm(instance=request.user)
+        if ProfileForm:
+            profile_update_form = ProfileForm(instance=profile)
 
-    return render(request, 'rmp_bd_app/profile_update.html', {'user_update_form': user_update_form})
+    return render(request, 'rmp_bd_app/profile_update.html', {'user_update_form': user_update_form,
+                                                              'profile_update_form': profile_update_form})
 
 ''' 
 Creator: Mis Champa        Branch: Multicountry 2

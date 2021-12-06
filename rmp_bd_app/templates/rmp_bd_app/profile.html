@@ -5,5 +5,11 @@
 <p>First Name: {{ user.first_name}}</p>
 <p>Last Name: {{ user.last_name}}</p>
 <p>Email: {{ user.email}}</p>
+  {% if is_student %}
+    <p>University: {{ user.student_profile.university }}</p>
+  {% elif is_professor %}
+    <p>Faculty directory url: {{ user.professor_profile.faculty_directory_url }}</p>
+    <p>Faculty phone number: {{ user.professor_profile.faculty_phone_number }}</p>
+  {% endif %}
 <button type="button" onclick="location.href = '/profile_update';">Update Information</button>
 {% endblock content %}

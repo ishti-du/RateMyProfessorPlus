@@ -51,9 +51,17 @@ class StudentProfileForm(forms.ModelForm):
         model = StudentProfile
         fields = ['university']
 
+class UpdateStudentProfileForm(forms.ModelForm):
+    class Meta:
+        model = StudentProfile
+        fields = ['university']
 
 class ProfessorProfileForm(forms.ModelForm):
+    class Meta:
+        model = ProfessorProfile
+        fields = ['faculty_directory_url', 'faculty_phone_number']
 
+class UpdateProfessorProfileForm(forms.ModelForm):
     class Meta:
         model = ProfessorProfile
         fields = ['faculty_directory_url', 'faculty_phone_number']
