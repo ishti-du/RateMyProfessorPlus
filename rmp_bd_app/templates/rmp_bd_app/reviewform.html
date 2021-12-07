@@ -1,166 +1,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Review Professor</title>
-    <style>
-          #nav {
-        background-color: green;
-        height: 4em;
-        display: flex;
-        justify-content : space-between;
-        align-items: center;
-      }
-      #searchbar{
-      background-color: white;
-      height: 2em;
-      width: 30em;
-      border-radius: 25px;
-      display: flex;
-      justify-content: left;
-      align-items: center;
-      }
-      #searchbox{
-      border: none;
-      margin-left: 1em;
-      height: 1.5em;
-      width: 34em;
-      }
-      button, #logo{
-        width: 10em;
-        height: 2.5em;
-        font-family: Antonio;
-        font-size: 1.2em;
-        color:white;
-      }
-      button{
-        margin-top: 1em;
-        background-color:green;
-        border: none;
-        margin-bottom: 1.2em;
-      }
-      #logo{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      a{
-        color: inherit;
-        text-decoration-color: currentColor;
-      }
-      #dodonts{
-        margin: 2em;
-        background-color: #ddd;
-        height: 19em;
-        width: 50em;
-      }
-
-      #dododont{
-        display: flex;
-        justify-content : space-between;
-        margin: 1em;
-      }
-      #doy{
-        color: green;
-        justify-content: center;
-      }
-
-      p{
-          font-family: Roboto;
-        }
-      h1{
-        font-family: Antonio;
-        color: green;
-      }
-      form{
-        line-height: 3em;
-      }
-      @media only screen
-      and (min-device-width : 320px)
-      and (max-device-width : 480px) {
-      /* Here you should set what size you want your div to be
-      when viewed on smartphone */
-      /* Styles */
-      }
-
-      /* iPads (portrait and landscape) ----------- */
-      @media only screen
-      and (min-device-width : 768px)
-      and (max-device-width : 1024px) {
-      /* Styles */
-      }
-
-      /* Desktops and laptops ----------- */
-      @media only screen
-      and (min-width : 1224px) {
-      /* Styles */
-      }
-
-      /* The switch - the box around the slider */
-      .switch {
-        position: relative;
-        display: inline-block;
-        width: 60px;
-        height: 34px;
-        top: .5em;
-      }
-
-      /* Hide default HTML checkbox */
-      .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-      }
-
-      /* The slider */
-      .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: .4s;
-        transition: .4s;
-      }
-
-      .slider:before {
-        position: absolute;
-        content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
-      }
-
-      input:checked + .slider {
-        background-color: green;
-      }
-
-      input:focus + .slider {
-        box-shadow: 0 0 1px #2196F3;
-      }
-
-      input:checked + .slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
-      }
-
-      /* Rounded sliders */
-      .slider.round {
-        border-radius: 34px;
-      }
-
-      .slider.round:before {
-        border-radius: 50%;
-      }
-    </style>
 </head>
 {% extends "rmp_bd_app/base.html" %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'rmp_bd/style.css' %}">
 
 {% block content %}
 
@@ -171,10 +16,10 @@
 
 <div id="dodonts">
   <h1>Rating Do's and Dont's</h1>
-  <hr>
+  <hr style = "margin: 0px">
   <div id="dododont">
     <div id="doy"><h1>Do</h1>
-      <p>Use the Mad section to discuss aspects of the course you wish weren't there. Use the Sad section to discuss things you would change, and use the glad section to discuss things you'll want to keep for future students. </p></div>
+      <p>Use the Mad section to discuss aspects of the course you wish weren't there. Use the Sad section to discuss things you would change, and use the glad section to discuss aspects you'd keep for future students. </p></div>
     <div id="doy"><h1>Do</h1>
       <p>Keep comments professional. Double check information such as course titles, and check grammar as well. </p>
     </div>
@@ -186,9 +31,12 @@
 
 <h1> It's your turn to grade {{professor.honorific}} {{professor.first_name}} {{professor.last_name}}</h1>
 
-<form id="professorrating">
-  {% include "rmp_bd_app/course_autocomplete.html" %}
-  <label for="onlineswitch">Online Class: </label>
+<form id="professorrating" class="reviewform">
+    <label for="code">Course Code: </label><br>
+  <input type="text" id="code" name="code"><br>
+  <label for="ctitle">Course Title: </label><br>
+  <input type="text" id="ctitle" name="ctitle"><br>
+   <label for="onlineswitch">Online Class: </label>
   <label class="switch">
   <input type="checkbox">
   <span class="slider round"></span>
@@ -229,22 +77,22 @@
   <div id="choosetags">
     <label id="tagslabel">Choose tags:</label><br>
     <input type="checkbox">Gives good feedback <input type="checkbox">Respected
-    <input type="checkbox">Lots of homework<input type="checkbox">Participation Matters <br>
+    <input type="checkbox">Lots of homework<input type="checkbox">Participation Matters
     <input type="checkbox">Accessible Outside of Class <input type="checkbox">Get Ready to Read
-    <input type="checkbox">Attendance mandatory <input type="checkbox">Textbook Required<br>
+    <input type="checkbox">Attendance mandatory <input type="checkbox">Textbook Required
     <input type="checkbox">Inspirational <input type="checkbox">Graded by a Few Things
-    <input type="checkbox">Test Heavy <input type="checkbox">Would take again <br>
+    <input type="checkbox">Test Heavy <input type="checkbox">Would take again
     <input type="checkbox">Lecture heavy <input type="checkbox">Group projects
-    <input type="checkbox">Extra credit <input type="checkbox">Tough Grader <br>
+    <input type="checkbox">Extra credit <input type="checkbox">Tough Grader
     <input type="checkbox">Clear Grading Criteria <input type="checkbox">Hilarious
-    <input type="checkbox">Pop Quizzes <input type="checkbox">Amazing Lectures <br>
+    <input type="checkbox">Pop Quizzes <input type="checkbox">Amazing Lectures
     <input type="checkbox">Caring <input type="checkbox">So Many Papers
   </div>
 <label for="newtag">Suggest New Tag: </label><input type="text" id="newtag" name="newtag"><br>
 
   <h1>Would you like to sign in?</h1>
   <p>Signing in allows you easier access to your reviews while staying anonymous.</p>
-  <button id="login">Log In</button><br>
+  <button id="addnewbutton">Log In</button><br>
 
 <button id="submitbutton"><a href="/">Submit</a></button>
 </form>

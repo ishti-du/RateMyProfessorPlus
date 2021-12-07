@@ -12,6 +12,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     # University
     path('university/', views.universities, name='universities'),
+    path('university/<int:university_id>/Campus', views.campuses, name='campuses'),
     path('university/<int:university_id>/departments', views.departments, name='departments'),
     # Page for adding a new University
     path('new_university/', views.new_university, name='new_university'),
@@ -19,6 +20,7 @@ urlpatterns = [
     path('professor/<int:department_id>', views.professor, name='professor'),
     path('professor_details/<int:professor_id>', views.professor_details, name='professor_details'),
     path('new_department/', views.new_department, name='new_department'),
+    path('new_campus/', views.new_campus, name='new_campus'),
 
     # Page for adding a new professor
     path('new_professor/', views.new_professor, name='new_professor'),

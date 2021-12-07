@@ -69,7 +69,8 @@ class Department(models.Model):
 
 
 class Professor(models.Model):
-    current_university = models.ForeignKey(University, on_delete=models.CASCADE)
+    current_university = models.ForeignKey(
+        University, on_delete=models.CASCADE)
     campus = models.ForeignKey(Campus, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     honorific = models.CharField(max_length=50, blank=True, null=True)
@@ -90,7 +91,8 @@ class Professor(models.Model):
 # Enables accessing past universities (campuses and campuses if provided) a professors taught at
 class UniversityProfessor(models.Model):
     professor = models.ForeignKey(University, on_delete=models.CASCADE)
-    campus = models.ForeignKey(Campus, on_delete=models.CASCADE, blank=True, null=True)
+    campus = models.ForeignKey(
+        Campus, on_delete=models.CASCADE, blank=True, null=True)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -108,8 +110,10 @@ class Course(models.Model):
 
 
 class Prereq(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_id')
-    prereq = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='prereq_id')
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name='course_id')
+    prereq = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name='prereq_id')
 
     class Meta:
         verbose_name_plural = 'prerequisites'
@@ -126,8 +130,10 @@ class ProfessorCourse(models.Model):
 
 # storing ip address https://stackoverflow.com/questions/1038950/what-is-the-most-appropriate-data-type-for-storing-an-ip-address-in-sql-server
 class StudentProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="student_profile")
-    university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="student_profile")
+    university = models.ForeignKey(
+        University, on_delete=models.CASCADE, blank=True, null=True)
     ip_address = models.CharField(max_length=15)
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -138,7 +144,6 @@ class ProfessorProfile(models.Model):
     faculty_phone_number = models.CharField(max_length=255, blank=True)
     ip_address = models.CharField(max_length=15)
     date_added = models.DateTimeField(auto_now_add=True)
-
 
 
 class Review(models.Model):
@@ -174,18 +179,19 @@ class Review(models.Model):
     # if the professor associated with the review is deleted the review will be deleted as well
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
     # if the course associated with the review is deleted the review has no associated course
-    course = models.ForeignKey(Course, on_delete=models.SET_NULL, blank=True, null=True)
+    course = models.ForeignKey(
+        Course, on_delete=models.SET_NULL, blank=True, null=True)
     university = models.ForeignKey(University, on_delete=CASCADE)
-    campus = models.ForeignKey(Campus, on_delete=CASCADE, blank=True, null=True)
+    campus = models.ForeignKey(
+        Campus, on_delete=CASCADE, blank=True, null=True)
     # if the user associated with the review is deleted the review will be deleted as well
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
+    ip_address = models.CharField(max_length=15)
     grade = models.CharField(max_length=15, choices=GRADES)
-    thumbs_up = models.PositiveIntegerField(default=0)
-    thumbs_down = models.PositiveIntegerField(default=0)
-    report_flags = models.PositiveIntegerField(default=0)
-    mad_text = models.CharField(max_length=350)
-    sad_text = models.CharField(max_length=350)
-    glad_text = models.CharField(max_length=350)
+    mad_text = models.CharField(max_length=350, null=True, blank=True)
+    sad_text = models.CharField(max_length=350, null=True, blank=True)
+    glad_text = models.CharField(max_length=350, null=True, blank=True)
     # for setting a range on difficulty_level and score https://stackoverflow.com/questions/33772947/django-set-range-for-integer-model-field-as-constraint
     difficulty_level = models.IntegerField(
         default=0,
@@ -207,6 +213,7 @@ class Review(models.Model):
     is_online = models.BooleanField()
     date_added = models.DateTimeField(auto_now_add=True)
 
+
     #https://stackoverflow.com/questions/1372016/django-models-custom-functions
     # function: returns a dictionary of sorted reviews based on mad, sad, glad, or all category
     @staticmethod
@@ -216,12 +223,14 @@ class Review(models.Model):
     @staticmethod
     def sad_reviews(curr_professor):
         return [r.sad_text for r in Review.objects.filter(professor = curr_professor, sad_text__isnull = False)]
+    
 
     @staticmethod
     def glad_reviews(curr_professor):
         return [r.glad_text for r in Review.objects.filter(professor = curr_professor, glad_text__isnull = False)]
 
     @staticmethod
+
     def all_reviews(curr_professor):
         return [r.glad_text + " " + r.sad_text + " " + r.mad_text for r in Review.objects.all()]
 
@@ -247,26 +256,31 @@ class ReviewTag(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
 
-class Faculty(models.Model):
-    department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    faculty = models.CharField(max_length=200)
-    date_added = models.DateTimeField(auto_now_add=True)
+class ThumbUp(models.Model):
+    ''' Review Thumb Up '''
 
-    class Meta:
-        verbose_name_plural = 'faculties'
-
-    def __str__(self):
-        return self.faculty
+    review = models.OneToOneField(
+        Review, related_name="thumb_ups", on_delete=models.CASCADE)
+    users = models.ManyToManyField(User, related_name='thumb_ups')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
-class Feedback(models.Model):
-    faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE)
-    feedback = models.TextField()
-    date_added = models.DateTimeField(auto_now_add=True)
+class ThumbDown(models.Model):
+    ''' Review Thumb Down '''
 
-    class Meta:
-        verbose_name_plural = 'feedbacks'
+    review = models.OneToOneField(
+        Review, related_name="thumb_downs", on_delete=models.CASCADE)
+    users = models.ManyToManyField(User, related_name='thumb_downs')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return f"{self.feedback[:20]}..."
 
+class ReportFlag(models.Model):
+    ''' Review Report Flags '''
+
+    review = models.OneToOneField(
+        Review, related_name="report_flags", on_delete=models.CASCADE)
+    users = models.ManyToManyField(User, related_name='report_flags')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
