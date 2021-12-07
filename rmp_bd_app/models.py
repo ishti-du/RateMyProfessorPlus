@@ -187,7 +187,7 @@ class Review(models.Model):
     glad_text = models.CharField(max_length=350, null=True, blank=True)
     thumbs_up = models.PositiveIntegerField(default=0)
     thumbs_down = models.PositiveIntegerField(default=0)
-    report_flags = models.PositiveIntegerField(default=0)
+    report_flag = models.PositiveIntegerField(default=0)
 
     mad_text = models.CharField(max_length=350)
     sad_text = models.CharField(max_length=350)
