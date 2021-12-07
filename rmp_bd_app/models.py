@@ -3,6 +3,7 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
+from django.db.models.expressions import Case
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -46,6 +47,7 @@ class Campus(models.Model):
 
 class Department(models.Model):
     university = models.ForeignKey(University, on_delete=models.CASCADE)
+    campus = models.ForeignKey(Campus, on_delete=models.CASCADE)
     department_name = models.CharField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
 

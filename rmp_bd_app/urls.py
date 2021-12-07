@@ -14,7 +14,7 @@ urlpatterns = [
     # University
     path('university/', views.universities, name='universities'),
     path('university/<int:university_id>/campus', views.campuses, name='campuses'),
-    path('university/<int:university_id>/departments', views.departments, name='departments'),
+    path('campus/<int:campus_id>/departments', views.departments, name='departments'),
     # Page for adding a new University
     path('new_university/', views.new_university, name='new_university'),
     # Page for faculty listing

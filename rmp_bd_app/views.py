@@ -45,18 +45,17 @@ def universities(request):
     return render(request, 'rmp_bd_app/universities.html', context)
 
 
-def departments(request, university_id):
-    university = University.objects.get(id=university_id)
-    departments = Department.objects.filter(
-        university=University.objects.get(id=university_id)).order_by('date_added')
-    context = {'departments': departments, 'university': university}
+def departments(request, campus_id):
+    campus = Campus.objects.get(id=campus_id)
+    # university = University.objects.get(id=university_id)
+    departments = Department.objects.filter(campus=campus).order_by('date_added')
+    context = {'departments': departments, 'campus': campus}
     return render(request, 'rmp_bd_app/departments.html', context)
 
 
 def campuses(request, university_id):
     university = University.objects.get(id=university_id)
-    campuses = Campus.objects.filter(university=University.objects.get(
-        id=university_id)).order_by('date_added')
+    campuses = Campus.objects.filter(university=university).order_by('date_added')
     context = {'campuses': campuses, 'university': university}
     return render(request, 'rmp_bd_app/campuses.html', context)
 
@@ -102,20 +101,22 @@ def new_university(request):
     return render(request, 'rmp_bd_app/new_university.html', context)
 
 
-def new_department(request, university_id, campus_id):
+def new_department(request, campus_id):
     """Add a new Department"""
+    campus = Campus.objects.get(id=campus_id)
+    university = University.objects.get(id=campus.university.id)
     if request.method != 'POST':
         # no data submitted, create a blank forms
-        form = DepartmentForm()
+        form = DepartmentForm(initial={'university': university, 'campus': campus})
     else:
         # POST data submitted; process date_added
         form = DepartmentForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('rmp_bd_app:universities')
+            return redirect(reverse('rmp_bd_app:departments', kwargs={'campus_id': campus_id}))
 
     # Display a blank or invalid form
-    context = {'form': form}
+    context = {'form': form, 'campus': campus}
     return render(request, 'rmp_bd_app/new_department.html', context)
 
 
