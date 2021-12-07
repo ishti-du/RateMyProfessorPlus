@@ -128,7 +128,7 @@ class StudentProfile(models.Model):
 
 
 class ProfessorProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="professor_profile")
     faculty_directory_url = models.CharField(max_length=255, blank=True)
     faculty_phone_number = models.CharField(max_length=255, blank=True)
     ip_address = models.CharField(max_length=15)

@@ -3,6 +3,7 @@
 from django.urls import path
 
 from . import views
+from django.contrib.auth import views as auth_views
 
 
 
@@ -43,6 +44,8 @@ urlpatterns = [
     # Profile update
     path('profile_update/', views.user_profile_update_view, name="profile_update"),
     # professor search results
-    path('search/', views.SearchProfessorsResultsView.as_view(), name='search_results')
+    path('search/', views.SearchProfessorsResultsView.as_view(), name='search_results'),
+    # password change
+    path('change_password/', views.change_password, name = 'change_password')
 ]
 
