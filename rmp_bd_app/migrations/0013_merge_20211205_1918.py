@@ -6,7 +6,6 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('rmp_bd_app', '0009_course_course_university'),
         ('rmp_bd_app', '0012_review_ip_address'),
     ]
 

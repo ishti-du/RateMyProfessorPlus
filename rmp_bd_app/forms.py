@@ -22,14 +22,14 @@ class CampusForm(forms.ModelForm):
 class DepartmentForm(forms.ModelForm):
     class Meta:
         model = Department
-        fields = ['university', 'department_name']
+        fields = ['university', 'campus', 'department_name']
         labels = {'text': ''}
 
 
 class ProfessorForm(forms.ModelForm):
     class Meta:
         model = Professor
-        fields = ['current_university', 'campus', 'department', 'honorific', 'first_name', 'last_name']
+        fields = ['current_university', 'campus', 'department', 'title', 'first_name', 'last_name']
         labels = {'text': ''}
 
 

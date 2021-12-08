@@ -3,6 +3,7 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
+from django.db.models.expressions import Case
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -46,6 +47,7 @@ class Campus(models.Model):
 
 class Department(models.Model):
     university = models.ForeignKey(University, on_delete=models.CASCADE)
+    campus = models.ForeignKey(Campus, on_delete=models.CASCADE)
     department_name = models.CharField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -61,7 +63,7 @@ class Professor(models.Model):
         University, on_delete=models.CASCADE)
     campus = models.ForeignKey(Campus, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    honorific = models.CharField(max_length=50, blank=True, null=True)
+    title = models.CharField(max_length=50, blank=True, null=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -70,8 +72,8 @@ class Professor(models.Model):
         verbose_name_plural = 'professors'
 
     def __str__(self):
-        if self.honorific:
-            return self.honorific + " " + self.first_name + " " + self.last_name
+        if self.title:
+            return self.title + " " + self.first_name + " " + self.last_name
         else:
             return self.first_name + " " + self.last_name
 
