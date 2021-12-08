@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
-from .models import University, Department, Professor, Course
-from .forms import UniversityForm, DepartmentForm, ProfessorForm, ReviewForm, StudentProfileForm, ProfessorProfileForm, \
-    CreateUserForm, CourseForm
+from .models import University, Department, Professor, Course, Review
+from .forms import UniversityForm, DepartmentForm, ProfessorForm, StudentProfileForm, ProfessorProfileForm, \
+    CreateUserForm, CourseForm, ReviewForm
 
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -114,12 +114,42 @@ def new_review(request, professor_id):
         form = ReviewForm(data=request.POST)
         if form.is_valid():
             form.save()
+            form.save().user = request.user
+            form.save().professor = professor
             return redirect('rmp_bd_app:universities')
 
     # Display a blank or invalid form
     context = {'form': form, 'professor': professor}
     return render(request, 'rmp_bd_app/reviewform.html', context)
 
+'''
+def new_review(request,professor_id):
+        professor = Professor.objects.get(id=professor_id)
+        grades = Review.objects.all()
+        if request.method == "POST":
+            form = ReviewForm(request.POST or None)
+            if form.is_valid():
+                data = form.save(commit=False)
+                data.mad_text = request.POST["mad_text"]
+                data.sad_text = request.POST["sad_text"]
+                data.glad_text = request.POST["glad_text"]
+                data.difficulty_level = request.POST["difficulty_level"]
+                data.professor_score = request.POST["professor_score"]
+                data.grade = request.POST["grade"]
+                data.tags = request.POST["tags"]
+                #data.is_online = request.POST["is_online"]
+                data.user = request.user
+                data.professor = professor
+                #data.course = course
+                #data.university = university
+                #data.campus = campus_name
+                data.save()
+                return redirect('rmp_bd_app:universities')
+        else:
+            form = ReviewForm()
+        context = {'form': form, 'professor': professor, 'grades': grades}
+        return render(request, 'rmp_bd_app/reviewform.html', context)
+'''
 
 def new_course(request):
     """Add a new course"""
