@@ -3,7 +3,7 @@
 {% block content %}
   <h1>Add a new Campus:</h1>
 
-  <form action="{% url 'rmp_bd_app:new_campus' %}" method="post">
+  <form action="{% url 'rmp_bd_app:new_campus' university.id %}" method="post">
     {% csrf_token %}
     <table>
       {% for field in form %}

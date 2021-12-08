@@ -16,5 +16,5 @@
     <li>There are no entries for this topic yet.</li>
   {% endfor %}
 </ul>
-<button id="addnewbutton"><a href="{% url 'rmp_bd_app:new_campus'%}">Add a New Campus</a></button>
+<button id="addnewbutton"><a href="{% url 'rmp_bd_app:new_campus' university.id %}">Add a New Campus</a></button>
 {% endblock content %}
