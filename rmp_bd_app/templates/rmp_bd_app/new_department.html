@@ -3,7 +3,7 @@
 {% block content %}
   <h1>Add a new Department:</h1>
 
-  <form action="{% url 'rmp_bd_app:new_department' %}" method="post">
+  <form action="{% url 'rmp_bd_app:new_department' campus.id %}" method="post">
     {% csrf_token %}
     <table>
       {% for field in form %}
