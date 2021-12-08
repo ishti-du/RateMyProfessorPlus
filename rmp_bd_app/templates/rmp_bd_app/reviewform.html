@@ -2,6 +2,10 @@
     <meta charset="UTF-8">
     <title>Review Professor</title>
     <style>
+    table, th, td {
+    font-weight: normal;
+    text-align: left;
+    }
           #nav {
         background-color: green;
         height: 4em;
@@ -186,16 +190,81 @@
 
 <h1> It's your turn to grade {{professor.honorific}} {{professor.first_name}} {{professor.last_name}}</h1>
 
+
 <form id="professorrating" method="POST"> {% csrf_token %}
-  <table border="1">
+  <table>
     {% include "rmp_bd_app/course_autocomplete.html" %}
-    {{ form }}
+      <label>Online Class: </label>
+      <label for="is_online" class="switch">
+      <input name="is_online" id="is_online" type="checkbox">
+      <span class="slider round"></span>
+      </label>
+
+      <label for="is_credit">  Taken for credit:  </label>
+      <label for="is_credit" class="switch">
+      <input name="is_credit" id="is_credit" type="checkbox">
+      <span class="slider round"></span>
+      </label><br>
+
+      <label> Year Taken: </label>
+      {{form.year}}<br>
+
+      <label for="professor_score">Rate Your Professor:</label><strong> 0 </strong>
+      <input type="range" id="professor_score"
+             name="professor_score" min="0" max="5" value="0"
+             oninput="amount.value=rangeInput.value">
+      <output name="amount" id="amount" for="rangeInput"> <strong>5</strong></output><br>
+
+      <label for="difficulty_level">Level of Difficulty:    </label><strong>0 </strong>
+      <input type="range" id="difficulty_level"
+             name="difficulty_level" min="0" max="5" value="0"
+             oninput="amount.value=rangeInput.value">
+      <output name="amount" id="amount2" for="rangeInput"> <strong>5</strong></output><br>
+
+      <label for="grade">Grade Received: </label>
+      <select name="grade" id="grade" class="form-control">
+        <option>A+</option>
+        <option>A</option>
+        <option>A-</option>
+        <option>B+</option>
+        <option>B</option>
+        <option>B-</option>
+        <option>C+</option>
+        <option>C</option>
+        <option>C-</option>
+        <option>D+</option>
+        <option>D</option>
+        <option>D-</option>
+        <option>F</option>
+        <option>Drop/Withdrawal</option>
+        <option>Incomplete</option>
+        <option>Not sure yet</option>
+        <option>Rather not say</option>
+        <option>Audit/No Grade</option>
+      </select><br>
+
+      <label for="mad_text">Mad: (e.g., things that you wish were not there)</label><br>
+      <textarea name="mad_text" id="mad_text" cols="75" rows="5" class="form-control"></textarea><br>
+
+      <label for="sad_text">Sad: (e.g., things that you would change)</label><br>
+      <textarea name="sad_text" id="sad_text" cols="75" rows="5" class="form-control"></textarea><br>
+
+      <label for="glad_text">Glad: (e.g., things you'll want to keep for future students)</label><br>
+      <textarea name="glad_text" id="glad_text" cols="75" rows="5" class="form-control"></textarea><br>
+
+      <label>Choose tags:</label>
+      {{ form.tags }}
+
+      <label for="newtag">Suggest New Tag: </label>
+      <input type="text" id="newtag" name="newtag">
+
   </table>
     <h1>Would you like to sign in?</h1>
   <p>Signing in allows you easier access to your reviews while staying anonymous.</p>
   <button id="login">Log In</button><br>
 <button class="btn btn-primary" type="submit" value="Save">Submit</button>
 </form>
+
 </body><style type="text/css" id="dark-mode-custom-color">
 		:root{
 			--bg-color:rgba(0,0,0,1);
