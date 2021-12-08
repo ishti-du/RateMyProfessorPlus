@@ -71,9 +71,8 @@ def university(request, university_id):
 def professor(request, department_id):
     """Shows professors for a department"""
     department = Department.objects.get(id=department_id)
-    professor = Professor.objects.filter(
-        department=Department.objects.get(id=department_id)).order_by('date_added')
-    context = {'department': department, 'professor': professor}
+    professors = Professor.objects.filter(department=department).order_by('date_added')
+    context = {'department': department, 'professor': professors}
     return render(request, 'rmp_bd_app/professors.html', context)
 
 
@@ -116,7 +115,7 @@ def new_department(request, campus_id):
             return redirect(reverse('rmp_bd_app:departments', kwargs={'campus_id': campus_id}))
 
     # Display a blank or invalid form
-    context = {'form': form, 'campus': campus}
+    context = {'form': form, 'university': university, 'campus': campus}
     return render(request, 'rmp_bd_app/new_department.html', context)
 
 
@@ -140,11 +139,14 @@ def new_campus(request, university_id):
     return render(request, 'rmp_bd_app/new_campus.html', context)
 
 
-def new_professor(request):
+def new_professor(request, department_id):
     """Add a new Professor"""
+    department = Department.objects.get(id=department_id)
+    campus = Campus.objects.get(id=department.campus.id)
+    university = University.objects.get(id=department.campus.university.id)
     if request.method != 'POST':
         # no data submitted, create a blank forms
-        form = ProfessorForm()
+        form = ProfessorForm(initial={'current_university': university, 'campus': campus, 'department': department})
     else:
         # POST data submitted; process date_added
         form = ProfessorForm(data=request.POST)
@@ -155,7 +157,7 @@ def new_professor(request):
             return render(request, 'rmp_bd_app/professor_details.html', context)
 
     # Display a blank or invalid form
-    context = {'form': form}
+    context = {'form': form, 'university': university, 'campus': campus, 'department': department}
     return render(request, 'rmp_bd_app/new_professor.html', context)
 
 
