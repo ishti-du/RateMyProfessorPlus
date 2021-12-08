@@ -191,50 +191,37 @@ class Review(models.Model):
         ('So Many Papers', 'So Many Papers')
     )
 
-    # professor_course = models.ForeignKey(Professor_Course, default=None)
     # if the professor associated with the review is deleted the review will be deleted as well
-    professor = models.ForeignKey(Professor, on_delete=models.CASCADE, null=True)  ###################333
+    professor = models.ForeignKey(Professor, on_delete=models.CASCADE, null=True)
     # if the course associated with the review is deleted the review has no associated course
     course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True)
 
-    university = models.ForeignKey(University, on_delete=CASCADE, null=True)  #######################33
+    university = models.ForeignKey(University, on_delete=CASCADE, null=True)
 
-    campus = models.ForeignKey(Campus, on_delete=CASCADE, null=True)  ######################33
+    campus = models.ForeignKey(Campus, on_delete=CASCADE, null=True)
     # if the user associated with the review is deleted the review will be deleted as well
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)  ##############333
-    grade = models.CharField(max_length=15, choices=GRADES)
-    tags = MultiSelectField(choices=TAGS, null=True)
-    # tags = models.ManyToManyField(MY_CHOICES)
-    thumbs_up = models.PositiveIntegerField(default=0)  #####################333
-    thumbs_down = models.PositiveIntegerField(default=0)  #####################33
-    report_flags = models.PositiveIntegerField(default=0)  #################33333
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     mad_text = models.TextField(max_length=350)
-    sad_text = models.TextField(max_length=350)
-    glad_text = models.TextField(max_length=350)
-    # for setting a range on difficulty_level and score https://stackoverflow.com/questions/33772947/django-set-range-for-integer-model-field-as-constraint
-    difficulty_level = models.IntegerField(
-        default=0,
-        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
-    )
-    professor_score = models.IntegerField(
-        default=0,
-        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
-    )
-    semester = models.CharField(max_length=4, choices=SEMESTERS)
-    year = models.IntegerField(choices=year_choices(), default=current_year())
-    # was a textbook used
-    is_textbook = models.BooleanField()
-    # was attendance mandatory
-    # is_attendance = models.BooleanField()
-    # was the class taken for credit
-    is_credit = models.BooleanField()
-    # was the class online
-    is_online = models.BooleanField()
-    date_added = models.DateTimeField(auto_now_add=True)
-    addTag = models.CharField(max_length=15, blank=True, default='')
+    sad_text = models.TextField(max_length=350, null=True)
+    glad_text = models.TextField(max_length=350, null=True)
+    difficulty_level = models.FloatField(default=0)
+    professor_score = models.FloatField(default=0)
+    grade = models.CharField(max_length=15, null=True)
+    # can use checkbox input with boolean fields
+    is_online = models.BooleanField(null=True)
+    #tags = models.CharField(max_length=50,  null=True)
+    # multiselectfield allows multiple checkboxes
+    tags = MultiSelectField(choices=TAGS, blank=True, default='')
+    year = models.IntegerField(choices=year_choices(), default=current_year(), null=True)
+    is_credit = models.BooleanField(null=False, default=True)
+    date_added = models.DateTimeField(auto_now_add=True, null=True)
+    newtag = models.CharField(max_length=15, blank=True, default='')
 
     class Meta:
         verbose_name_plural = 'reviews'
+
+    def __str__(self):
+        return str(self.id)
 
 
 
