@@ -4,7 +4,24 @@
     <list default="true" id="3e28f640-af1b-4a1d-93c4-338be68e257c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rmp_bd_app/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rmp_bd_app/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rmp_bd_app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/rmp_bd_app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0002_entry.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0003_auto_20200404_1939.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0004_auto_20211005_2013.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0005_auto_20211006_1023.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0006_auto_20211006_1027.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0007_auto_20211024_1911.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0008_auto_20211027_1359.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0009_auto_20211118_2230.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0010_auto_20211118_2309.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0011_auto_20211118_2309.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0012_review_ip_address.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0013_merge_20211205_1918.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0013_merge_20211206_2323.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0014_auto_20211206_1004.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0014_merge_20211207_1831.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0015_department_campus.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/migrations/0016_course_course_university.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +102,17 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
