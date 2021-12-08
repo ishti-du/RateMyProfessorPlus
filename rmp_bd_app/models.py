@@ -207,11 +207,11 @@ class Review(models.Model):
     @staticmethod
     def mad_reviews(curr_professor):
         return [r.mad_text for r in Review.objects.filter(professor = curr_professor, mad_text__isnull = False)]
-    
+
     @staticmethod
     def sad_reviews(curr_professor):
         return [r.sad_text for r in Review.objects.filter(professor = curr_professor, sad_text__isnull = False)]
-    
+
 
     @staticmethod
     def glad_reviews(curr_professor):
@@ -225,16 +225,23 @@ class Review(models.Model):
     class Meta:
         verbose_name_plural = 'reviews'
 
+def validate_new_tag(value):
+    if Tag.objects.filter(new_tag__iexact=value).exists():
+        raise ValidationError()
+    return value
 
 class Tag(models.Model):
     new_tag = models.CharField(max_length=30, null=True, unique=True)
+
+    def save(self, *args, **kwargs):
+        self.new_tag = self.new_tag.upper()
+        super(Tag, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = 'tags'
 
     def __str__(self):
         return self.new_tag
-
 
 # tag and review junction table
 class ReviewTag(models.Model):
