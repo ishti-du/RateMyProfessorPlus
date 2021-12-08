@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import University, Department, Professor, StudentProfile, ProfessorProfile, Review, Course, Tag
+from .models import University, Department, Professor, StudentProfile, ProfessorProfile, Review, Course, Tag, Campus
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -10,6 +10,11 @@ class UniversityForm(forms.ModelForm):
         fields = ['country', 'university_name']
         labels = {'text': ''}
 
+class CampusForm(forms.ModelForm):
+    class Meta:
+        model = Campus
+        fields = ['university', 'campus_name']
+        labels = {'text': ''}
 
 
 class DepartmentForm(forms.ModelForm):

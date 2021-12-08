@@ -30,6 +30,12 @@ def departments(request, university_id):
     context = {'departments': departments, 'university': university}
     return render(request, 'rmp_bd_app/departments.html', context)
 
+def campuses(request, university_id):
+    university = University.objects.get(id=university_id)
+    campuses = Campus.objects.filter(university=University.objects.get(id=university_id)).order_by('date_added')
+    context = {'campuses': campuses, 'university': university}
+    return render(request, 'rmp_bd_app/campuses.html', context)
+
 def university(request, university_id):
     """Shows each individual university """
     university = University.objects.get(id=university_id)
@@ -85,6 +91,22 @@ def new_department(request):
     context = {'form': form}
     return render(request, 'rmp_bd_app/new_department.html', context)
 
+def new_campus(request):
+    """Add a new Department"""
+    if request.method != 'POST':
+        # no data submitted, create a blank forms
+        form = CampusForm()
+    else:
+        # POST data submitted; process date_added
+        form = CampusForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('rmp_bd_app:universities')
+
+    # Display a blank or invalid form
+    context = {'form': form}
+    return render(request, 'rmp_bd_app/new_campus.html', context)
+
 def new_professor(request):
     """Add a new Professor"""
     if request.method != 'POST':
@@ -95,7 +117,9 @@ def new_professor(request):
         form = ProfessorForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('rmp_bd_app:universities')
+            professor = Professor.objects.latest('id')
+            context = {'professor': professor}
+            return render(request, 'rmp_bd_app/professor_details.html', context)
 
     # Display a blank or invalid form
     context = {'form': form}
@@ -112,7 +136,7 @@ def new_review(request, professor_id):
         form = ReviewForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('rmp_bd_app:universities')
+            return redirect('rmp_bd_app:professor_details.html')
 
     # Display a blank or invalid form
     context = {'form': form, 'professor': professor}
