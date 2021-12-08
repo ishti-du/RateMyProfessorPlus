@@ -1,60 +1,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Rate My Professor</title>
-    <style>
-    body
-    {
-      margin-top: 4em;
-      background-color: green;
-    }
-
-    #searchbar{
-    background-color: white;
-    height: 2em;
-    width: 30em;
-    border-radius: 25px;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    }
-    #searchbox{
-    border: none;
-    margin-left: 1em;
-    height: 1.5em;
-    width: 34em;
-    }
-    button, #logo, img{
-      height: 2.5em;
-      font-family: Antonio;
-      font-size: 1.2em;
-      color:white;
-    }
-    button{
-      margin-top: 1em;
-      background-color:green;
-      border: none;
-      margin-bottom: 1.2em;
-    }
-    #logo{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding-bottom: 2em;
-    }
-    </style>
 </head>
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'rmp_bd/style.css' %}">
+
 {% block content %}
 
 <link href=
 'https://fonts.googleapis.com/css?family=Antonio'
           rel='stylesheet' />
-<body>
+<body style = "background-color:green;">
+<div class="indexbody">
   <center>
-<div id="logo"><img src="https://www.adazing.com/wp-content/uploads/2019/02/stacked-book-clipart-07.png", alt="logo"></div>
+<div id="indexlogo"><img src="https://www.adazing.com/wp-content/uploads/2019/02/stacked-book-clipart-07.png", alt="logo", class = "indeximage"></div>
         <div id=searchbar>
           <input type="text" id="searchbox" value="Search"><br>
         </div>
       <a href="{% url 'rmp_bd_app:universities' %}"><button>List of Universities</button></a>
   </center>
+</div>
 </body>
 {% endblock content%}

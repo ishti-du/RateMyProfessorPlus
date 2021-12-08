@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -41,11 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'multiselectfield',
-    'crispy_forms',
+    'django.contrib.gis.geoip2',
 ]
-
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')
+#GEOIP_PATH =ROOT_PATH + '/geoip'
+                        #'django.contrib.gis.geoip2.base.py'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,7 +76,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'rmp_bd.wsgi.application'
-
+# GEOIP_PATH = 'django.contrib.gis.geoip2'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

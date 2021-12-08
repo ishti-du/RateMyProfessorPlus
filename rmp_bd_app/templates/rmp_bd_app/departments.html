@@ -1,7 +1,11 @@
 {% extends 'rmp_bd_app/base.html' %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'rmp_bd/style.css' %}">
+
 {% block content %}
 
-<p> Departments of the {{ university }}:</p>
+<h1> Departments of {{ campus.university }}, {{ campus }} Campus:</h1>
 <ul>
   {% for entry in departments %}
     <li>
@@ -12,5 +16,5 @@
     <li>There are no entries for this topic yet.</li>
   {% endfor %}
 </ul>
-<a href="{% url 'rmp_bd_app:new_department'%}">Add a New Department</a>
+<button id="addnewbutton"><a href="{% url 'rmp_bd_app:new_department' campus.id %}">Add a New Department</a></button>
 {% endblock content %}

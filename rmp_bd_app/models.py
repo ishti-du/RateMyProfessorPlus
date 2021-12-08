@@ -3,11 +3,12 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
+from django.db.models.expressions import Case
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from django_countries.fields import CountryField
-from multiselectfield import MultiSelectField
+#from django_countries.fields import CountryField
+
 from django_countries.fields import CountryField
 
 
@@ -46,6 +47,7 @@ class Campus(models.Model):
 
 class Department(models.Model):
     university = models.ForeignKey(University, on_delete=models.CASCADE)
+    campus = models.ForeignKey(Campus, on_delete=models.CASCADE)
     department_name = models.CharField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -57,10 +59,11 @@ class Department(models.Model):
 
 
 class Professor(models.Model):
-    current_university = models.ForeignKey(University, on_delete=models.CASCADE)
+    current_university = models.ForeignKey(
+        University, on_delete=models.CASCADE)
     campus = models.ForeignKey(Campus, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    honorific = models.CharField(max_length=50, blank=True, null=True)
+    title = models.CharField(max_length=50, blank=True, null=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -69,8 +72,8 @@ class Professor(models.Model):
         verbose_name_plural = 'professors'
 
     def __str__(self):
-        if self.honorific:
-            return self.honorific + " " + self.first_name + " " + self.last_name
+        if self.title:
+            return self.title + " " + self.first_name + " " + self.last_name
         else:
             return self.first_name + " " + self.last_name
 
@@ -78,7 +81,8 @@ class Professor(models.Model):
 # Enables accessing past universities (campuses and campuses if provided) a professors taught at
 class UniversityProfessor(models.Model):
     professor = models.ForeignKey(University, on_delete=models.CASCADE)
-    campus = models.ForeignKey(Campus, on_delete=models.CASCADE, blank=True, null=True)
+    campus = models.ForeignKey(
+        Campus, on_delete=models.CASCADE, blank=True, null=True)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -86,6 +90,7 @@ class UniversityProfessor(models.Model):
 class Course(models.Model):
     course_number = models.CharField(max_length=10)
     course_title = models.CharField(max_length=100)
+    course_university = models.ForeignKey(University, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -96,8 +101,10 @@ class Course(models.Model):
 
 
 class Prereq(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_id')
-    prereq = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='prereq_id')
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name='course_id')
+    prereq = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name='prereq_id')
 
     class Meta:
         verbose_name_plural = 'prerequisites'
@@ -114,28 +121,21 @@ class ProfessorCourse(models.Model):
 
 # storing ip address https://stackoverflow.com/questions/1038950/what-is-the-most-appropriate-data-type-for-storing-an-ip-address-in-sql-server
 class StudentProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="student_profile")
-    university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="student_profile")
+    university = models.ForeignKey(
+        University, on_delete=models.CASCADE, blank=True, null=True)
     ip_address = models.CharField(max_length=15)
     date_added = models.DateTimeField(auto_now_add=True)
 
 
 class ProfessorProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="professor_profile")
     faculty_directory_url = models.CharField(max_length=255, blank=True)
     faculty_phone_number = models.CharField(max_length=255, blank=True)
     ip_address = models.CharField(max_length=15)
     date_added = models.DateTimeField(auto_now_add=True)
 
-class Tag(models.Model):
-    text = models.CharField(max_length=100)
-    date_added = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name_plural = 'tags'
-
-    def __str__(self):
-        return self.text
 
 class Review(models.Model):
     GRADES = (
@@ -166,63 +166,78 @@ class Review(models.Model):
         ('FALL', 'Fall'),
     )
 
-    TAGS = (
-        ('Gives Good Feedback', 'Gives Good Feedback'),
-        ('Lots of Homework', 'Lots of Homework'),
-        ('Accessible Outside of Class', 'Accessible Outside of Class'),
-        ('Attendance Mandatory', 'Attendance Mandatory'),
-        ('Inspirational', 'Inspirational'),
-        ('Test Heavy', 'Test Heavy'),
-        ('Lecture Heavy', 'Lecture Heavy'),
-        ('Extra Credit', 'Extra Credit'),
-        ('Clear Grading Criteria', 'Clear Grading Criteria'),
-        ('Pop Quizzes', 'Pop Quizzes'),
-        ('Caring', 'Caring'),
-        ('Get Ready to Read', 'Get Ready to Read'),
-        ('Respected', 'Respected'),
-        ('Participation Matters', 'Participation Matters'),
-        ('Textbook Required', 'Textbook Required'),
-        ('Graded by a Few Things', 'Graded by a Few Things'),
-        ('Would take again', 'Would take again'),
-        ('Group projects', 'Group projects'),
-        ('Tough Grader', 'Tough Grader'),
-        ('Hilarious', 'Hilarious'),
-        ('Amazing Lectures', 'Amazing Lectures'),
-        ('So Many Papers', 'So Many Papers')
-    )
-
+    # professor_course = models.ForeignKey(Professor_Course, default=None)
     # if the professor associated with the review is deleted the review will be deleted as well
-    professor = models.ForeignKey(Professor, on_delete=models.CASCADE, null=True)
+    professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
     # if the course associated with the review is deleted the review has no associated course
-    course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True)
-
-    university = models.ForeignKey(University, on_delete=CASCADE, null=True)
-
-    campus = models.ForeignKey(Campus, on_delete=CASCADE, null=True)
+    course = models.ForeignKey(
+        Course, on_delete=models.SET_NULL, blank=True, null=True)
+    university = models.ForeignKey(University, on_delete=CASCADE)
+    campus = models.ForeignKey(
+        Campus, on_delete=CASCADE, blank=True, null=True)
     # if the user associated with the review is deleted the review will be deleted as well
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    mad_text = models.TextField(max_length=350)
-    sad_text = models.TextField(max_length=350, null=True)
-    glad_text = models.TextField(max_length=350, null=True)
-    difficulty_level = models.FloatField(default=0)
-    professor_score = models.FloatField(default=0)
-    grade = models.CharField(max_length=15, null=True)
-    # can use checkbox input with boolean fields
-    is_online = models.BooleanField(null=True)
-    #tags = models.CharField(max_length=50,  null=True)
-    # multiselectfield allows multiple checkboxes
-    tags = MultiSelectField(choices=TAGS, blank=True, default='')
-    year = models.IntegerField(choices=year_choices(), default=current_year(), null=True)
-    is_credit = models.BooleanField(null=False, default=True)
-    date_added = models.DateTimeField(auto_now_add=True, null=True)
-    newtag = models.CharField(max_length=15, blank=True, default='')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
+    ip_address = models.CharField(max_length=15)
+    grade = models.CharField(max_length=15, choices=GRADES)
+    mad_text = models.CharField(max_length=350, null=True, blank=True)
+    sad_text = models.CharField(max_length=350, null=True, blank=True)
+    glad_text = models.CharField(max_length=350, null=True, blank=True)
+    # for setting a range on difficulty_level and score https://stackoverflow.com/questions/33772947/django-set-range-for-integer-model-field-as-constraint
+    difficulty_level = models.IntegerField(
+        default=0,
+        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+    )
+    professor_score = models.IntegerField(
+        default=0,
+        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+    )
+    semester = models.CharField(max_length=4, choices=SEMESTERS)
+    year = models.IntegerField(choices=year_choices(), default=current_year())
+    # was a textbook used
+    is_textbook = models.BooleanField()
+    # was attendance mandatory
+    is_attendance = models.BooleanField()
+    # was the class taken for credit
+    is_credit = models.BooleanField()
+    # was the class online
+    is_online = models.BooleanField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+
+    #https://stackoverflow.com/questions/1372016/django-models-custom-functions
+    # function: returns a dictionary of sorted reviews based on mad, sad, glad, or all category
+    @staticmethod
+    def mad_reviews(curr_professor):
+        return [r.mad_text for r in Review.objects.filter(professor = curr_professor, mad_text__isnull = False)]
+    
+    @staticmethod
+    def sad_reviews(curr_professor):
+        return [r.sad_text for r in Review.objects.filter(professor = curr_professor, sad_text__isnull = False)]
+    
+
+    @staticmethod
+    def glad_reviews(curr_professor):
+        return [r.glad_text for r in Review.objects.filter(professor = curr_professor, glad_text__isnull = False)]
+
+    @staticmethod
+
+    def all_reviews(curr_professor):
+        return [r.glad_text + " " + r.sad_text + " " + r.mad_text for r in Review.objects.all()]
 
     class Meta:
         verbose_name_plural = 'reviews'
 
-    def __str__(self):
-        return str(self.id)
 
+class Tag(models.Model):
+    text = models.CharField(max_length=100)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'tags'
+
+    def __str__(self):
+        return self.text
 
 
 # tag and review junction table
@@ -230,3 +245,33 @@ class ReviewTag(models.Model):
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
+
+
+class ThumbUp(models.Model):
+    ''' Review Thumb Up '''
+
+    review = models.OneToOneField(
+        Review, related_name="thumb_ups", on_delete=models.CASCADE)
+    users = models.ManyToManyField(User, related_name='thumb_ups')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class ThumbDown(models.Model):
+    ''' Review Thumb Down '''
+
+    review = models.OneToOneField(
+        Review, related_name="thumb_downs", on_delete=models.CASCADE)
+    users = models.ManyToManyField(User, related_name='thumb_downs')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class ReportFlag(models.Model):
+    ''' Review Report Flags '''
+
+    review = models.OneToOneField(
+        Review, related_name="report_flags", on_delete=models.CASCADE)
+    users = models.ManyToManyField(User, related_name='report_flags')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
