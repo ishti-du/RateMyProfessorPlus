@@ -3,6 +3,7 @@
 import os
 import sys
 
+PYTHONDONTWRITEBYTECODE= 1
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rmp_bd.settings')
