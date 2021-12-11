@@ -8,7 +8,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 #from django_countries.fields import CountryField
-
+from multiselectfield import MultiSelectField
 from django_countries.fields import CountryField
 
 
@@ -166,67 +166,79 @@ class Review(models.Model):
         ('FALL', 'Fall'),
     )
 
-    # professor_course = models.ForeignKey(Professor_Course, default=None)
+    TAGS = (
+        ('Gives Good Feedback', 'Gives Good Feedback'),
+        ('Lots of Homework', 'Lots of Homework'),
+        ('Accessible Outside of Class', 'Accessible Outside of Class'),
+        ('Attendance Mandatory', 'Attendance Mandatory'),
+        ('Inspirational', 'Inspirational'),
+        ('Test Heavy', 'Test Heavy'),
+        ('Lecture Heavy', 'Lecture Heavy'),
+        ('Extra Credit', 'Extra Credit'),
+        ('Clear Grading Criteria', 'Clear Grading Criteria'),
+        ('Pop Quizzes', 'Pop Quizzes'),
+        ('Caring', 'Caring'),
+        ('Get Ready to Read', 'Get Ready to Read'),
+        ('Respected', 'Respected'),
+        ('Participation Matters', 'Participation Matters'),
+        ('Textbook Required', 'Textbook Required'),
+        ('Graded by a Few Things', 'Graded by a Few Things'),
+        ('Would take again', 'Would take again'),
+        ('Group projects', 'Group projects'),
+        ('Tough Grader', 'Tough Grader'),
+        ('Hilarious', 'Hilarious'),
+        ('Amazing Lectures', 'Amazing Lectures'),
+        ('So Many Papers', 'So Many Papers')
+    )
+
     # if the professor associated with the review is deleted the review will be deleted as well
-    professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    professor = models.ForeignKey(Professor, on_delete=models.CASCADE, null=True)
     # if the course associated with the review is deleted the review has no associated course
-    course = models.ForeignKey(
-        Course, on_delete=models.SET_NULL, blank=True, null=True)
-    university = models.ForeignKey(University, on_delete=CASCADE)
-    campus = models.ForeignKey(
-        Campus, on_delete=CASCADE, blank=True, null=True)
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True)
+    university = models.ForeignKey(University, on_delete=CASCADE, null=True)
+    campus = models.ForeignKey(Campus, on_delete=CASCADE, null=True)
     # if the user associated with the review is deleted the review will be deleted as well
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True, blank=True)
-    ip_address = models.CharField(max_length=15)
-    grade = models.CharField(max_length=15, choices=GRADES)
-    mad_text = models.CharField(max_length=350, null=True, blank=True)
-    sad_text = models.CharField(max_length=350, null=True, blank=True)
-    glad_text = models.CharField(max_length=350, null=True, blank=True)
-    # for setting a range on difficulty_level and score https://stackoverflow.com/questions/33772947/django-set-range-for-integer-model-field-as-constraint
-    difficulty_level = models.IntegerField(
-        default=0,
-        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
-    )
-    professor_score = models.IntegerField(
-        default=0,
-        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
-    )
-    semester = models.CharField(max_length=4, choices=SEMESTERS)
-    year = models.IntegerField(choices=year_choices(), default=current_year())
-    # was a textbook used
-    is_textbook = models.BooleanField()
-    # was attendance mandatory
-    is_attendance = models.BooleanField()
-    # was the class taken for credit
-    is_credit = models.BooleanField()
-    # was the class online
-    is_online = models.BooleanField()
-    date_added = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    mad_text = models.TextField(max_length=350, null=True)
+    sad_text = models.TextField(max_length=350, null=True)
+    glad_text = models.TextField(max_length=350, null=True)
+    difficulty_level = models.FloatField(default=0)
+    professor_score = models.FloatField(default=0)
+    grade = models.CharField(max_length=15, null=True)
+    # can use checkbox input with boolean fields
+    is_online = models.BooleanField(null=True)
+    # tags = models.CharField(max_length=50,  null=True)
+    # multiselectfield allows multiple checkboxes
+    tags = MultiSelectField(choices=TAGS, blank=True, default='')
+    year = models.IntegerField(choices=year_choices(), default=current_year(), null=True)
+    # null = True, select option in Admin; null = False, checkbox option
+    is_credit = models.BooleanField(null=True, default=True)
+    date_added = models.DateTimeField(auto_now_add=True, null=True)
+    newtag = models.CharField(max_length=15, blank=True, default='')
 
-
-    #https://stackoverflow.com/questions/1372016/django-models-custom-functions
+    # https://stackoverflow.com/questions/1372016/django-models-custom-functions
     # function: returns a dictionary of sorted reviews based on mad, sad, glad, or all category
     @staticmethod
     def mad_reviews(curr_professor):
-        return [r.mad_text for r in Review.objects.filter(professor = curr_professor, mad_text__isnull = False)]
-    
+        return [r.mad_text for r in Review.objects.filter(professor=curr_professor, mad_text__isnull=False)]
+
     @staticmethod
     def sad_reviews(curr_professor):
-        return [r.sad_text for r in Review.objects.filter(professor = curr_professor, sad_text__isnull = False)]
-    
+        return [r.sad_text for r in Review.objects.filter(professor=curr_professor, sad_text__isnull=False)]
 
     @staticmethod
     def glad_reviews(curr_professor):
-        return [r.glad_text for r in Review.objects.filter(professor = curr_professor, glad_text__isnull = False)]
+        return [r.glad_text for r in Review.objects.filter(professor=curr_professor, glad_text__isnull=False)]
 
     @staticmethod
-
     def all_reviews(curr_professor):
         return [r.glad_text + " " + r.sad_text + " " + r.mad_text for r in Review.objects.all()]
 
     class Meta:
         verbose_name_plural = 'reviews'
+
+    def __str__(self):
+        return str(self.id)
 
 
 class Tag(models.Model):

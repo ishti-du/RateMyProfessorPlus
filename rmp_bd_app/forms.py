@@ -73,7 +73,9 @@ class CourseForm(forms.ModelForm):
         fields = ['course_number', 'course_title']
 
 class ReviewForm(forms.ModelForm):
+    is_online = forms.BooleanField(required=False)
+    is_credit = forms.BooleanField(required=False)
     class Meta:
         model = Review
-        fields = ['professor']
-        labels = {'text': ''}
+        fields = ['mad_text', 'sad_text', 'glad_text', 'difficulty_level', 'professor_score', 'grade',
+                  'is_online', 'is_credit', 'tags', 'year', 'newtag']

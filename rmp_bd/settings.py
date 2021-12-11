@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis.geoip2',
+    'multiselectfield',
 ]
 GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')
 #GEOIP_PATH =ROOT_PATH + '/geoip'

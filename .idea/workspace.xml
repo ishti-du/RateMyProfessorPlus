@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e28f640-af1b-4a1d-93c4-338be68e257c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/rmp_bd/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/rmp_bd_app/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/rmp_bd_app/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rmp_bd_app/templates/rmp_bd_app/reviewform.html" beforeDir="false" afterPath="$PROJECT_DIR$/rmp_bd_app/templates/rmp_bd_app/reviewform.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rmp_bd_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/rmp_bd_app/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -10,6 +15,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
@@ -41,9 +51,10 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/RateMyProfessorPlus-master" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -80,5 +91,16 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

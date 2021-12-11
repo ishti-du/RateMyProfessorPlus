@@ -167,11 +167,13 @@ def new_review(request, professor_id):
         # no data submitted, create a blank forms
         form = ReviewForm()
     else:
-        # POST data submitted; process date_added
+        # POST data submitted; process data
         form = ReviewForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('rmp_bd_app:professor_details.html')
+            form.save().user = request.user
+            form.save().professor = professor
+            return redirect('rmp_bd_app:universities')
 
     # Display a blank or invalid form
     context = {'form': form, 'professor': professor}
